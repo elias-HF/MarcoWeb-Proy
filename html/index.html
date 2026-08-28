@@ -11,12 +11,36 @@
     <body>
         <div>
             <header>
-                <div class="container-fluid bg-success text-white">
-                    <div class="row">
-                        <div class="col text-center py-3">
-                            <h1>Cabecera de la pagina web</h1>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+                    <div class="container-fluid bg-success text-white">
+                        <a class="navbar-brand" href="#">Icono de la barra de navegacion </a>
+                        <!-- boton para hacer una barra hamburguesa? -->
+                         <!-- lo que hace "collapse " es que sea responsivo, es decir que se adapte a pantallas pequeñas... -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <!-- Contenedor para toda la barra de navegacion...-->
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav">
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#">Inicio</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#">Explorar Recursos</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#">Mis Reservas</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#">Mis Prestamos</a>
+                                </li>
+                                <li class="nav-item ">
+                                    <a class="nav-link" href="#">Contacto</a>  <!-- te lleva al footer de la pagina-->
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </nav>
             </header>
             <main>
                 <div class="container-fluid bg-white text-black">
@@ -28,12 +52,15 @@
                 </div>
             </main>
             <footer>
-                <div class="container-fluid bg-success text-white">
+                <div class="container-fluid bg-dark text-white">
                     <div class="row">
-                        <div class="col text-center py-3">
+                                                            <!--Quitamos la rallita de abajo del a con text-decoration-none-->
+                        <div class="col text-center py-3"><a href="#" class="text-decoration-none text-white">Contactanos</a></div>
+                        <div class="col text-center py-3"><a href="#" class="text-decoration-none text-white">Publicidad</a></div>
 
+                        <div class="col text-center py-3">
                             <!-- Margin bottom -->
-                            <p class="mb-0">© 2026 publicidad.</p>
+                            <p class="mb-0">© 2026 todos los derechos reservados.</p>
                         </div>
                     </div>
                 </div>
