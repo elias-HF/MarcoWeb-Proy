@@ -14,8 +14,18 @@
             <header>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
                     <div class="container-fluid bg-success text-white">
-                        <a class="navbar-brand" href="#">Icono de la barra de navegacion </a>
-                        <!-- boton para hacer una barra hamburguesa? -->
+                        <!-- Icono de la barra de navegacion -->
+                                    <!-- display flex para una mejor alineación -->
+                        <div class="d-flex align-items-center mb-4 px-2 pt-2">
+                            <div class="bg-dark rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 38px; height: 38px;"> <!-- se ajusto el tamaño del circulo para hacer el diseño del icono-->
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">UNIVERSIDAD</h6>
+                                <small  style="font-size: 0.75rem;">Módulo Administrador</small>
+                            </div>
+                        </div>
+                        
                          <!-- lo que hace "collapse " es que sea responsivo, es decir que se adapte a pantallas pequeñas... -->
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -39,7 +49,7 @@
                                     <a class="nav-link" href="#"><i class="bi bi-speedometer2 fs-5"></i> Dasboard</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-telephone  fs-5"></i> Contacto</a>  <!-- te lleva al footer de la pagina-->
+                                    <a class="nav-link" href="#contacto"><i class="bi bi-telephone  fs-5"></i> Contacto</a>  <!-- te lleva al footer de la pagina-->
                                 </li>
                                 <li class="nav-item ">
                                     <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-left fs-5"></i> <!-- su icono --> Cerrar session</a>  <!-- te lleva a la ventana del loggin-->
@@ -58,12 +68,26 @@
                     </div>    
                 </div>
             </main>
-            <footer>
+            <footer id="contacto">
                 <div class="container-fluid bg-dark text-white">
                     <div class="row">
-                                                            <!--Quitamos la rallita de abajo del a con text-decoration-none-->
-                        <div class="col text-center py-3"><a href="#" class="text-decoration-none text-white">Contactanos</a></div>
-                        <div class="col text-center py-3"><a href="#" class="text-decoration-none text-white">Publicidad</a></div>
+                        <div class="col-md-4">
+                            <h5>Contacto e Incidencias</h5>
+                            <p><i class="bi bi-geo-alt me-2"></i>Tercer piso de la Torre A - Biblioteca del campus</p>
+                            <p><i class="bi bi-envelope me-2"></i>soporte.reservas@utp.edu.pe</p>
+                            <p><i class="bi bi-telephone me-2"></i>+51 (01) 234-5678</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Horario de Atención</h5>
+                            <p>Lunes a Sabado: 8:00 am - 8:00 pm</p>
+                            <p>Domingos: 8:00 am - 1:00 pm</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>Siguenos</h5>
+                            <!-- Agregamos iconos de redes sociales y fs es front size y me es margin end, margen a la derecha(2 = 0.5rem) para separar los iconos-->
+                            <a href="#" class="text-white me-2"><i class="bi bi-facebook fs-4"></i></a>
+                            <a href="#" class="text-white me-2"><i class="bi bi-instagram fs-4"></i></a>
+                        </div>
 
                         <div class="col text-center py-3">
                             <!-- Margin bottom -->
