@@ -13,7 +13,7 @@
         <div>
             <header>
                 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-                    <div class="container-fluid bg-success text-white">
+                    <div class="container-fluid bg-success text-light">
                         <!-- Icono de la barra de navegacion -->
                                     <!-- display flex para una mejor alineación -->
                         <div class="d-flex align-items-center mb-4 px-2 pt-2">
@@ -34,25 +34,25 @@
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav">
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-house fs-5"></i> Inicio</a>
+                                    <a class="nav-link fw-bold" href="#"><i class="bi bi-house fs-5"></i> Inicio</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-laptop fs-5"></i> Explorar Recursos</a>
+                                    <a class="nav-link fw-bold" href="#Catalogo"><i class="bi bi-laptop fs-5"></i> Explorar Recursos</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-calendar-check fs-5"></i> Reservas</a>
+                                    <a class="nav-link fw-bold" href="#"><i class="bi bi-calendar-check fs-5"></i> Reservas</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-journal-arrow-up fs-5"></i> Prestamos</a>
+                                    <a class="nav-link fw-bold" href="#"><i class="bi bi-journal-arrow-up fs-5"></i> Prestamos</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#"><i class="bi bi-speedometer2 fs-5"></i> Dasboard</a>
+                                    <a class="nav-link fw-bold" href="#"><i class="bi bi-speedometer2 fs-5"></i> Dasboard</a>
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="#contacto"><i class="bi bi-telephone  fs-5"></i> Contacto</a>  <!-- te lleva al footer de la pagina-->
+                                    <a class="nav-link fw-bold" href="#contacto"><i class="bi bi-telephone  fs-5"></i> Contacto</a>  <!-- te lleva al footer de la pagina-->
                                 </li>
                                 <li class="nav-item ">
-                                    <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-left fs-5"></i> <!-- su icono --> Cerrar session</a>  <!-- te lleva a la ventana del loggin-->
+                                    <a class="nav-link fw-bold" href="login.html"><i class="bi bi-box-arrow-left fs-5"></i> <!-- su icono --> Cerrar session</a>  <!-- te lleva a la ventana del loggin-->
                                 </li>
                             </ul>
                         </div>
@@ -72,18 +72,147 @@
                     </div>
                 </nav>
             </header>
+            <!-- contenido informativo y publicidad?-->
             <main>
-                <div class="container-fluid bg-white text-black">
-                    <div class="row">
-                        <div class="col text-center py-3">
-                            <h1>contenido de la pagina web</h1>
+                <!-- banner promocional --> <!-- border botton agrega una linea divisora al final del div o contenedor para una mejor visualizacion-->
+                <div class="bg-light py-5 border-bottom">
+                    <div class="container text-center">
+                        <!-- se utilizo el span para personalizar el texto, haciendolo parecer un boton, sin tener que usar div -->
+                        <span class="badge bg-success px-3 py-2 mb-2 fs-6">
+                            <i class="bi bi-star-fill me-1"></i> Servicio Institucional
+                        </span>
+                        <h1 class="display-5 fw-bold text-dark">Potencia tu Rendimiento Académico</h1>
+                        <p class="col-lg-8 mx-auto">
+                            Reserva espacios de estudio equipado y solicita el préstamo de laptops o proyectores de alta gama de manera virtual.
+                        </p>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-3">
+                            <!-- boton con hipervinculo hacia el catalogo de recursos  y espacios academicos-->
+                            <a href="#catalogo" class="btn btn-success btn-lg px-4 me-sm-3">
+                                <i class="bi bi-search me-2"></i>Ver Recursos Disponibles
+                            </a>
                         </div>
-                    </div>    
+                    </div>
                 </div>
 
+                <!-- banner Promocional de Recursos por ahora en una tabla, se planea que sea otra pagina -->
+                <div id="catalogo" class="container py-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-success">
+                            <i class="bi bi-box-seam me-2"></i>Recursos Destacados del Semestre
+                        </h2>
+                        <p class="text-muted">Consulta la disponibilidad actual de los equipos y salas más solicitados del campus.</p>
+                    </div>
+
+                    <div class="table-responsive shadow-sm rounded">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-success">
+                                <tr>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">Recurso / Espacio</th>
+                                    <th scope="col">Ubicación</th>
+                                    <th scope="col">Especificación</th>
+                                    <th scope="col" class="text-center">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <i class="bi bi-laptop fs-4 text-success me-2"></i>
+                                        <strong>Tecnología</strong>
+                                    </td>
+                                    <td>Laptop Dell Core i7 16GB</td>
+                                    <td>Biblioteca - Piso 3</td>
+                                    <td>Uso exclusivo en campus (Max 4 hrs)</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponible</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="bi bi-door-open fs-4 text-success me-2"></i>
+                                        <strong>Espacios</strong>
+                                    </td>
+                                    <td>Sala de Estudio Grupal A-102</td>
+                                    <td> Torre A Aula 04- Piso 1</td>
+                                    <td>Pizarra acrílica + Pantalla HDMI (Capacidad: 6 personas)</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponible</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="bi bi-projector fs-4 text-success me-2"></i>
+                                        <strong>Audiovisual</strong>
+                                    </td>
+                                    <td>Proyector Epson HDMI + Ecran</td>
+                                    <td>Laboratorio de Sistemas</td>
+                                    <td>Incluye puntero láser y cables de extensión</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-danger "><i class="bi bi-clock me-1"></i>No Disponible</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <i class="bi bi-cpu fs-4 text-success me-2"></i>
+                                        <strong>Laboratorios</strong>
+                                    </td>
+                                    <td>Laboratorio de Redes y Servidores</td>
+                                    <td>Torre B Aula 05- Piso 4</td>
+                                    <td>40 Computadoras y 1 proyector </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i>Disponible</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- guia de como solicitar (tipo Infografía) -->
+                <div class="bg-success text-white py-5">
+                    <div class="container">
+                        <h2 class="text-center fw-bold mb-4">¿Cómo solicitar un préstamo?</h2>
+                        <div class="row g-4 text-center">
+                            <!-- separamos todo en 4 espacios que ocupan 3 columnas cada uno (3+3+3+3 = 12) para tener una mejor distribucion-->
+                            <div class="col-md-3">
+                                <div class="p-3">
+                                    <i class="bi bi-person-badge fs-1 mb-2 d-block"></i>
+                                    <h5>1. Inicia Sesión</h5>
+                                    <small>Accede con tus credenciales institucionales al sistema web.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3">
+                                    <i class="bi bi-search fs-1 mb-2 d-block"></i>
+                                    <h5>2. Selecciona</h5>
+                                    <small>Busca el espacio o equipo tecnológico que quieras reservar.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3">
+                                    <i class="bi bi-calendar-event fs-1 mb-2 d-block"></i>
+                                    <h5>3. Reserva</h5>
+                                    <small>Elige un horario disponible y espera a que un administrador confirme tu solicitud.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-3">
+                                    <i class="bi bi-check2-circle fs-1 mb-2 d-block"></i>
+                                    <h5>4. Retira o Utiliza</h5>
+                                    <small>Acércate al módulo con tu DNI o carnet universitario.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proximas actualizaciones o agregacion de la pagina xd-->
+                <div class="container-fluid bg-light mt-5 py-5 ">
+                    <h1 class="text-center " > Proximas funcionaldiades o informacion... </h1>
+                </div>
             </main>
             <footer id="contacto">
-                <div class="container-fluid bg-dark text-white">
+                <div class="container-fluid bg-dark text-white py-5">
                     <div class="row">
                         <div class="col-md-4">
                             <h5>Contacto e Incidencias</h5>
