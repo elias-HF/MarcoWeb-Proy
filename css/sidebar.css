@@ -1,0 +1,108 @@
+#sidebar .nav-link.active {
+    background-color: #198754;
+    color: white;
+}
+
+/* Sidebar contraído */
+#sidebar {
+    width: 350px;
+    background-color: #161619;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+}
+
+/* respecto al perfil */
+#sidebar.collapsed .perfil > div {
+    justify-content: center;
+}
+
+#sidebar.collapsed .perfil .d-flex.align-items-center.gap-3 {
+    justify-content: center;
+}
+
+/* Sidebar pequeño */
+#sidebar.collapsed {
+    width: 80px;
+}
+
+/* Centrar iconos */
+#sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#sidebar.collapsed .sidebar-header {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#sidebar.collapsed .perfil > div {
+    justify-content: center;
+}
+
+#sidebar.collapsed .perfil .d-flex.align-items-center.gap-3 {
+    justify-content: center;
+}
+
+/* Ajustar contenido principal */
+#panelPrincipal {
+    margin-left: 350px;
+    width: calc(100% - 350px);
+    min-height: 100vh;
+    padding: 0;
+
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+/* Cuando sidebar está contraído */
+#sidebar.collapsed ~ #panelPrincipal {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+}
+/* Ocultar textos */
+#sidebar.collapsed .sidebar-text {
+    display: none;
+}
+
+/* Estilo para el header del sidebar */
+.sidebar-header {
+    background-color: #252525;
+    height: 90px;
+    width: 100%;
+}
+
+/* Estilo para la parte de perfil */
+.perfil {
+    background-color: #252525;
+    width: 100%;
+}
+
+#contacto div {
+    background-color: #198754;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Contenido principal */
+#panelPrincipal {
+    margin-left: 350px;
+    width: calc(100% - 350px);
+    min-height: 100vh;
+    padding: 0;
+}
