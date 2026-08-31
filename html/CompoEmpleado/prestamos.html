@@ -1,0 +1,540 @@
+<!-- INTERFAZ DE PRÉSTAMOS Y DEVOLUCIONES -->
+
+<div class="container-fluid p-4">
+
+    <!-- Encabezado -->
+    <div class="mb-4">
+
+        <h2 class="fw-bold">
+            <i class="bi bi-arrow-left-right text-success me-2"></i>
+            Préstamos y Devoluciones
+        </h2>
+
+        <p class="text-muted mb-0">
+            Gestiona los préstamos de recursos académicos y registra sus devoluciones.
+        </p>
+
+    </div>
+
+
+    <!-- Pestañas -->
+    <ul class="nav nav-tabs mb-4" id="prestamosTabs" role="tablist">
+        
+        <!-- Préstamos activos -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="activos-tab" data-bs-toggle="tab" data-bs-target="#activos"
+                type="button" role="tab">
+                <i class="bi bi-arrow-up-right me-1"></i>
+                Préstamos activos
+            </button>
+        </li>
+
+        <!-- Pendientes -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pendientes-tab" data-bs-toggle="tab" data-bs-target="#pendientes" type="button" role="tab">
+                <i class="bi bi-hourglass-split me-1"></i>
+                Pendientes
+            </button>
+        </li>
+
+        <!-- Devoluciones -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="devoluciones-tab" data-bs-toggle="tab" data-bs-target="#devoluciones"
+                type="button" role="tab">
+
+                <i class="bi bi-arrow-return-left me-1"></i>
+                Devoluciones
+            </button>
+        </li>
+
+        <!-- Historial -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="historial-tab" data-bs-toggle="tab" data-bs-target="#historial" type="button" role="tab">
+                <i class="bi bi-clock-history me-1"></i>
+                Historial
+            </button>
+        </li>
+    </ul>
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content" id="prestamosTabsContent">
+
+        <!-- ================================================= -->
+        <!-- PRÉSTAMOS ACTIVOS -->
+        <!-- ================================================= -->
+
+        <div class="tab-pane fade show active" id="activos" role="tabpanel">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+
+                    <i class="bi bi-list-check me-2"></i>
+                    Préstamos activos
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Estudiante</th>
+                                <th>Recurso</th>
+                                <th>Fecha de préstamo</th>
+                                <th>Fecha de devolución</th>
+                                <th>Estado</th>
+                                <th class="text-center">
+                                    Acción
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>Juan Pérez</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-laptop text-success me-1"></i>
+                                    Laptop Dell Core i7
+                                </td>
+
+                                <td>
+                                    28/08/2026
+                                </td>
+
+                                <td>
+                                    30/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+                                        Activo
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button class="btn btn-sm btn-outline-success">
+
+                                        <i class="bi bi-arrow-return-left me-1"></i>
+                                        Registrar devolución
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>María López</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-projector text-success me-1"></i>
+                                    Proyector Epson
+                                </td>
+
+                                <td>
+                                    29/08/2026
+                                </td>
+
+                                <td>
+                                    01/09/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+                                        Activo
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button class="btn btn-sm btn-outline-success">
+
+                                        <i class="bi bi-arrow-return-left me-1"></i>
+                                        Registrar devolución
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- PENDIENTES -->
+        <!-- ================================================= -->
+
+        <div class="tab-pane fade" id="pendientes" role="tabpanel">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+
+                    <i class="bi bi-hourglass-split me-2"></i>
+                    Solicitudes de préstamo pendientes
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Estudiante</th>
+                                <th>Recurso</th>
+                                <th>Fecha solicitada</th>
+                                <th>Estado</th>
+                                <th class="text-center">
+                                    Acción
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>Carlos Ramírez</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-laptop text-success me-1"></i>
+                                    Laptop Lenovo
+                                </td>
+
+                                <td>
+                                    29/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pendiente
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button class="btn btn-sm btn-success me-1">
+
+                                        <i class="bi bi-check-lg"></i>
+
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger">
+
+                                        <i class="bi bi-x-lg"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>Andrea Torres</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-tablet text-success me-1"></i>
+                                    Tablet Samsung
+                                </td>
+
+                                <td>
+                                    29/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pendiente
+                                    </span>
+
+                                </td>
+
+                                <td class="text-center">
+
+                                    <button class="btn btn-sm btn-success me-1">
+
+                                        <i class="bi bi-check-lg"></i>
+
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger">
+
+                                        <i class="bi bi-x-lg"></i>
+
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- DEVOLUCIONES -->
+        <!-- ================================================= -->
+
+        <div class="tab-pane fade" id="devoluciones" role="tabpanel">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+
+                    <i class="bi bi-arrow-return-left me-2"></i>
+                    Registro de devoluciones
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Estudiante</th>
+                                <th>Recurso</th>
+                                <th>Fecha límite</th>
+                                <th>Fecha de devolución</th>
+                                <th>Estado</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>Pedro Castillo</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-laptop text-success me-1"></i>
+                                    Laptop HP
+                                </td>
+
+                                <td>
+                                    28/08/2026
+                                </td>
+
+                                <td>
+                                    28/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+                                        Devuelto
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>Lucía Torres</strong>
+                                </td>
+
+                                <td>
+                                    <i class="bi bi-projector text-success me-1"></i>
+                                    Proyector Epson
+                                </td>
+
+                                <td>
+                                    27/08/2026
+                                </td>
+
+                                <td>
+                                    29/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+                                        Devuelto con retraso
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- HISTORIAL -->
+        <!-- ================================================= -->
+
+        <div class="tab-pane fade" id="historial" role="tabpanel">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-success text-white">
+
+                    <i class="bi bi-clock-history me-2"></i>
+                    Historial de préstamos
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th>Estudiante</th>
+                                <th>Recurso</th>
+                                <th>Préstamo</th>
+                                <th>Devolución</th>
+                                <th>Estado</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>
+                                    <strong>Pedro Castillo</strong>
+                                </td>
+
+                                <td>
+                                    Laptop HP
+                                </td>
+
+                                <td>
+                                    25/08/2026
+                                </td>
+
+                                <td>
+                                    27/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-success">
+                                        Completado
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>Lucía Torres</strong>
+                                </td>
+
+                                <td>
+                                    Proyector Epson
+                                </td>
+
+                                <td>
+                                    26/08/2026
+                                </td>
+
+                                <td>
+                                    29/08/2026
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+                                        Con retraso
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
