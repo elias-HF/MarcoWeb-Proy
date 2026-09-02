@@ -1,307 +1,321 @@
 <!-- INTERFAZ DE ESTUDIANTES -->
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiantes</title>
+    
 
-<div class="container-fluid p-4">
-    <!-- Encabezado -->
-    <div class="mb-4">
-        <h2 class="fw-bold">
-            <i class="bi bi-people-fill text-success me-2"></i>
-            Estudiantes
-        </h2>
-        <p class="text-muted mb-0">Consulta la información de los estudiantes registrados en el sistema.</p>
-    </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../../css/sidebar.css">
+</head>
+<body>
+    <div class="container-fluid p-4">
+        <!-- Encabezado -->
+        <div class="mb-4">
+            <h2 class="fw-bold">
+                <i class="bi bi-people-fill text-success me-2"></i>
+                Estudiantes
+            </h2>
+            <p class="text-muted mb-0">Consulta la información de los estudiantes registrados en el sistema.</p>
+        </div>
 
-    <!-- Buscador -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-8">
-                    <label class="form-label fw-semibold">Buscar estudiante</label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="bi bi-search"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Buscar por nombre o código...">
+        <!-- Buscador -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-8">
+                        <label class="form-label fw-semibold">Buscar estudiante</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Buscar por nombre o código...">
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-4">
-                    <button class="btn btn-success w-100">
-                        <i class="bi bi-search me-1"></i>
-                        Buscar
-                    </button>
+                    <div class="col-md-4">
+                        <button class="btn btn-success w-100">
+                            <i class="bi bi-search me-1"></i>
+                            Buscar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+
+
+        <!-- Tabla de estudiantes -->
+        <div class="card shadow-sm">
+
+            <div class="card-header bg-success text-white">
+
+                <i class="bi bi-list-ul me-2"></i>
+                Estudiantes registrados
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Estudiante</th>
+
+                            <th>Carrera</th>
+
+                            <th>Correo institucional</th>
+
+                            <th>Estado</th>
+
+                            <th class="text-center">
+                                Acción
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <!-- Estudiante 1 -->
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Juan Pérez
+                                        </strong>
+
+                                        <br>
+
+                                        <small class="text-muted">
+                                            Código: 20260125
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Ingeniería de Sistemas
+                            </td>
+
+                            <td>
+                                juan.perez@universidad.edu.pe
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    Activo
+                                </span>
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <button class="btn btn-sm btn-outline-success" title="Consultar">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    Consultar
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Estudiante 2 -->
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            María López
+                                        </strong>
+
+                                        <br>
+
+                                        <small class="text-muted">
+                                            Código: 20260314
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Ingeniería Industrial
+                            </td>
+
+                            <td>
+                                maria.lopez@universidad.edu.pe
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    Activo
+                                </span>
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <button class="btn btn-sm btn-outline-success" title="Consultar">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    Consultar
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- Estudiante 3 -->
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+
+                                    <div>
+
+                                        <strong>
+                                            Carlos Ramírez
+                                        </strong>
+
+                                        <br>
+
+                                        <small class="text-muted">
+                                            Código: 20260452
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                Administración
+                            </td>
+
+                            <td>
+                                carlos.ramirez@universidad.edu.pe
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    Activo
+                                </span>
+
+                            </td>
+
+                            <td class="text-center">
+
+                                <button class="btn btn-sm btn-outline-success" title="Consultar">
+
+                                    <i class="bi bi-eye me-1"></i>
+                                    Consultar
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                        <!-- Estudiante 4 -->
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+                                    <div>
+                                        <strong>Andrea Torres</strong>
+                                        <br>
+                                        <small class="text-muted">Código: 20260521</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Ingeniería de Sistemas</td>
+                            <td>andrea.torres@universidad.edu.pe</td>
+                            <td>
+                                <span class="badge bg-success">Activo</span>
+                            </td>
+
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-success" title="Consultar">
+                                    <i class="bi bi-eye me-1"></i>
+                                    Consultar
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <!-- Estudiante 5 -->
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+                                    <div>
+                                        <strong>Pedro Castillo</strong>
+                                        <br>
+                                        <small class="text-muted">Código: 20260718</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Ingeniería Civil</td>
+                            <td>pedro.castillo@universidad.edu.pe</td>
+                            <td>
+                                <span class="badge bg-secondary">Inactivo</span>
+                            </td>
+
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-success" title="Consultar">
+                                    <i class="bi bi-eye me-1"></i>
+                                    Consultar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pie -->
+            <div class="card-footer text-muted">
+                <small>Mostrando 5 estudiantes de ejemplo.</small>
+            </div>
+        </div>
     </div>
-
-
-    <!-- Tabla de estudiantes -->
-    <div class="card shadow-sm">
-
-        <div class="card-header bg-success text-white">
-
-            <i class="bi bi-list-ul me-2"></i>
-            Estudiantes registrados
-
-        </div>
-
-
-        <div class="table-responsive">
-
-            <table class="table table-hover align-middle mb-0">
-
-                <thead class="table-light">
-
-                    <tr>
-
-                        <th>Estudiante</th>
-
-                        <th>Carrera</th>
-
-                        <th>Correo institucional</th>
-
-                        <th>Estado</th>
-
-                        <th class="text-center">
-                            Acción
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    <!-- Estudiante 1 -->
-                    <tr>
-
-                        <td>
-
-                            <div class="d-flex align-items-center">
-
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-
-                                <div>
-
-                                    <strong>
-                                        Juan Pérez
-                                    </strong>
-
-                                    <br>
-
-                                    <small class="text-muted">
-                                        Código: 20260125
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            Ingeniería de Sistemas
-                        </td>
-
-                        <td>
-                            juan.perez@universidad.edu.pe
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-success">
-                                Activo
-                            </span>
-
-                        </td>
-
-                        <td class="text-center">
-
-                            <button class="btn btn-sm btn-outline-success" title="Consultar">
-
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <!-- Estudiante 2 -->
-                    <tr>
-
-                        <td>
-
-                            <div class="d-flex align-items-center">
-
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-
-                                <div>
-
-                                    <strong>
-                                        María López
-                                    </strong>
-
-                                    <br>
-
-                                    <small class="text-muted">
-                                        Código: 20260314
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            Ingeniería Industrial
-                        </td>
-
-                        <td>
-                            maria.lopez@universidad.edu.pe
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-success">
-                                Activo
-                            </span>
-
-                        </td>
-
-                        <td class="text-center">
-
-                            <button class="btn btn-sm btn-outline-success" title="Consultar">
-
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <!-- Estudiante 3 -->
-                    <tr>
-
-                        <td>
-
-                            <div class="d-flex align-items-center">
-
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-
-                                <div>
-
-                                    <strong>
-                                        Carlos Ramírez
-                                    </strong>
-
-                                    <br>
-
-                                    <small class="text-muted">
-                                        Código: 20260452
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            Administración
-                        </td>
-
-                        <td>
-                            carlos.ramirez@universidad.edu.pe
-                        </td>
-
-                        <td>
-
-                            <span class="badge bg-success">
-                                Activo
-                            </span>
-
-                        </td>
-
-                        <td class="text-center">
-
-                            <button class="btn btn-sm btn-outline-success" title="Consultar">
-
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <!-- Estudiante 4 -->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-                                <div>
-                                    <strong>Andrea Torres</strong>
-                                    <br>
-                                    <small class="text-muted">Código: 20260521</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Ingeniería de Sistemas</td>
-                        <td>andrea.torres@universidad.edu.pe</td>
-                        <td>
-                            <span class="badge bg-success">Activo</span>
-                        </td>
-
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-outline-success" title="Consultar">
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-                            </button>
-                        </td>
-                    </tr>
-
-
-                    <!-- Estudiante 5 -->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-                                <div>
-                                    <strong>Pedro Castillo</strong>
-                                    <br>
-                                    <small class="text-muted">Código: 20260718</small>
-                                </div>
-                            </div>
-                        </td>
-                        <td>Ingeniería Civil</td>
-                        <td>pedro.castillo@universidad.edu.pe</td>
-                        <td>
-                            <span class="badge bg-secondary">Inactivo</span>
-                        </td>
-
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-outline-success" title="Consultar">
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pie -->
-        <div class="card-footer text-muted">
-            <small>Mostrando 5 estudiantes de ejemplo.</small>
-        </div>
-    </div>
-</div>
+</body>
+</html>
