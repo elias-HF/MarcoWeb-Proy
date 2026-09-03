@@ -83,12 +83,6 @@
     width: 100%;
 }
 
-#contacto div {
-    background-color: #198754;
-    padding-bottom: 2px;
-    padding-top: 2px;
-}
-
 html, body {
     height: 100%;
     margin: 0;
@@ -97,12 +91,4 @@ html, body {
 .app-container {
     display: flex;
     min-height: 100vh;
-}
-
-/* Contenido principal */
-#panelPrincipal {
-    margin-left: 350px;
-    width: calc(100% - 350px);
-    min-height: 100vh;
-    padding: 0;
 }
