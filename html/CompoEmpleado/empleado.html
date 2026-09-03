@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Interfaz de Empleado </title>
-    <!-- Archivos de estilo propios -->
-    <link rel="stylesheet" href="/css/sidebar.css">
+    <!-- Archivos de estilo propios (aqui estaba mal la ruta (no debe ser /css/sidebar.css))-->
+    <link rel="stylesheet" href="../../css/sidebar.css">
 
     <!-- css de bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -117,12 +117,15 @@
             </footer>   
         </aside>  
 
-        <!-- Contenido, funciona como un JPanel -->
-        <main id="panelPrincipal"> </main>  
+        <!-- Contenido, funciona como un JPanel !hay que cambiar esta parte ya que tampoco lo va a cargar :c -->
+         <!-- lo campio por un iframe para que funcione -->
+        <main id="panelPrincipal"> 
+            <iframe id="frameContenido" src="inicio.html" style="width: 100%; height: 100%;"></iframe>
+        </main>  
     </div>
 
-    <!--javascript propio -->
-    <script src="/javascript/cargarInterfacesEmpleado.js"></script>
+    <!--javascript propio (aqui tambien estaba mal la ruta (no debe ser /javascript/cargarInterfacesEmpleado.js))-->
+    <script src="../../javascript/cargarInterfacesEmpleado.js"></script>
 
     <!--js de bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
