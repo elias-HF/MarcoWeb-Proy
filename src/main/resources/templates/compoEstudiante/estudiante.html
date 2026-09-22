@@ -5,17 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inicio - Módulo Estudiante</title>
     <!-- css de bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"/>
     <!-- Iconos de Bootstrap -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
   </head>
 
   <body>
@@ -91,140 +83,7 @@
           </div>
         </nav>
       </header>
-      <main>
- <!-- Banner de bienvenida -->
-<div class="bg-light py-4 border-bottom">
-    <div class="container">
 
-        <!-- Barra superior: fecha/hora + notificaciones -->
-        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-            <small class="text-muted">
-                <i class="bi bi-calendar3 me-1"></i>Sábado, 29 de Agosto de 2026
-                <i class="bi bi-clock ms-3 me-1"></i>10:45 am
-            </small>
-
-            <!-- Icono de notificaciones (F22) -->
-            <div class="dropdown">
-                <button class="btn btn-outline-success position-relative" type="button" aria-expanded="false">
-                    <i class="bi bi-bell fs-5"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        2
-                        <span class="visually-hidden">notificaciones sin leer</span>
-                    </span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 300px;">
-                    <li><h6 class="dropdown-header">Notificaciones</h6></li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>
-                            Tu reserva de <strong>Sala A-102</strong> fue confirmada.
-                            <div class="text-muted small">Hace 2 horas</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
-                            Tu préstamo de <strong>Laptop Dell</strong> vence hoy a las 18:00.
-                            <div class="text-muted small">Hace 4 horas</div>
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-center text-success" href="#">Ver todas</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Bienvenida -->
-        <div class="text-center">
-            <span class="badge bg-success px-3 py-2 mb-2 fs-6">
-                <i class="bi bi-person-check-fill me-1"></i> Módulo Estudiante
-            </span>
-            <h1 class="display-6 fw-bold text-dark">Bienvenido, Fiódoro Dostoyevski</h1>
-            <p class="col-lg-8 mx-auto text-muted">
-                Desde aquí puedes explorar los espacios y equipos disponibles, revisar tus reservas
-                y llevar el control de tus préstamos activos.
-            </p>
-            <a href="recursos.html" class="btn btn-success btn-lg px-4 mt-2">
-                <i class="bi bi-search me-2"></i>Explorar Recursos Disponibles
-            </a>
-        </div>
-    </div>
-</div>
-    <!-- Tarjetas resumen -->
-    <div class="container py-5">
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-check fs-1 text-success"></i>
-                        <h3 class="fw-bold mt-2 mb-0">2</h3>
-                        <p class="text-muted mb-0">Reservas Activas</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-journal-arrow-up fs-1 text-success"></i>
-                        <h3 class="fw-bold mt-2 mb-0">1</h3>
-                        <p class="text-muted mb-0">Préstamos en Curso</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-box-seam fs-1 text-success"></i>
-                        <h3 class="fw-bold mt-2 mb-0">12</h3>
-                        <p class="text-muted mb-0">Recursos Disponibles Hoy</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Actividad reciente -->
-    <div class="container pb-5">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="fw-bold text-success mb-0">
-                <i class="bi bi-clock-history me-2"></i>Actividad Reciente
-            </h4>
-            <a href="reservas.html" class="btn btn-sm btn-outline-success">Ver todo</a>
-        </div>
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-success">
-                    <tr>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Recurso / Espacio</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col" class="text-center">Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><i class="bi bi-calendar-event text-success me-2"></i>Reserva</td>
-                        <td>Sala de Estudio Grupal A-102</td>
-                        <td>02/09/2026 - 14:00</td>
-                        <td class="text-center"><span class="badge bg-success">Confirmada</span></td>
-                    </tr>
-                    <tr>
-                        <td><i class="bi bi-laptop text-success me-2"></i>Préstamo</td>
-                        <td>Laptop Dell Core i7 16GB</td>
-                        <td>28/08/2026 - 09:00</td>
-                        <td class="text-center"><span class="badge bg-warning text-dark">En curso</span></td>
-                    </tr>
-                    <tr>
-                        <td><i class="bi bi-calendar-event text-success me-2"></i>Reserva</td>
-                        <td>Laboratorio de Redes y Servidores</td>
-                        <td>25/08/2026 - 10:00</td>
-                        <td class="text-center"><span class="badge bg-secondary">Finalizada</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</main>
       <!-- Footer de la página -->
       <footer id="contacto">
         <div class="container-fluid bg-dark text-white py-2">
@@ -273,10 +132,6 @@
     </div>
 
     <!--js de bootstrap-->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>
