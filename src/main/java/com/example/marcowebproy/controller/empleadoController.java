@@ -9,15 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class empleadoController {
 
     @GetMapping("")
-    public String empleado() {return "compoEmpleado/empleado";}
-
-    @GetMapping("/inicio")
     public String inicio() {return "compoEmpleado/inicio";}
 
     @GetMapping("/dashboard")
-    public String dashboard() {
-        return "compoEmpleado/dashboard";
-    }
+    public String dashboard() {return "compoEmpleado/dashboard";}
 
     @GetMapping("/categorias")
     public String categorias() {
