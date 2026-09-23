@@ -13,8 +13,8 @@
 </head>
 <body>
     <div class="d-flex" style="min-height: 100vh;">
-        <div th:replace="fragments/fragmentEmpleado::aside"></div>
-    <main class="flex-grow-1 p-4">
+        <div th:replace="fragments/fragmentEmpleado::aside(activeTab='recursos')"></div>
+    <main class="flex-grow-1 p-4" id="panelPrincipal">
 
         <!-- Encabezado -->
         <div class="mb-4">

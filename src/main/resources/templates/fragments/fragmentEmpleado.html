@@ -1,7 +1,7 @@
 
 
 
-<aside th:fragment="aside" id="sidebar" class="text-white d-flex flex-column"> <!-- Sidebar -->
+<aside th:fragment="aside(activeTab)" id="sidebar" class="text-white d-flex flex-column"> <!-- Sidebar -->
 
     <!-- Parte del nombre de la universidad y logo -->
     <header class="sidebar-header d-flex align-items-center px-4 py-3" onclick="cambiarSidebar()" style="cursor: pointer;">
@@ -13,55 +13,55 @@
     <nav class="p-3">
         <ul class="nav nav-pills flex-column gap-2">
             <li class="nav-item">
-                <a th:href="@{/empleado}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'inicio'} ? 'active' : ''">
                     <i class="bi bi-house-door fs-3"></i>
                     <span class="sidebar-text">Inicio</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/dashboard}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/dashboard}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'dashboard'} ? 'active' : ''">
                     <i class="bi bi-speedometer2 fs-3"></i>
                     <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/reservas}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/reservas}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'reservas'} ? 'active' : ''">
                     <i class="bi bi-calendar-check fs-3"></i>
                     <span class="sidebar-text">Reservas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/disponibilidad}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/disponibilidad}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'disponibilidad'} ? 'active' : ''">
                     <i class="bi bi-search fs-3"></i>
                     <span class="sidebar-text">Disponibilidad y Consultas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/prestamos}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/prestamos}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'prestamos'} ? 'active' : ''">
                     <i class="bi bi-arrow-left-right fs-3"></i>
                     <span class="sidebar-text">Préstamos y Devoluciones</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/espacios}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/espacios}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'espacios'} ? 'active' : ''">
                     <i class="bi bi-building fs-3"></i>
                     <span class="sidebar-text">Espacios</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/recursos}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/recursos}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'recursos'} ? 'active' : ''">
                     <i class="bi bi-boxes fs-3"></i>
                     <span class="sidebar-text">Recursos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/categorias}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/categorias}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'categorias'} ? 'active' : ''">
                     <i class="bi bi-tags fs-3"></i>
                     <span class="sidebar-text">Categorías</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a th:href="@{/empleado/estudiantes}" class="nav-link text-white d-flex align-items-center gap-3">
+                <a th:href="@{/empleado/estudiantes}" class="nav-link text-white d-flex align-items-center gap-3" th:classappend="${activeTab == 'estudiantes'} ? 'active' : ''">
                     <i class="bi bi-people-fill fs-3"></i>
                     <span class="sidebar-text">Estudiantes</span>
                 </a>
