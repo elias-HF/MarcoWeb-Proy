@@ -1,5 +1,5 @@
 <!-- INTERFAZ DE PRÉSTAMOS Y DEVOLUCIONES -->
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
 </head>
 <body>
-    <div class="container-fluid p-4">
+<div class="d-flex" style="min-height: 100vh;">
+    <div th:replace="fragments/fragmentEmpleado::aside"></div>
+
+    <main class="flex-grow-1 p-4">
 
         <!-- Encabezado -->
         <div class="mb-4">
@@ -497,59 +500,28 @@
                                     <td>
                                         27/08/2026
                                     </td>
-
                                     <td>
-
                                         <span class="badge bg-success">
                                             Completado
                                         </span>
-
                                     </td>
-
                                 </tr>
-
 
                                 <tr>
-
-                                    <td>
-                                        <strong>Lucía Torres</strong>
-                                    </td>
-
-                                    <td>
-                                        Proyector Epson
-                                    </td>
-
-                                    <td>
-                                        26/08/2026
-                                    </td>
-
-                                    <td>
-                                        29/08/2026
-                                    </td>
-
-                                    <td>
-
-                                        <span class="badge bg-warning text-dark">
-                                            Con retraso
-                                        </span>
-
-                                    </td>
-
+                                    <td><strong>Lucía Torres</strong></td>
+                                    <td>Proyector Epson</td>
+                                    <td>26/08/2026</td>
+                                    <td>29/08/2026</td>
+                                    <td><span class="badge bg-warning text-dark">Con retraso</span></td>
                                 </tr>
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
-    </div>
+    </main>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

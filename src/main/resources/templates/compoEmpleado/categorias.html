@@ -1,18 +1,19 @@
 <!-- INTERFAZ DE CATEGORÍAS -->
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorias</title>
-    
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
-    <link rel="stylesheet" href="../../css/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
 </head>
 <body>
-        <div class="container-fluid p-4">
+    <div class="d-flex" style="min-height: 100vh;">
+        <div th:replace="fragments/fragmentEmpleado::aside"></div>
+
+        <main class="flex-grow-1 p-4">
 
         <!-- Encabezado -->
         <div class="mb-4">
@@ -78,7 +79,6 @@
                                 </button>
                             </td>
                         </tr>
-
                         <!-- Categoría 2 -->
                         <tr>
                             <td>
@@ -102,7 +102,6 @@
                                 </button>
                             </td>
                         </tr>
-
                         <!-- Categoría 3 -->
                         <tr>
                             <td>
@@ -126,60 +125,29 @@
                                 </button>
                             </td>
                         </tr>
-
                         <!-- Categoría 4 -->
                         <tr>
-                            <td>
-                                <i class="bi bi-box text-success me-2"></i>
-                                Accesorios
-                            </td>
-
-                            <td>
-                                Accesorios y complementos tecnológicos.
-                            </td>
-
-                            <td>
-                                10
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-secondary">
-                                    Inactiva
-                                </span>
-
-                            </td>
-
+                            <td><i class="bi bi-box text-success me-2"></i>Accesorios</td>
+                            <td>Accesorios y complementos tecnológicos.</td>
+                            <td>10</td>
+                            <td><span class="badge bg-secondary">Inactiva</span></td>
                             <td class="text-center">
-
                                 <button class="btn btn-sm btn-outline-success" title="Consultar">
-
                                     <i class="bi bi-eye"></i>
-
                                 </button>
-
                             </td>
-
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
-
-
             <!-- Pie -->
             <div class="card-footer text-muted">
-
                 <small>
                     Mostrando 4 categorías de ejemplo.
                 </small>
-
             </div>
-
         </div>
-
+    </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
