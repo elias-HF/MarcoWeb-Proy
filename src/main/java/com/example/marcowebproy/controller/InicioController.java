@@ -11,4 +11,5 @@ public class InicioController {
     public String inicio(){
         return "login";
     }
+
 }

@@ -2,14 +2,14 @@ package com.example.marcowebproy.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/estudiante")
 public class estudianteController {
 
-    @GetMapping("/estudiante")
-    public String estudiante() {
-        return "compoEstudiante/estudiante";
-    }
+    @GetMapping("")
+    public String estudiante() {return "compoEstudiante/estudiante";}
 
     @GetMapping("/recursos")
     public String recursos() {
