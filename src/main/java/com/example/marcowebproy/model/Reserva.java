@@ -22,4 +22,21 @@ public class Reserva {
         this.horaFin = horaFin;
         this.estado = estado;
     }
+public int getId() { return id; }
+public void setId(int id) { this.id = id; }
+
+public EspacioAcademico getEspacioAcademico() { return espacioAcademico; }
+public void setEspacioAcademico(EspacioAcademico espacioAcademico) { this.espacioAcademico = espacioAcademico; }
+
+public LocalDate getFechaReserva() { return fechaReserva; }
+public void setFechaReserva(LocalDate fechaReserva) { this.fechaReserva = fechaReserva; }
+
+public String getHoraInicio() { return horaInicio; }
+public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
+
+public String getHoraFin() { return horaFin; }
+public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
+
+public String getEstado() { return estado; }
+public void setEstado(String estado) { this.estado = estado; }
 }
