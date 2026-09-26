@@ -55,88 +55,33 @@
                     </thead>
 
                     <tbody>
-
-                        <!-- Categoría 1 -->
-                        <tr>
-                            <td>
-                                <i class="bi bi-laptop text-success me-2"></i>
-                                Tecnología
-                            </td>
-                            <td>Equipos tecnológicos para uso académico.</td>
-                            <td>15</td>
-                            <td>
-                                <span class="badge bg-success">Activa</span>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-                                    <i class="bi bi-eye"></i>
-                                </button>
+                    <tr th:each="categoria : ${categorias}">
+                        <td>
+                            <i class="bi bi-folder text-success me-2"></i>
+                            <span th:text="${categoria.nombre}"></span>
+                        </td>
+                        <td th:text="${categoria.descripcion}"></td>
+                        <td th:text="${categoria.recurso != null ? 1 : 0}"></td>
+                        <!--thymeleaf temporal para mostrar la cantidad como numero-->
+                        <td>
+                            <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
+                                  th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <th:block th:if="${categoria.estado}">
                                 <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" title="Desactivar">
                                     <i class="bi bi-x-circle"></i>
                                 </button>
-                            </td>
-                        </tr>
-                        <!-- Categoría 2 -->
-                        <tr>
-                            <td>
-                                <i class="bi bi-projector text-success me-2"></i>
-                                Audiovisual
-                            </td>
-                            <td>Equipos utilizados para presentaciones.</td>
-                            <td>8</td>
-                            <td>
-                                <span class="badge bg-success">Activa</span>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-                                    <i class="bi bi-x-circle"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <!-- Categoría 3 -->
-                        <tr>
-                            <td>
-                                <i class="bi bi-book text-success me-2"></i>
-                                Material académico
-                            </td>
-                            <td>Libros y materiales de consulta.</td>
-                            <td>24</td>
-                            <td>
-                                <span class="badge bg-success">Activa</span>
-                            </td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-                                    <i class="bi bi-x-circle"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <!-- Categoría 4 -->
-                        <tr>
-                            <td><i class="bi bi-box text-success me-2"></i>Accesorios</td>
-                            <td>Accesorios y complementos tecnológicos.</td>
-                            <td>10</td>
-                            <td><span class="badge bg-secondary">Inactiva</span></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-success" title="Consultar">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                            </td>
-                        </tr>
+                            </th:block>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
