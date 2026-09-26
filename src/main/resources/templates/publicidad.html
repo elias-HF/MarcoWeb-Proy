@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva de Recursos Academicos - Informacion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="#">
+                <i class="bi bi-mortarboard-fill fs-3"></i>Universidad
+            </a>
+            <button class=" navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggle-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-navbar ms-auto navbar-nav">
+                    <li class="nav-item"><a class="text-success nav-link active" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="text-success nav-link" href="#beneficios">Beneficios</a></li>
+                    <li class="nav-item"><a class="text-success nav-link" href="#pasos">¿Como funciona?</a></li>
+                    <li class="nav-item ms-lg-3"><a th:href="@{/login}" class="btn btn-outline-light rounded-pill px-4">Iniciar Sesion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="inicio" class="hero-section text-center text-lg-start">
+        <div class="container">
+           <div class="row aligh-item-center g-5">
+               <div class="col-lg-6">
+                    <span class="badge bg-light text-success px-3 py-2 rounded-pill fw-bold mb-3">
+                        <i class="bi bi-starts me-1"></i> Sistema de Gestion de recursos academicos
+                    </span>
+                   <h1 class="display-4 fw-bold mb-3">Reserva salas de estudio y equipos sin complicaciones</h1>
+                   <p class="lead text-success-emphasis-50 mb-4">Optimiza tu tiempo de estudio. Accede al catalogo de recursos tecnologicos y aulas disponibles de manera virtual</p>
+                   <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                       <a th:href="@{/login}" class="btn btn-light btn-lg px-4 fw-bold text-success">
+                           <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar al Sistema
+                       </a>
+                       <a href="#beneficios" class="btn btn-outline-light btn-lg px-4 ">Saber Mas</a>
+                   </div>
+               </div>
+               <div class="col-lg-6 text-center">
+                   <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Estudiantes trabajando" class="img-fluid rounded-4 shadow-lg">
+               </div>
+           </div>
+        </div>
+    </section>
+    <section id="beneficios">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">¿Por que utilizar esta plataforma?</h2>
+                <p class="text-muted">Diseñada para facilitar el estudio de los estudiantes universitarios y docentes</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                        <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <h5 class="fw-bold">Consultas Virtuales</h5>
+                        <p>Consulta si un aula o equipo esta libre antes de realizar una reserva</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                        <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h5 class="fw-bold">Gestion de reservas</h5>
+                        <p>Revisa el historial de tus prestamos, fechas disponibles y mas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                        <div class="feature-icon bg-success-subtle text-success mx-auto mb-3">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        <h5 class="fw-bold">Equipos Actuales</h5>
+                        <p>Accede a laptops, cámaras, proyectores y kits de laboratorio certificados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="pasos" class="bg-white py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-success">Reserva en 3 sencillos pasos</h2>
+            </div>
+            <div class="row g-4 text-center">
+                <div class="col-mb-4">
+                    <div class="step-number fs-3">1</div>
+                    <h5 class="fw-bold">Inicia Sesion</h5>
+                    <p class="text-muted">Usa tus credenciales institucionales para acceder a tu panel persona.l</p>
+                </div>
+                <div class="col-mb-4">
+                    <div class="step-number fs-3">2</div>
+                    <h5 class="fw-bold">Elige el Recurso</h5>
+                    <p class="text-muted">Filtra por categoria para encontrar lo que necesitas.</p>
+                </div>
+                <div class="col-mb-4">
+                    <div class="step-number fs-3">3</div>
+                    <h5 class="fw-bold">Confirma y Retira</h5>
+                    <p class="text-muted">Acercate con tu carnet estudiantil o Dni a la ventanilla de la biblioteca.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-dark text-white-50 py-4">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2026 Sistemas de reservas de recursos academicos para estudiante universitarios. Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

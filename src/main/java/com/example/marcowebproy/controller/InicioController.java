@@ -9,7 +9,10 @@ public class InicioController {
 
     @GetMapping("/")
     public String inicio(){
+        return "publicidad";
+    }
+    @GetMapping("/login")
+    public String login(){
         return "login";
     }
-
 }
