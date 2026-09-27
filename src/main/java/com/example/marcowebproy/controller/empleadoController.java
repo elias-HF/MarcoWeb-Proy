@@ -38,7 +38,8 @@ public class empleadoController {
     }
 
     @GetMapping("/estudiantes")
-    public String estudiantes() {
+    public String estudiantes(Model model) {
+        model.addAttribute("estudiantes", dataStore.estudiantes);
         return "compoEmpleado/estudiantes";
     }
 

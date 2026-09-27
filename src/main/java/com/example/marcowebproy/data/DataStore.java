@@ -2,6 +2,7 @@ package com.example.marcowebproy.data;
 
 import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.model.EspacioAcademico;
+import com.example.marcowebproy.model.Estudiante;
 import com.example.marcowebproy.model.Recurso;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class DataStore {
     public List<Categoria> categorias = new ArrayList<>();
     public List<Recurso> recursos = new ArrayList<>();
     public List<EspacioAcademico> espacios = new ArrayList<>();
+    public List<Estudiante> estudiantes = new ArrayList<>();
 
     public DataStore() {
         Categoria tecnologia = new Categoria(1, "Tecnología", "Equipos tecnológicos para uso académico.", null, true);
@@ -38,5 +40,17 @@ public class DataStore {
         espacios.add(e2);
         espacios.add(e3);
         espacios.add(e4);
+
+        Estudiante est1 = new Estudiante(1, "20260125", "Juan", "Pérez", "juan.perez@universidad.edu.pe", "123456","Ingeniería de Sistemas" ,true);
+        Estudiante est2 = new Estudiante(2, "20260314", "María", "López", "maria.lopez@universidad.edu.pe","123456","Ingeniería Industrial", true);
+        Estudiante est3 = new Estudiante(3, "20260452", "Carlos", "Ramírez", "carlos.ramirez@universidad.edu.pe","123456","Administración", true);
+        Estudiante est4 = new Estudiante(4, "20260521", "Andrea", "Torres", "andrea.torres@universidad.edu.pe","123456","Ingeniería de Sistemas", true);
+        Estudiante est5 = new Estudiante(5, "20260718", "Pedro", "Castillo", "pedro.castillo@universidad.edu.pe","123456","Ingeniería Civil", false);
+        estudiantes.add(est1);
+        estudiantes.add(est2);
+        estudiantes.add(est3);
+        estudiantes.add(est4);
+        estudiantes.add(est5);
+
     }
 }
