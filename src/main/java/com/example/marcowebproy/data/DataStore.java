@@ -1,9 +1,6 @@
 package com.example.marcowebproy.data;
 
-import com.example.marcowebproy.model.Categoria;
-import com.example.marcowebproy.model.EspacioAcademico;
-import com.example.marcowebproy.model.Recurso;
-import com.example.marcowebproy.model.Reserva;
+import com.example.marcowebproy.model.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,6 +13,8 @@ public class DataStore {
     public List<Recurso> recursos = new ArrayList<>();
     public List<EspacioAcademico> espacios = new ArrayList<>();
     public List<Reserva> reservas = new ArrayList<>();
+    public List<Prestamo> prestamos = new ArrayList<>();
+
     public DataStore() {
         Categoria tecnologia = new Categoria(1, "Tecnología", "Equipos tecnológicos para uso académico.", null, true);
         Categoria audiovisual = new Categoria(2, "Audiovisual", "Equipos utilizados para presentaciones.", null, true);
@@ -46,11 +45,19 @@ public class DataStore {
         Reserva re2 = new Reserva(2, e2, LocalDate.of(2026, 9, 5), "08:00", "10:00", "PENDIENTE");
         Reserva re3 = new Reserva(3, e3, LocalDate.of(2026, 8, 20), "16:00", "18:00", "FINALIZADA");
         Reserva re4 = new Reserva(4, e4, LocalDate.of(2026, 8, 15), "10:00", "12:00", "CANCELADA");
-
         reservas.add(re1);
         reservas.add(re2);
         reservas.add(re3);
         reservas.add(re4);
+
+        Prestamo p1 = new Prestamo(1, r2, null, null, null, "PENDIENTE", null);
+        Prestamo p2 = new Prestamo(2, r1, LocalDate.of(2026, 8, 28), LocalDate.of(2026, 8, 28), null, "EN_CURSO", null);
+        Prestamo p3 = new Prestamo(3, r3, LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11), LocalDate.of(2026, 8, 11), "DEVUELTO", "Entrega a tiempo");
+        Prestamo p4 = new Prestamo(4, r2, LocalDate.of(2026, 8, 2), LocalDate.of(2026, 8, 2), LocalDate.of(2026, 8, 2), "DEVUELTO", "Sin observaciones");
+        prestamos.add(p1);
+        prestamos.add(p2);
+        prestamos.add(p3);
+        prestamos.add(p4);
 
     }
 }
