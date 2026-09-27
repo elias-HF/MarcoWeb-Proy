@@ -10,6 +10,7 @@ public class Reserva {
     private String horaInicio;
     private String horaFin;
     private String estado;
+    private String motivoRechazo;
 
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
@@ -19,7 +20,7 @@ public class Reserva {
 
     public Reserva() {}
 
-    public Reserva(int id, EspacioAcademico espacioAcademico, LocalDate fechaReserva, String horaInicio, String horaFin, String estado, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, Recurso recurso, Estudiante estudiante) {
+    public Reserva(int id, EspacioAcademico espacioAcademico, LocalDate fechaReserva, String horaInicio, String horaFin, String estado, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, Recurso recurso, Estudiante estudiante, String motivoRechazo) {
         this.id = id;
         this.espacioAcademico = espacioAcademico;
         this.fechaReserva = fechaReserva;
@@ -30,6 +31,7 @@ public class Reserva {
         this.fechaHoraFin = fechaHoraFin;
         this.recurso = recurso;
         this.estudiante = estudiante;
+        this.motivoRechazo = motivoRechazo;
     }
 
     public int getId() {return id;}
@@ -61,4 +63,7 @@ public class Reserva {
 
     public Estudiante getEstudiante() {return estudiante;}
     public void setEstudiante(Estudiante estudiante) {this.estudiante = estudiante;}
+
+    public String getMotivoRechazo() {return motivoRechazo;}
+    public void setMotivoRechazo(String motivoRechazo) {this.motivoRechazo = motivoRechazo;}
 }

@@ -4,6 +4,7 @@ import com.example.marcowebproy.model.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,9 @@ import java.util.List;
 public class DataStore {
     public List<Categoria> categorias = new ArrayList<>();
     public List<Recurso> recursos = new ArrayList<>();
+    public List<Estudiante> estudiantes = new ArrayList<>();
     public List<EspacioAcademico> espacios = new ArrayList<>();
     public List<Prestamo> prestamos = new ArrayList<>();
-    public List<Estudiante> estudiantes = new ArrayList<>();
     public List<Reserva> reservas = new ArrayList<>();
 
     public DataStore() {
@@ -60,13 +61,23 @@ public class DataStore {
         prestamos.add(p3);
         prestamos.add(p4);
 
-        Reserva re1 = new Reserva(1, e1, LocalDate.of(2026, 9, 2), "14:00", "16:00", "PENDIENTE", null, null, null, estudiante1);
-        Reserva re2 = new Reserva(2, e2, LocalDate.of(2026, 9, 5), "08:00", "10:00", "PENDIENTE", null, null, null, estudiante2);
-        Reserva re3 = new Reserva(3, e3, LocalDate.of(2026, 8, 20), "16:00", "18:00", "FINALIZADA", null, null, null, estudiante3);
-        Reserva re4 = new Reserva(4, e4, LocalDate.of(2026, 8, 15), "10:00", "12:00", "CANCELADA", null, null, null, estudiante4);
-        reservas.add(re1);
-        reservas.add(re2);
-        reservas.add(re3);
-        reservas.add(re4);
+        reservas.add(new Reserva(1, espacios.get(0), LocalDate.of(2026, 8, 29), "10:00", "12:00",
+                "Pendiente", LocalDateTime.of(2026, 8, 29, 10, 0), LocalDateTime.of(2026, 8, 29, 12, 0),
+                null, estudiantes.get(0), null
+        ));
+
+        reservas.add(new Reserva(
+                2, espacios.get(1), LocalDate.of(2026, 8, 30),
+                "14:00", "16:00", "Confirmada",
+                LocalDateTime.of(2026, 8, 30, 14, 0), LocalDateTime.of(2026, 8, 30, 16, 0), null,
+                estudiantes.get(1), null
+        ));
+
+        reservas.add(new Reserva(
+                3, null, LocalDate.of(2026, 8, 31),
+                "09:00", "11:00", "Rechazada",
+                LocalDateTime.of(2026, 8, 31, 9, 0), LocalDateTime.of(2026, 8, 31, 11, 0), recursos.get(0),
+                estudiantes.get(2), "El recurso ya se encuentra reservado en el horario solicitado."
+        ));
     }
 }

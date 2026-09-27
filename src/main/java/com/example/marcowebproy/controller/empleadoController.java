@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class empleadoController {
     private final DataStore dataStore;
 
-    public empleadoController(DataStore dataStore) {
-        this.dataStore = dataStore;
-    }
+    public empleadoController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("")
     public String inicio() {return "compoEmpleado/inicio";}
@@ -29,16 +27,10 @@ public class empleadoController {
     @GetMapping("/categorias")
     public String categorias(Model model) {
         model.addAttribute("categorias", dataStore.categorias);
+
         return "compoEmpleado/categorias";
     }
 
     @GetMapping("/disponibilidad")
-    public String disponibilidad() {
-        return "compoEmpleado/disponibilidad";
-    }
-
-    @GetMapping("/reservas")
-    public String reservas() {
-        return "compoEmpleado/reservas";
-    }
+    public String disponibilidad() {return "compoEmpleado/disponibilidad";}
 }
