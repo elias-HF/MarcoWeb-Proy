@@ -11,8 +11,4 @@ public class InicioController {
     public String inicio(){
         return "publicidad";
     }
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
 }
