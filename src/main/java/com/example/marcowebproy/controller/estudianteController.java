@@ -35,5 +35,26 @@ public class estudianteController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/reservar-espacio/{id}")
+    public String mostrarFormularioReserva(@PathVariable("id") int idEspacio, Model model) {
+        Reserva reserva = new Reserva();
+    
+        EspacioAcademico espacio = new EspacioAcademico();
+        espacio.setId(idEspacio);
+        reserva.setEspacioAcademico(espacio);
+        
+        model.addAttribute("reserva", reserva);
+        return "compoEstudiante/reservar-espacio"; 
+    }
+
+    @PostMapping("/reservar-espacio/guardar")
+    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva) {
+        reserva.setEstado("PENDIENTE");
+
+
+        return "redirect:/estudiante/reservas";
+    }
+    
 }
 
