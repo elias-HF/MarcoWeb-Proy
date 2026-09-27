@@ -1,11 +1,11 @@
 package com.example.marcowebproy.controller;
 
 import com.example.marcowebproy.model.Categoria;
+import com.example.marcowebproy.model.Recurso;
+import com.example.marcowebproy.data.DataStore;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -14,28 +14,28 @@ import java.util.List;
 @Controller
 @RequestMapping("/empleado")
 public class empleadoController {
+    private final DataStore dataStore;
 
-    List<Categoria> categorias = new ArrayList<Categoria>();
+    public empleadoController(DataStore dataStore) {
+        this.dataStore = dataStore;
+    }
 
     @GetMapping("")
     public String inicio() {return "compoEmpleado/inicio";}
 
     @GetMapping("/dashboard")
-    public String dashboard() {return "compoEmpleado/dashboard";}
+    public String dashboard(Model model) {
+        model.addAttribute("totalCategorias", dataStore.categorias.size());
+        model.addAttribute("totalRecursos", dataStore.recursos.size());
+
+        return "compoEmpleado/dashboard";
+    }
 
     @GetMapping("/categorias")
     public String categorias(Model model) {
-        model.addAttribute("categorias", categorias);
-        model.addAttribute("nuevaCategoria", new Categoria());
-        return "compoEmpleado/categorias";
-    }
+        model.addAttribute("categorias", dataStore.categorias);
 
-    @PostMapping("/categorias")
-    public String guardarCategoria(@ModelAttribute("nuevaCategoria") Categoria categoria) {
-        categoria.setRecursos(null);
-        categoria.setEstado(true);
-        categorias.add(categoria);
-        return "redirect:/empleado/categorias";
+        return "compoEmpleado/categorias";
     }
 
     @GetMapping("/disponibilidad")
