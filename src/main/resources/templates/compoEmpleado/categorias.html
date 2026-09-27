@@ -27,11 +27,52 @@
 
         <!-- Botón registrar -->
         <div class="mb-3">
-            <button class="btn btn-success">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCategoria">
                 <i class="bi bi-plus-lg me-1"></i>
                 Registrar categoría
             </button>
         </div>
+
+            <!-- Modal para registrar categoría -->
+            <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="modalCategoriaLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title fw-bold" id="modalCategoriaLabel">
+                                <i class="bi bi-plus-circle me-2"></i>Registrar nueva categoría
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form th:action="@{/empleado/categorias}" th:object="${nuevaCategoria}" method="post">
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label fw-semibold">Nombre de la categoría</label>
+                                    <input type="text" class="form-control" id="nombre" th:field="*{nombre}"
+                                           placeholder="Ej. Tecnología, Audiovisual" required>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label fw-semibold">Descripción</label>
+                                    <textarea class="form-control" id="descripcion" th:field="*{descripcion}"
+                                              rows="3" placeholder="Breve descripción del tipo de recurso..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer bg-light">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="bi bi-x-lg me-1"></i>Cancelar
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check-lg me-1"></i>Guardar Categoría
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         <!-- Tabla -->
         <div class="card shadow-sm">
@@ -61,8 +102,8 @@
                             <span th:text="${categoria.nombre}"></span>
                         </td>
                         <td th:text="${categoria.descripcion}"></td>
-                        <td th:text="${categoria.recurso != null ? 1 : 0}"></td>
-                        <!--thymeleaf temporal para mostrar la cantidad como numero-->
+                        <td th:text="${categoria.recurso != null ? 1 : 0}">0</td>
+
                         <td>
                             <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
                                   th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
