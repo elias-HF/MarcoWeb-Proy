@@ -11,9 +11,7 @@
 
 <body>
     <div>
-
         <div th:replace="~{fragments/fragmentEstudiante::header}"></div>
-
         <main>
             <div class="bg-light py-4 border-bottom">
                 <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
@@ -21,28 +19,23 @@
                         <h2 class="fw-bold text-success mb-1"><i class="bi bi-calendar-check me-2"></i>Mis Reservas</h2>
                         <p class="text-muted mb-0">Consulta el estado de tus reservas de espacios académicos.</p>
                     </div>
-                    <!-- Botón para crear una nueva reserva que te lleva a la parte de explorar recursos -->
                     <a th:href="@{/estudiante/recursos}" class="btn btn-success">
                         <i class="bi bi-plus-circle me-1"></i>Nueva Reserva
                     </a>
                 </div>
             </div>
-
             <div class="container py-4">
-                <!-- te muestra las opciones de filtro -->
                 <ul class="nav nav-pills mb-4" id="filtroReservas">
                     <li class="nav-item">
-                        <a class="nav-link active bg-success text white" href="#">Todas</a>
+                        <a class="nav-link" th:classappend="${estadoSeleccionado == null} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas}">Todas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-success" href="#">Pendientes</a>
+                        <a class="nav-link" th:classappend="${estadoSeleccionado == 'PENDIENTE'} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='PENDIENTE')}">Pendientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-success" href="#">Finalizadas</a>
+                        <a class="nav-link" th:classappend="${estadoSeleccionado == 'FINALIZADA'} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='FINALIZADA')}">Finalizadas</a>
                     </li>
                 </ul>
-                
-                <!-- tabla donde se muestra las reservas del estudiante logeado -->
                 <div class="table-responsive shadow-sm rounded">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-success">
@@ -55,61 +48,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><i class="bi bi-door-open text-success me-2"></i>Sala de Estudio Grupal A-102</td>
-                                <td>02/09/2026</td>
-                                <td>14:00 - 16:00</td>
-                                <td class="text-center"><span class="badge bg-warning text-dark">Pendiente</span></td>
+                            <tr th:each="r : ${reservas}">
+                                <td><i class="bi bi-door-open text-success me-2"></i><span th:text="${r.espacioAcademico != null ? r.espacioAcademico.nombre : 'Espacio de Estudio'}"></span></td>
+                                <td th:text="${#temporals.format(r.fechaReserva, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${r.horaInicio + ' - ' + r.horaFin}"></td>
+                                <td class="text-center"><span class="badge" th:classappend="${r.estado == 'PENDIENTE'} ? 'bg-warning text-dark' : (${r.estado == 'FINALIZADA'} ? 'bg-secondary' : 'bg-danger')" th:text="${r.estado}"></span></td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" th:if="${r.estado == 'PENDIENTE'}">
                                         <i class="bi bi-x-circle me-1"></i>Cancelar
                                     </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><i class="bi bi-cpu text-success me-2"></i>Laboratorio de Redes y Servidores</td>
-                                <td>05/09/2026</td>
-                                <td>08:00 - 10:00</td>
-                                <td class="text-center"><span class="badge bg-warning text-dark">Pendiente</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                        <i class="bi bi-x-circle me-1"></i>Cancelar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><i class="bi bi-easel text-secondary me-2"></i>Auditorio Principal</td>
-                                <td>20/08/2026</td>
-                                <td>16:00 - 18:00</td>
-                                <td class="text-center"><span class="badge bg-secondary">Finalizada</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${r.estado == 'PENDIENTE'}">
                                         <i class="bi bi-eye me-1"></i>Ver Detalle
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td><i class="bi bi-door-open text-secondary me-2"></i>Sala de Estudio Grupal B-201</td>
-                                <td>15/08/2026</td>
-                                <td>10:00 - 12:00</td>
-                                <td class="text-center"><span class="badge bg-danger">Cancelada</span></td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled>
-                                        <i class="bi bi-eye me-1"></i>Ver Detalle
-                                    </button>
+                            <tr th:if="${#lists.isEmpty(reservas)}">
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    No se encontraron reservas registradas.
                                 </td>
                             </tr>
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </main>
-
         <div th:replace="~{fragments/fragmentEstudiante::footer}"></div>
-
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
-
 </html>

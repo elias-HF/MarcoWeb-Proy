@@ -43,11 +43,6 @@ public class empleadoController {
         return "compoEmpleado/estudiantes";
     }
 
-    @GetMapping("/prestamos")
-    public String prestamos() {
-        return "compoEmpleado/prestamos";
-    }
-
     @GetMapping("/reservas")
     public String reservas() {
         return "compoEmpleado/reservas";
