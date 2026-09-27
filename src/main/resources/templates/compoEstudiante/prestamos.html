@@ -85,22 +85,22 @@
               <tbody>
                 <tr th:each="p : ${prestamos}">
                   <td>
-                    <i th:class ="'bi ' + ${p.recurso != null ? p.recurso.icono : 'bi-box'} + ' me-2' + (${p.estado == 'EN_CURSO'} ? 'text-success' : (${p.estado == 'PENDIENTE'} ? 'text-info' : 'text-secondary'))"></i>
+                    <i th:class ="'bi ' + ${p.recurso != null ? p.recurso.icono : 'bi-box'} + ' me-2' + (${p.estado == 'Activo'} ? 'text-success' : (${p.estado == 'Pendiente'} ? 'text-info' : 'text-secondary'))"></i>
                     <span th:text="${p.recurso != null ? p.recurso.nombre : 'Recurso General'}"></span>
                   </td>
                   <td th:text="${p.fechaPrestamo != null ? #temporals.format(p.fechaPrestamo, 'dd/MM/yyyy') : '-'}"></td>
                   <td>
-                    <span th:if="${p.estado == 'PENDIENTE'}">Pendiente de aprobacion</span>
-                    <span th:if="${p.estado != 'PENDIENTE' and p.fechaLimiteDevolucion != null}" th:text="${#temporals.format(p.fechaLimiteDevolucion, 'dd/MM/yyyy')}"></span>
+                    <span th:if="${p.estado == 'Pendiente'}">Pendiente de aprobacion</span>
+                    <span th:if="${p.estado != 'Pendiente' and p.fechaLimiteDevolucion != null}" th:text="${#temporals.format(p.fechaLimiteDevolucion, 'dd/MM/yyyy')}"></span>
                   </td>
                   <td class="text-center">
-                    <span class="badge" th:classappend="${p.estado == 'PENDIENTE'} ? 'bg-info text-dark' : (${p.estado == 'EN_CURSO'} ? 'bg-warning text-dark' : (${p.estado == 'ATRASADO'} ? 'bg-danger' : 'bg-secondary'))" th:text="${p.estado}"></span>
+                    <span class="badge" th:classappend="${p.estado == 'Pendiente'} ? 'bg-info text-dark' : (${p.estado == 'Activo'} ? 'bg-warning text-dark' : (${p.estado == 'Atrasado'} ? 'bg-danger' : 'bg-secondary'))" th:text="${p.estado}"></span>
                   </td>
                   <td class="text-center">
-                    <button type="button" class="btn btn-sm btn-outline-danger" th:if="${p.estado == 'PENDIENTE'}">
+                    <button type="button" class="btn btn-sm btn-outline-danger" th:if="${p.estado == 'Pendiente'}">
                       <i class="bi bi-x-circle me-1"></i>Cancelar Solicitud
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${p.estado == 'PENDIENTE'}">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${p.estado == 'Pendinte'}">
                       <i class="bi bi-eye me-1"></i>Ver Detalle
                     </button>
                   </td>

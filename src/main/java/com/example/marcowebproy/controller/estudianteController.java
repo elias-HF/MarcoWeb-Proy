@@ -41,10 +41,10 @@ public class estudianteController {
     @GetMapping("/prestamos")
     public String prestamos(Model model) {
         List<Prestamo> listaP = dataStore.prestamos;
-        long enCurso = listaP.stream().filter(p -> "EN_CURSO".equalsIgnoreCase(p.getEstado())).count();
-        long pendientes = listaP.stream().filter(p -> "PENDIENTE".equalsIgnoreCase(p.getEstado())).count();
-        long atrasados = listaP.stream().filter(p -> "ATRASADO".equalsIgnoreCase(p.getEstado())).count();
-        long devueltos = listaP.stream().filter(p -> "DEVUELTO".equalsIgnoreCase(p.getEstado())).count();
+        long enCurso = listaP.stream().filter(p -> "Activo".equalsIgnoreCase(p.getEstado())).count();
+        long pendientes = listaP.stream().filter(p -> "Pendiente".equalsIgnoreCase(p.getEstado())).count();
+        long atrasados = listaP.stream().filter(p -> "Atrasado".equalsIgnoreCase(p.getEstado())).count();
+        long devueltos = listaP.stream().filter(p -> "Devuelto".equalsIgnoreCase(p.getEstado())).count();
 
         model.addAttribute("prestamos",listaP);
         model.addAttribute("cantEnCurso",enCurso);
