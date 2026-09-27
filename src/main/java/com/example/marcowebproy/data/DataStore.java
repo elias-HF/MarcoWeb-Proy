@@ -3,7 +3,10 @@ package com.example.marcowebproy.data;
 import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.model.Recurso;
+import com.example.marcowebproy.model.Reserva;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +15,7 @@ public class DataStore {
     public List<Categoria> categorias = new ArrayList<>();
     public List<Recurso> recursos = new ArrayList<>();
     public List<EspacioAcademico> espacios = new ArrayList<>();
-
+    public List<Reserva> reservas = new ArrayList<>();
     public DataStore() {
         Categoria tecnologia = new Categoria(1, "Tecnología", "Equipos tecnológicos para uso académico.", null, true);
         Categoria audiovisual = new Categoria(2, "Audiovisual", "Equipos utilizados para presentaciones.", null, true);
@@ -38,5 +41,16 @@ public class DataStore {
         espacios.add(e2);
         espacios.add(e3);
         espacios.add(e4);
+
+        Reserva re1 = new Reserva(1, e1, LocalDate.of(2026, 9, 2), "14:00", "16:00", "PENDIENTE");
+        Reserva re2 = new Reserva(2, e2, LocalDate.of(2026, 9, 5), "08:00", "10:00", "PENDIENTE");
+        Reserva re3 = new Reserva(3, e3, LocalDate.of(2026, 8, 20), "16:00", "18:00", "FINALIZADA");
+        Reserva re4 = new Reserva(4, e4, LocalDate.of(2026, 8, 15), "10:00", "12:00", "CANCELADA");
+
+        reservas.add(re1);
+        reservas.add(re2);
+        reservas.add(re3);
+        reservas.add(re4);
+
     }
 }
