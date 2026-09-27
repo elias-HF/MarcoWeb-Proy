@@ -17,7 +17,7 @@ public class prestamoController {
 
     @GetMapping("/empleado/prestamos")
     public String mostrarPrestamo(Model model) {
-        model.addAttribute("prestamos", dataStore.espacios);
+        model.addAttribute("prestamos", dataStore.prestamos);
 
         return "compoEmpleado/prestamos";
     }

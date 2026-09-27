@@ -1,205 +1,163 @@
-
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiantes</title>
-    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Estudiantes</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
-</head>
-<body>
-    <div class="d-flex" style="min-height: 100vh;">
-        <div th:replace="fragments/fragmentEmpleado::aside(activeTab='estudiantes')"></div>
-            <main class="flex-grow-1 p-4" id="panelPrincipal">
 
-        <div class="mb-4">
-            <h2 class="fw-bold">
-                <i class="bi bi-people-fill text-success me-2"></i>
-                Estudiantes
-            </h2>
-            <p class="text-muted mb-0">Consulta la información de los estudiantes registrados en el sistema.</p>
-        </div>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    </head>
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-8">
-                        <label class="form-label fw-semibold">Buscar estudiante</label>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="bi bi-search"></i>
-                            </span>
-                            <input type="text" id="buscadorEstudiante" class="form-control" placeholder="Buscar por nombre o código...">
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <button class="btn btn-success w-100">
-                            <i class="bi bi-search me-1"></i>
-                            Buscar
-                        </button>
-                    </div>
+    <body>
+        <div class="d-flex" style="min-height: 100vh;">
+            <div th:replace="fragments/fragmentEmpleado::aside(activeTab='estudiantes')"></div>
+                <main class="flex-grow-1 p-4" id="panelPrincipal">
+                <div class="mb-4">
+                    <h2 class="fw-bold"><i class="bi bi-people-fill text-success me-2"></i>Estudiantes</h2>
+                    <p class="text-muted mb-0">Consulta la información de los estudiantes registrados en el sistema.</p>
                 </div>
-            </div>
-        </div>
 
-
-        <div class="card shadow-sm">
-
-            <div class="card-header bg-success text-white">
-
-                <i class="bi bi-list-ul me-2"></i>
-                Estudiantes registrados
-
-            </div>
-
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead class="table-light">
-
-                        <tr>
-
-                            <th>Estudiante</th>
-
-                            <th>Carrera</th>
-
-                            <th>Correo institucional</th>
-
-                            <th>Estado</th>
-
-                            <th class="text-center">
-                                Acción
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-                    <tr th:each="estudiante : ${estudiantes}" class="fila-estudiante">
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-person-circle text-success fs-3 me-2"></i>
-                                <div>
-
-                                    <strong th:text="|${estudiante.nombre} ${estudiante.apellido}|">
-                                        Juan Pérez
-                                    </strong>
-                                    <br>
-
-                                    <small th:text="|Código: ${estudiante.codigoEstudiante}|" class="text-muted">
-                                        Código: 20260125
-                                    </small>
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-8">
+                                <label class="form-label fw-semibold">Buscar estudiante</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" id="buscarEstudiante" class="form-control" placeholder="Buscar por nombre, código o correo...">
                                 </div>
                             </div>
-                        </td>
+                            <div class="col-md-4"><button class="btn btn-success w-100"><i class="bi bi-search me-1"></i>Buscar</button></div>
+                        </div>
+                    </div>
+                </div>
 
-                        <td th:text="${estudiante.carrera}">
-                            Ingeniería de Sistemas
-                        </td>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white"><i class="bi bi-list-ul me-2"></i>Estudiantes registrados</div>
+                    <div class="table-responsive">
+                        <table id="tablaEstudiantes" class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Estudiante</th>
+                                    <th>Correo Institucional</th>
+                                    <th>Mérito / Demérito</th>
+                                    <th>Estado</th>
+                                    <th class="text-center">Acción</th>
+                                </tr>
+                            </thead>
 
-                        <td th:text="${estudiante.correo}">
-                            juan.perez@universidad.edu.pe
-                        </td>
+                            <tbody>
+                            <tr th:each="estudiante : ${estudiantes}">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-circle text-success fs-3 me-2"></i>
+                                        <div>
+                                            <strong th:text="${estudiante.nombre + ' ' + estudiante.apellido}">Juan Pérez</strong>
+                                            <br>
+                                            <small class="text-muted">Código:<span th:text="${estudiante.codigoEstudiante}">20241001</span></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td th:text="${estudiante.correo}">juan.perez@institucion.edu.pe</td>
+                                <td>
+                                    <span th:if="${estudiante.puntajeMerito >= 17}" class="badge bg-success">
+                                        <i class="bi bi-star-fill me-1"></i>Mérito
+                                    </span>
+                                    <span th:if="${estudiante.demeritos > 0}" class="badge bg-warning text-dark">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                                        <span th:text="${estudiante.demeritos}">1</span>demérito</span>
+                                    <span th:if="${estudiante.puntajeMerito < 17 and estudiante.demeritos == 0}" class="badge bg-secondary">Sin registro</span>
+                                </td>
+                                <td>
+                                    <span th:if="${estudiante.estado}" class="badge bg-success">Activo</span>
+                                    <span th:unless="${estudiante.estado}" class="badge bg-secondary">Inactivo</span>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-success"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalModificar"
+                                            th:attr="data-id=${estudiante.id},
+                                            data-nombre=${estudiante.nombre},
+                                            data-apellido=${estudiante.apellido},
+                                            data-correo=${estudiante.correo},
+                                            data-merito=${estudiante.puntajeMerito}">
+                                        <i class="bi bi-pencil me-1"></i>Modificar
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer text-muted"><small>Mostrando estudiantes registrados.</small></div>
+                </div>
 
-                        <td>
-                            <span th:text="${estudiante.estado ? 'Activo' : 'Inactivo'}"
-                                  th:class="${estudiante.estado ? 'badge bg-success' : 'badge bg-secondary'}">
-                                Activo
-                            </span>
-                        </td>
-
-                        <td class="text-center">
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-success"
-                                    title="Consultar"
-                                    data-bs-toggle="modal"
-                                    th:attr="data-bs-target='#modalConsultar' + ${estudiante.id}">
-                                <i class="bi bi-eye me-1"></i>
-                                Consultar
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-
-
-            <div class="card-footer text-muted">
-                <small>Mostrando lista de estudiantes.</small>
-            </div>
+                <div class="modal fade" id="modalModificar" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form th:action="@{/empleado/estudiantes/modificar}" method="post">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Modificar estudiante</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id" id="idModificar">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Nombre</label>
+                                        <input type="text" name="nombre" id="nombreModificar" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Apellido</label>
+                                        <input type="text" name="apellido" id="apellidoModificar" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Correo institucional</label>
+                                        <input type="email" name="correo" id="correoModificar" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Puntaje de mérito</label>
+                                        <input type="number" name="puntajeMerito" id="meritoModificar" class="form-control" min="0" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Deméritos a registrar</label>
+                                        <input type="number" class="form-control" name="demeritos" value="0" min="0" placeholder="Ingrese cantidad">
+                                        <small class="text-muted">Si registra un demérito, el estudiante quedará inactivo.</small>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Guardar cambios</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </main>
         </div>
-    </main>
-</div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const buscador = document.getElementById("buscadorEstudiante");
-        const filas = document.querySelectorAll(".fila-estudiante");
 
-        buscador.addEventListener("input", function () {
-            const texto = this.value.toLowerCase().trim();
-            filas.forEach(function (fila) {
-                const infoEstudiante = fila.querySelector("td div")
-                    ? fila.querySelector("td div").textContent.toLowerCase()
-                    : fila.textContent.toLowerCase();
-
-                if (infoEstudiante.includes(texto)) {
-                    fila.style.display = "";
-                } else {
-                    fila.style.display = "none";
-                }
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById("modalModificar").addEventListener("show.bs.modal", function (event) {
+                const boton = event.relatedTarget;
+                document.getElementById("idModificar").value = boton.getAttribute("data-id");
+                document.getElementById("nombreModificar").value = boton.getAttribute("data-nombre");
+                document.getElementById("apellidoModificar").value = boton.getAttribute("data-apellido");
+                document.getElementById("correoModificar").value = boton.getAttribute("data-correo");
+                document.getElementById("meritoModificar").value = boton.getAttribute("data-merito");
             });
-        });
-    </script>
-</body>
+        </script>
+        <script>
+            document.getElementById("buscarEstudiante").addEventListener("keyup", function () {
+                let texto = this.value.toLowerCase();
+                let filas = document.querySelectorAll("#tablaEstudiantes tbody tr");
 
-<div th:each="estudiante : ${estudiantes}">
-    <div class="modal fade" th:id="'modalConsultar' + ${estudiante.id}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title"><i class="bi bi-eye me-2"></i>Consultar estudiante</h5>
-                    <button type="button"
-                            class="btn-close btn-close-white"
-                            data-bs-dismiss="modal"
-                            aria-label="Cerrar">
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Estudiante</label>
-                        <input type="text" class="form-control" th:value="|${estudiante.nombre} ${estudiante.apellido}|" readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Carrera</label>
-                        <input type="text" class="form-control" th:value="${estudiante.carrera}" readonly>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Correo institucional</label>
-                        <input type="email" class="form-control"  th:value="${estudiante.correo}" readonly>
-                    </div>
-
-                    <div>
-                        <label class="form-label fw-semibold">Estado</label>
-                        <span th:text="${estudiante.estado ? 'Activa' : 'Inactiva'}"
-                              th:class="${estudiante.estado ? 'badge bg-success' : 'badge bg-secondary'}">
-                        </span>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                filas.forEach(function (fila) {
+                    let contenido = fila.textContent.toLowerCase();
+                    if (contenido.includes(texto)) {fila.style.display = "";}
+                    else {fila.style.display = "none";}
+                });
+            });
+        </script>
+    </body>
 </html>

@@ -37,12 +37,6 @@ public class empleadoController {
         return "compoEmpleado/disponibilidad";
     }
 
-    @GetMapping("/estudiantes")
-    public String estudiantes(Model model) {
-        model.addAttribute("estudiantes", dataStore.estudiantes);
-        return "compoEmpleado/estudiantes";
-    }
-
     @GetMapping("/reservas")
     public String reservas() {
         return "compoEmpleado/reservas";
