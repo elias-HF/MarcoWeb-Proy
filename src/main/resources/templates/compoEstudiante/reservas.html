@@ -30,12 +30,9 @@
 
             <div class="container py-4">
                 <!-- te muestra las opciones de filtro -->
-                <ul class="nav nav-pills mb-4">
+                <ul class="nav nav-pills mb-4" id="filtroReservas">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Todas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-success" href="#">Confirmadas</a>
+                        <a class="nav-link active bg-success text white" href="#">Todas</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-success" href="#">Pendientes</a>
@@ -62,7 +59,7 @@
                                 <td><i class="bi bi-door-open text-success me-2"></i>Sala de Estudio Grupal A-102</td>
                                 <td>02/09/2026</td>
                                 <td>14:00 - 16:00</td>
-                                <td class="text-center"><span class="badge bg-success">Confirmada</span></td>
+                                <td class="text-center"><span class="badge bg-warning text-dark">Pendiente</span></td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-sm btn-outline-danger" disabled>
                                         <i class="bi bi-x-circle me-1"></i>Cancelar
