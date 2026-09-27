@@ -39,7 +39,7 @@ public class Recurso {
     public void setUbicacion(String ubicacion) {this.ubicacion = ubicacion;}
 
     public String getDisponibilidad() {return disponibilidad;}
-    public void setDisponibilidad(String estado) {this.disponibilidad = estado;}
+    public void setDisponibilidad(String disponibilidad) {this.disponibilidad = disponibilidad;}
 
     public String getCondicionFisica() {return condicionFisica;}
     public void setCondicionFisica(String condicionFisica) {this.condicionFisica = condicionFisica;}
