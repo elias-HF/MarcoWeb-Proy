@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Espacio</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Reservar Espacio Académico</h2>
+
+        <form th:action="@{/estudiante/reservar-espacio/guardar}" th:object="${reserva}" method="post">
+            
+            <input type="hidden" th:field="*{espacioAcademico.id}" />
+
+            <div class="mb-3">
+                <label for="fechaReserva">Fecha de Reserva:</label>
+                <input type="date" id="fechaReserva" th:field="*{fechaReserva}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="horaInicio">Hora de Inicio:</label>
+                <input type="time" id="horaInicio" th:field="*{horaInicio}" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="horaFin">Hora de Fin:</label>
+                <input type="time" id="horaFin" th:field="*{horaFin}" class="form-control" required />
+            </div>
+
+            <button type="submit" class="btn btn-success">Confirmar Reserva</button>
+            <a th:href="@{/estudiante/reservas}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
