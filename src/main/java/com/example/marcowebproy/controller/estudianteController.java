@@ -1,6 +1,7 @@
 package com.example.marcowebproy.controller;
 
 import com.example.marcowebproy.data.DataStore;
+import com.example.marcowebproy.model.Prestamo;
 import com.example.marcowebproy.model.Reserva;
 import com.example.marcowebproy.model.EspacioAcademico;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,19 @@ public class estudianteController {
     }
 
     @GetMapping("/prestamos")
-    public String prestamos() {
+    public String prestamos(Model model) {
+        List<Prestamo> listaP = dataStore.prestamos;
+        long enCurso = listaP.stream().filter(p -> "EN_CURSO".equalsIgnoreCase(p.getEstado())).count();
+        long pendientes = listaP.stream().filter(p -> "PENDIENTE".equalsIgnoreCase(p.getEstado())).count();
+        long atrasados = listaP.stream().filter(p -> "ATRASADO".equalsIgnoreCase(p.getEstado())).count();
+        long devueltos = listaP.stream().filter(p -> "DEVUELTO".equalsIgnoreCase(p.getEstado())).count();
+
+        model.addAttribute("prestamos",listaP);
+        model.addAttribute("cantEnCurso",enCurso);
+        model.addAttribute("cantPendientes",pendientes);
+        model.addAttribute("cantAtrasados",atrasados);
+        model.addAttribute("cantDevueltos",devueltos);
+
         return "compoEstudiante/prestamos";
     }
 
