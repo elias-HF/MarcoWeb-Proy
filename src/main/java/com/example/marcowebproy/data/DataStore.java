@@ -4,7 +4,6 @@ import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.model.Recurso;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
