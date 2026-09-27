@@ -34,7 +34,6 @@ public class empleadoController {
     @GetMapping("/categorias")
     public String categorias(Model model) {
         model.addAttribute("categorias", dataStore.categorias);
-
         return "compoEmpleado/categorias";
     }
 
@@ -59,7 +58,8 @@ public class empleadoController {
     }
 
     @GetMapping("/recursos")
-    public String recursos() {
+    public String recursos(Model model) {
+        model.addAttribute("recursos", dataStore.recursos);
         return "compoEmpleado/recursos";
     }
 

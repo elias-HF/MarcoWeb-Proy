@@ -1,322 +1,271 @@
-<!-- INTERFAZ DE RECURSOS -->
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos</title>
-    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Recursos</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
-</head>
-<body>
-    <div class="d-flex" style="min-height: 100vh;">
-        <div th:replace="fragments/fragmentEmpleado::aside(activeTab='recursos')"></div>
-    <main class="flex-grow-1 p-4" id="panelPrincipal">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    </head>
 
-        <!-- Encabezado -->
-        <div class="mb-4">
-            <h2 class="fw-bold">
-                <i class="bi bi-boxes text-success me-2"></i>
-                Recursos
-            </h2>
+    <body>
+        <div class="d-flex" style="min-height: 100vh;">
+            <div th:replace="fragments/fragmentEmpleado::aside(activeTab='recursos')"></div>
+            <main class="flex-grow-1 p-4" id="panelPrincipal">
+                <div class="mb-4">
+                    <h2 class="fw-bold"><i class="bi bi-boxes text-success me-2"></i>Recursos</h2>
+                    <p class="text-muted mb-0">Administra los recursos académicos disponibles para préstamo.</p>
+                </div>
 
-            <p class="text-muted mb-0">
-                Administra los recursos académicos disponibles para préstamo.
-            </p>
+                <div class="d-flex justify-content-between align-items-center mb-3 gap-3">
+                    <div class="input-group" style="max-width: 450px;">
+                        <span class="input-group-text bg-success text-white"><i class="bi bi-search"></i></span>
+                        <input type="text" id="buscadorRecursos" class="form-control" placeholder="Buscar recurso, categoría o ubicación...">
+                    </div>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarRecurso"><i class="bi bi-plus-lg me-1"></i>Registrar recurso</button>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white"><i class="bi bi-list-ul me-2"></i>Recursos registrados</div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Recurso</th>
+                                    <th>Categoría</th>
+                                    <th>Ubicación</th>
+                                    <th>Disponibilidad</th>
+                                    <th>Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tablaRecursos">
+                            <tr th:each="recurso : ${recursos}" class="fila-recurso">
+                                <td><i th:class="'bi ' + ${recurso.icono} + ' text-success me-2'"></i><span th:text="${recurso.nombre}"></span></td>
+                                <td th:text="${recurso.categoria.nombre}"></td>
+                                <td th:text="${recurso.ubicacion}"></td>
+                                <td th:text="${recurso.disponibilidad}"></td>
+                                <td><span th:if="${recurso.activo}" class="badge bg-success">Activo</span>
+                                    <span th:unless="${recurso.activo}" class="badge bg-secondary">Inactivo</span>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Modificar" data-bs-toggle="modal" th:attr="data-bs-target='#modalModificar' + ${recurso.id}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+
+                                    <button th:if="${recurso.activo}" type="button" class="btn btn-sm btn-outline-danger" title="Desactivar" data-bs-toggle="modal" th:attr="data-bs-target='#modalDesactivar' + ${recurso.id}">
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-footer text-muted"><small>Mostrando los recursos.</small></div>
+                </div>
+            </main>
         </div>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const buscador = document.getElementById("buscadorRecursos");
+            const filas = document.querySelectorAll(".fila-recurso");
+            buscador.addEventListener("input", function () {
+                const texto = this.value.toLowerCase().trim();
+                filas.forEach(function (fila) {
+                    const contenido = fila.textContent.toLowerCase();
+                    if (contenido.includes(texto)) {fila.style.display = "";}
+                    else {fila.style.display = "none";}
+                });
+            });
+        </script>
 
-        <!-- Barra de acciones -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <button class="btn btn-success">
-                <i class="bi bi-plus-lg me-1"></i>
-                Registrar recurso
-            </button>
+    </body>
 
+    <div class="modal fade" id="modalRegistrarRecurso" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="bi bi-box-seam me-2"></i>Registrar recurso</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form th:action="@{/empleado/recursos/guardar}" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre del recurso</label>
+                            <input type="text" class="form-control" name="nombre" placeholder="Ej. Laptop Dell Core i7" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Categoría</label>
+                            <select class="form-select" name="categoriaId" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Ubicación</label>
+                            <input type="text" class="form-control" name="ubicacion" placeholder="Ej. Biblioteca - Piso 3" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Condición física</label>
+                            <select class="form-select" name="condicionFisica" required>
+                                <option value="">Seleccione una opción</option>
+                                <option value="Nueva">Nueva</option>
+                                <option value="Buena">Buena</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Deteriorada">Deteriorada</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tipo de recurso</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="radio" class="btn-check" name="icono" id="recursoLaptop" value="bi-laptop" required>
+                                    <label class="btn btn-outline-success w-100" for="recursoLaptop"><i class="bi bi-laptop fs-3 d-block"></i>Laptop</label>
+                                </div>
+
+                                <div class="col">
+                                    <input type="radio" class="btn-check" name="icono" id="recursoTablet" value="bi-tablet">
+                                    <label class="btn btn-outline-success w-100" for="recursoTablet"><i class="bi bi-tablet fs-3 d-block"></i>Tablet</label>
+                                </div>
+
+                                <div class="col">
+                                    <input type="radio" class="btn-check" name="icono" id="recursoProyector" value="bi-projector">
+                                    <label class="btn btn-outline-success w-100" for="recursoProyector"><i class="bi bi-projector fs-3 d-block"></i>Proyector</label>
+                                </div>
+
+                                <div class="col">
+                                    <input type="radio" class="btn-check" name="icono" id="recursoLibro" value="bi-book">
+                                    <label class="btn btn-outline-success w-100" for="recursoLibro"><i class="bi bi-book fs-3 d-block"></i>Libro</label>
+                                </div>
+
+                                <div class="col">
+                                    <input type="radio" class="btn-check" name="icono" id="recursoCamara" value="bi-camera-video">
+                                    <label class="btn btn-outline-success w-100" for="recursoCamara"><i class="bi bi-camera-video fs-3 d-block"></i>Cámara</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Registrar recurso</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-
-        <!-- Tabla de recursos -->
-        <div class="card shadow-sm">
-
-            <div class="card-header bg-success text-white">
-
-                <i class="bi bi-list-ul me-2"></i>
-                Recursos registrados
-
-            </div>
-
-
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Recurso</th>
-                            <th>Categoría</th>
-                            <th>Ubicación</th>
-                            <th>Disponibilidad</th>
-                            <th>Estado</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Recurso 1 -->
-                        <tr>
-                            <td>
-                                <i class="bi bi-laptop text-success me-2"></i>
-                                Laptop Dell Core i7
-                            </td><td>Tecnología</td>
-                            <td>Biblioteca - Piso 3</td>
-                            <td>Disponible</td>
-                            <td><span class="badge bg-success">Activo</span></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-                                    <i class="bi bi-x-circle"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-
-                        <!-- Recurso 2 -->
-                        <tr>
-
-                            <td>
-
-                                <i class="bi bi-projector text-success me-2"></i>
-
-                                Proyector Epson HDMI
-
-                            </td>
-
-                            <td>
-                                Audiovisual
-                            </td>
-
-                            <td>
-                                Laboratorio de Sistemas
-                            </td>
-
-                            <td>
-                                No disponible
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-success">
-                                    Activo
-                                </span>
-
-                            </td>
-
-                            <td class="text-center">
-
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-
-                                    <i class="bi bi-pencil"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-
-                                    <i class="bi bi-x-circle"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
-                        <!-- Recurso 3 -->
-                        <tr>
-
-                            <td>
-
-                                <i class="bi bi-tablet text-success me-2"></i>
-
-                                Tablet Samsung
-
-                            </td>
-
-                            <td>
-                                Tecnología
-                            </td>
-
-                            <td>
-                                Biblioteca - Piso 2
-                            </td>
-
-                            <td>
-                                Disponible
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-success">
-                                    Activo
-                                </span>
-
-                            </td>
-
-                            <td class="text-center">
-
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-
-                                    <i class="bi bi-pencil"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-
-                                    <i class="bi bi-x-circle"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
-                        <!-- Recurso 4 -->
-                        <tr>
-
-                            <td>
-
-                                <i class="bi bi-book text-success me-2"></i>
-
-                                Libro de Ingeniería de Software
-
-                            </td>
-
-                            <td>
-                                Material académico
-                            </td>
-
-                            <td>
-                                Biblioteca - Piso 1
-                            </td>
-
-                            <td>
-                                Disponible
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-success">
-                                    Activo
-                                </span>
-
-                            </td>
-
-                            <td class="text-center">
-
-                                <button class="btn btn-sm btn-outline-success me-1" title="Consultar">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-primary me-1" title="Modificar">
-
-                                    <i class="bi bi-pencil"></i>
-
-                                </button>
-
-                                <button class="btn btn-sm btn-outline-danger" title="Desactivar">
-
-                                    <i class="bi bi-x-circle"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
-                        <!-- Recurso 5 -->
-                        <tr>
-
-                            <td>
-
-                                <i class="bi bi-camera-video text-success me-2"></i>
-
-                                Cámara Web Logitech
-
-                            </td>
-
-                            <td>
-                                Audiovisual
-                            </td>
-
-                            <td>
-                                Laboratorio de Sistemas
-                            </td>
-
-                            <td>
-                                No disponible
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-secondary">
-                                    Inactivo
-                                </span>
-
-                            </td>
-
-                            <td class="text-center">
-
-                                <button class="btn btn-sm btn-outline-success" title="Consultar">
-
-                                    <i class="bi bi-eye"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-
-            <!-- Pie -->
-            <div class="card-footer text-muted">
-
-                <small>
-                    Mostrando 5 recursos de ejemplo.
-                </small>
-
-            </div>
-
-        </div>
-
-    </main>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
+    <div th:each="recurso : ${recursos}">
+        <div class="modal fade" th:id="'modalModificar' + ${recurso.id}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Modificar recurso</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form th:action="@{/empleado/recursos/modificar}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" th:value="${recurso.id}">
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Nombre del recurso</label>
+                                <input type="text" class="form-control" name="nombre" th:value="${recurso.nombre}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Categoría</label>
+                                <select class="form-select" name="categoriaId" required>
+                                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}" th:selected="${categoria.id == recurso.categoria.id}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Ubicación</label>
+                                <input type="text" class="form-control" name="ubicacion" th:value="${recurso.ubicacion}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Condición física</label>
+
+                                <select class="form-select" name="condicionFisica" required>
+                                    <option value="Nueva" th:selected="${recurso.condicionFisica == 'Nueva'}">Nueva</option>
+                                    <option value="Buena" th:selected="${recurso.condicionFisica == 'Buena'}">Buena</option>
+                                    <option value="Regular" th:selected="${recurso.condicionFisica == 'Regular'}">Regular</option>
+                                    <option value="Deteriorada" th:selected="${recurso.condicionFisica == 'Deteriorada'}">Deteriorada</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Tipo de recurso</label>
+                                <div class="row g-2">
+                                    <div class="col">
+                                        <input type="radio" class="btn-check" name="icono" th:id="'laptop' + ${recurso.id}" value="bi-laptop" th:checked="${recurso.icono == 'bi-laptop'}">
+                                        <label class="btn btn-outline-success w-100" th:for="'laptop' + ${recurso.id}"><i class="bi bi-laptop fs-3 d-block"></i>Laptop</label>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="radio" class="btn-check" name="icono" th:id="'tablet' + ${recurso.id}" value="bi-tablet" th:checked="${recurso.icono == 'bi-tablet'}">
+                                        <label class="btn btn-outline-success w-100" th:for="'tablet' + ${recurso.id}"><i class="bi bi-tablet fs-3 d-block"></i>Tablet</label>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="radio" class="btn-check" name="icono" th:id="'proyector' + ${recurso.id}" value="bi-projector" th:checked="${recurso.icono == 'bi-projector'}">
+                                        <label class="btn btn-outline-success w-100" th:for="'proyector' + ${recurso.id}"><i class="bi bi-projector fs-3 d-block"></i>Proyector</label>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="radio" class="btn-check" name="icono" th:id="'libro' + ${recurso.id}" value="bi-book" th:checked="${recurso.icono == 'bi-book'}">
+                                        <label class="btn btn-outline-success w-100" th:for="'libro' + ${recurso.id}"><i class="bi bi-book fs-3 d-block"></i>Libro</label>
+                                    </div>
+
+                                    <div class="col">
+                                        <input type="radio" class="btn-check" name="icono" th:id="'camara' + ${recurso.id}" value="bi-camera-video" th:checked="${recurso.icono == 'bi-camera-video'}">
+                                        <label class="btn btn-outline-success w-100" th:for="'camara' + ${recurso.id}"><i class="bi bi-camera-video fs-3 d-block"></i>Cámara</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Guardar cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" th:id="'modalDesactivar' + ${recurso.id}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Desactivar recurso</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <form th:action="@{/empleado/recursos/desactivar}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" th:value="${recurso.id}">
+                            <p class="mb-0">¿Está seguro de desactivar el recurso<strong th:text="${recurso.nombre}"></strong>?</p>
+                            <p class="text-muted small mt-2 mb-0">El recurso dejará de estar habilitado en el sistema.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle me-1"></i>Desactivar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </html>

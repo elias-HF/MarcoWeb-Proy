@@ -1,8 +1,5 @@
 package com.example.marcowebproy.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Categoria {
 
     private int id;
@@ -11,9 +8,7 @@ public class Categoria {
     private Recurso recurso;
     private boolean estado;
 
-
-    public Categoria() {
-    }
+    public Categoria() {}
 
     public Categoria(int id, String nombre, String descripcion, Recurso recurso, boolean estado) {
         this.id = id;
@@ -22,7 +17,7 @@ public class Categoria {
         this.recurso = recurso;
         this.estado = estado;
     }
-    // Getters y Setters
+
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

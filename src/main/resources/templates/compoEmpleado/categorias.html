@@ -1,238 +1,237 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Categorias</title>
 
-<body>
-    <div class="d-flex" style="min-height: 100vh;">
-        <div th:replace="fragments/fragmentEmpleado::aside(activeTab='categorias')"></div>
-        <main class="flex-grow-1 p-4" id="panelPrincipal">
-            <div class="mb-4">
-                <h2 class="fw-bold"><i class="bi bi-tags text-success me-2"></i>Categorías</h2>
-                <p class="text-muted mb-0">Administra las categorías utilizadas para clasificar los recursos académicos.</p>
-            </div>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    </head>
 
-            <div class="mb-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarCategoria">
-                    <i class="bi bi-plus-lg me-1"></i>
-                    Registrar categoría
-                </button>
-            </div>
-
-            <div class="card shadow-sm">
-                <div class="card-header bg-success text-white"> <i class="bi bi-list-ul me-2"></i>Categorías registradas</div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                        <tr>
-                            <th>Categoría</th>
-                            <th>Descripción</th>
-                            <th>Cantidad de recursos</th>
-                            <th>Estado</th>
-                            <th class="text-center">Acciones</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <tr th:each="categoria : ${categorias}">
-                            <td>
-                                <i class="bi bi-folder text-success me-2"></i>
-                                <span th:text="${categoria.nombre}"></span>
-                            </td>
-                            <td th:text="${categoria.descripcion}"></td>
-                            <td th:text="${categoria.recurso != null ? 1 : 0}"></td>
-                            <td>
-                                <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
-                                      th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-success me-1"
-                                        title="Consultar"
-                                        data-bs-toggle="modal"
-                                        th:attr="data-bs-target='#modalConsultar' + ${categoria.id}">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-
-                                <th:block th:if="${categoria.estado}">
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-primary me-1"
-                                            title="Modificar"
-                                            data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalModificar' + ${categoria.id}">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-danger"
-                                            title="Desactivar"
-                                            data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalDesactivar' + ${categoria.id}">
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-                                </th:block>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer text-muted"> <small>Mostrando lista de categorías.</small> </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-<div class="modal fade" id="modalRegistrarCategoria" tabindex="-1" aria-labelledby="modalRegistrarCategoriaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="modalRegistrarCategoriaLabel"><i class="bi bi-tags me-2"></i>Registrar categoría</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-
-            <form th:action="@{/empleado/categorias/guardar}" method="post">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre de la categoría</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Tecnología" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción</label>
-                        <textarea class="form-control"
-                                  id="descripcion"
-                                  name="descripcion"
-                                  rows="3"
-                                  placeholder="Ingrese una descripción"
-                                  required></textarea>
-                    </div>
+    <body>
+        <div class="d-flex" style="min-height: 100vh;">
+            <div th:replace="fragments/fragmentEmpleado::aside(activeTab='categorias')"></div>
+            <main class="flex-grow-1 p-4" id="panelPrincipal">
+                <div class="mb-4">
+                    <h2 class="fw-bold"><i class="bi bi-tags text-success me-2"></i>Categorías</h2>
+                    <p class="text-muted mb-0">Administra las categorías utilizadas para clasificar los recursos académicos.</p>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Registrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div th:each="categoria : ${categorias}">
-    <div class="modal fade" th:id="'modalConsultar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title"><i class="bi bi-eye me-2"></i>Consultar categoría</h5>
-                    <button type="button"
-                            class="btn-close btn-close-white"
-                            data-bs-dismiss="modal"
-                            aria-label="Cerrar">
+                <div class="mb-3">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarCategoria">
+                        <i class="bi bi-plus-lg me-1"></i>
+                        Registrar categoría
                     </button>
                 </div>
 
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Nombre</label>
-                        <input type="text" class="form-control" th:value="${categoria.nombre}" readonly>
-                    </div>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white"> <i class="bi bi-list-ul me-2"></i>Categorías registradas</div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Cantidad de recursos</th>
+                                <th>Estado</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                            </thead>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold">Descripción</label>
-                        <textarea class="form-control" rows="3" readonly th:text="${categoria.descripcion}"></textarea>
-                    </div>
+                            <tbody>
+                            <tr th:each="categoria : ${categorias}">
+                                <td>
+                                    <i class="bi bi-folder text-success me-2"></i>
+                                    <span th:text="${categoria.nombre}"></span>
+                                </td>
+                                <td th:text="${categoria.descripcion}"></td>
+                                <td th:text="${categoria.recurso != null ? 1 : 0}"></td>
+                                <td>
+                                    <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
+                                          th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-success me-1"
+                                            title="Consultar"
+                                            data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#modalConsultar' + ${categoria.id}">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
 
-                    <div>
-                        <label class="form-label fw-semibold">Estado</label>
-                        <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
-                              th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
-                        </span>
+                                    <th:block th:if="${categoria.estado}">
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-primary me-1"
+                                                title="Modificar"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#modalModificar' + ${categoria.id}">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger"
+                                                title="Desactivar"
+                                                data-bs-toggle="modal"
+                                                th:attr="data-bs-target='#modalDesactivar' + ${categoria.id}">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </th:block>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
+                    <div class="card-footer text-muted"> <small>Mostrando lista de categorías.</small> </div>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
+            </main>
         </div>
-    </div>
 
-    <div class="modal fade" th:id="'modalModificar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+    <div class="modal fade" id="modalRegistrarCategoria" tabindex="-1" aria-labelledby="modalRegistrarCategoriaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Modificar categoría</h5>
+                    <h5 class="modal-title" id="modalRegistrarCategoriaLabel"><i class="bi bi-tags me-2"></i>Registrar categoría</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
 
-                <form th:action="@{/empleado/categorias/modificar}" method="post">
+                <form th:action="@{/empleado/categorias/guardar}" method="post">
                     <div class="modal-body">
-                        <input type="hidden" name="id" th:value="${categoria.id}">
                         <div class="mb-3">
-                            <label class="form-label">Nombre de la categoría</label>
-                            <input type="text"
-                                   class="form-control"
-                                   name="nombre"
-                                   th:value="${categoria.nombre}"
-                                   required>
+                            <label for="nombre" class="form-label">Nombre de la categoría</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ej. Tecnología" required>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label">Descripción</label>
+                            <label for="descripcion" class="form-label">Descripción</label>
                             <textarea class="form-control"
+                                      id="descripcion"
                                       name="descripcion"
                                       rows="3"
-                                      required
-                                      th:text="${categoria.descripcion}">
-                            </textarea>
+                                      placeholder="Ingrese una descripción"
+                                      required></textarea>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>
-                            Guardar cambios
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:each="categoria : ${categorias}">
+        <div class="modal fade" th:id="'modalConsultar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title"><i class="bi bi-eye me-2"></i>Consultar categoría</h5>
+                        <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Cerrar">
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal fade" th:id="'modalDesactivar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Desactivar categoría</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-
-                <form th:action="@{/empleado/categorias/desactivar}" method="post">
                     <div class="modal-body">
-                        <input type="hidden" name="id" th:value="${categoria.id}">
-                        <p class="mb-2">
-                            ¿Está seguro de desactivar la categoría
-                            <strong th:text="${categoria.nombre}"></strong>?
-                        </p>
-                        <p class="text-muted mb-0">
-                            La categoría dejará de estar activa,
-                            pero permanecerá registrada en el sistema.
-                        </p>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre</label>
+                            <input type="text" class="form-control" th:value="${categoria.nombre}" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Descripción</label>
+                            <textarea class="form-control" rows="3" readonly th:text="${categoria.descripcion}"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="form-label fw-semibold">Estado</label>
+                            <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
+                                  th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
+                            </span>
+                        </div>
                     </div>
+
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle me-1"></i>Desactivar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
-                </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" th:id="'modalModificar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title"><i class="bi bi-pencil me-2"></i>Modificar categoría</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <form th:action="@{/empleado/categorias/modificar}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" th:value="${categoria.id}">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre de la categoría</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="nombre"
+                                       th:value="${categoria.nombre}"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea class="form-control"
+                                          name="descripcion"
+                                          rows="3"
+                                          required
+                                          th:text="${categoria.descripcion}">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>
+                                Guardar cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" th:id="'modalDesactivar' + ${categoria.id}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Desactivar categoría</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <form th:action="@{/empleado/categorias/desactivar}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" th:value="${categoria.id}">
+                            <p class="mb-2">
+                                ¿Está seguro de desactivar la categoría
+                                <strong th:text="${categoria.nombre}"></strong>?
+                            </p>
+                            <p class="text-muted mb-0">
+                                La categoría dejará de estar activa,
+                                pero permanecerá registrada en el sistema.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle me-1"></i>Desactivar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
 </html>

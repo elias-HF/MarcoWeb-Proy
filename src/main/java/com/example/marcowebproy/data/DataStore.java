@@ -13,14 +13,22 @@ public class DataStore {
     public List<Recurso> recursos = new ArrayList<>();
 
     public DataStore() {
-        Recurso r1 = new Recurso(1, "Laptop", null, "Disponible", "Buena");
-        Recurso r2 = new Recurso(2, "Proyector Epson", null, "Disponible", "Buena");
+        Categoria tecnologia = new Categoria(1, "Tecnología", "Equipos tecnológicos para uso académico.", null, true);
+        Categoria audiovisual = new Categoria(2, "Audiovisual", "Equipos utilizados para presentaciones.", null, true);
+        Categoria materialAcademico = new Categoria(3, "Material académico", "Libros y materiales de consulta.", null, true);
+        Categoria accesorios = new Categoria(4, "Accesorios", "Accesorios y complementos tecnológicos.", null, true);
+
+        categorias.add(tecnologia);
+        categorias.add(audiovisual);
+        categorias.add(materialAcademico);
+        categorias.add(accesorios);
+
+        Recurso r1 = new Recurso(1, "bi-laptop", "Laptop Dell Core i7", tecnologia, "Biblioteca - Piso 3", "Disponible", "Buena", true);
+        Recurso r2 = new Recurso(2, "bi-projector","Proyector Epson", audiovisual, "Laboratorio de Sistemas", "Disponible", "Buena", true);
+        Recurso r3 = new Recurso(3, "bi-book","Libro de Ingeniería de Software", materialAcademico, "Biblioteca - Piso 1", "Disponible", "Buena", false);
+
         recursos.add(r1);
         recursos.add(r2);
-
-        categorias.add(new Categoria(1, "Tecnología", "Equipos tecnológicos para uso académico.", r1, true));
-        categorias.add(new Categoria(2, "Audiovisual", "Equipos utilizados para presentaciones.", r2, false));
-        categorias.add(new Categoria(3, "Material académico", "Libros y materiales de consulta.", null, true));
-        categorias.add(new Categoria(4, "Accesorios", "Accesorios y complementos tecnológicos.", null, false));
+        recursos.add(r3);
     }
 }
