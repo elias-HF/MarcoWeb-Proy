@@ -10,19 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/empleado")
 public class empleadoController {
     private final DataStore dataStore;
-
     public empleadoController(DataStore dataStore) {this.dataStore = dataStore;}
-
-    @GetMapping("")
-    public String inicio() {return "compoEmpleado/inicio";}
-
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("totalCategorias", dataStore.categorias.size());
-        model.addAttribute("totalRecursos", dataStore.recursos.size());
-
-        return "compoEmpleado/dashboard";
-    }
 
     @GetMapping("/categorias")
     public String categorias(Model model) {
@@ -30,7 +18,4 @@ public class empleadoController {
 
         return "compoEmpleado/categorias";
     }
-
-    @GetMapping("/disponibilidad")
-    public String disponibilidad() {return "compoEmpleado/disponibilidad";}
 }

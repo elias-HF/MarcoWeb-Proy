@@ -1,241 +1,179 @@
-<!-- MAQUETACIÓN - DASHBOARD -->
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
-</head>
-<body>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    </head>
+    <body>
 
-<div class="d-flex" style="min-height: 100vh;">
-    <div th:replace="fragments/fragmentEmpleado::aside(activeTab='dashboard')"></div>
+        <div class="d-flex" style="min-height: 100vh;">
+            <div th:replace="fragments/fragmentEmpleado::aside(activeTab='dashboard')"></div>
+            <main class="flex-grow-1 p-4"
+                  id="panelPrincipal"
+                  style="min-width: 0; overflow-x: hidden;">
 
-    <main class="flex-grow-1 p-4" id="panelPrincipal">
+                <header class="mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <i class="bi bi-speedometer2 fs-1 text-success"></i>
+                        <div>
+                            <h2 class="fw-bold mb-1">Dashboard</h2>
+                            <p class="text-muted mb-0">
+                                Indicadores y comportamiento de reservas,
+                                préstamos y recursos académicos.
+                            </p>
+                        </div>
+                    </div>
+                </header>
 
-        <!-- Encabezado -->
-        <header class="mb-4">
-            <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-speedometer2 fs-1 text-success"></i>
-                <div>
-                    <h2 class="fw-bold mb-1">Dashboard</h2>
-                    <p class="text-muted mb-0">
-                        Consulta los principales indicadores de reservas,
-                        préstamos y recursos académicos.
-                    </p>
-                </div>
-            </div>
-        </header>
+                <section class="border rounded p-4 mb-4">
+                    <h4 class="fw-bold mb-4">Indicadores actuales</h4>
 
-        <!-- Contenedor de indicadores -->
-        <section class="border rounded p-4 mb-4">
-            <h4 class="fw-bold mb-4">Indicadores</h4>
-            <div class="row g-3">
+                    <div class="row g-3">
+                        <article class="col-md-4 col-lg">
+                            <div class="border rounded p-3 text-center">
+                                <i class="bi bi-calendar-check fs-1 text-success"></i>
+                                <h6 class="mt-2">Reservas</h6>
+                                <h3 th:text="${reservasActuales}">0</h3>
+                            </div>
+                        </article>
 
-                <!-- Reservas -->
-                <article class="col-md-4 col-lg">
+                        <article class="col-md-4 col-lg">
+                            <div class="border rounded p-3 text-center">
+                                <i class="bi bi-box-seam fs-1 text-success"></i>
+                                <h6 class="mt-2">Préstamos activos</h6>
+                                <h3 th:text="${prestamosActivos}">0</h3>
+                            </div>
+                        </article>
 
-                    <div class="border rounded p-3 text-center">
+                        <article class="col-md-4 col-lg">
+                            <div class="border rounded p-3 text-center">
+                                <i class="bi bi-exclamation-circle fs-1 text-success"></i>
+                                <h6 class="mt-2">Préstamos vencidos</h6>
+                                <h3 th:text="${prestamosVencidos}">0</h3>
+                            </div>
+                        </article>
 
-                        <i class="bi bi-calendar-check fs-1 text-success"></i>
+                        <article class="col-md-4 col-lg">
+                            <div class="border rounded p-3 text-center">
+                                <i class="bi bi-arrow-return-left fs-1 text-success"></i>
+                                <h6 class="mt-2">Devoluciones</h6>
+                                <h3 th:text="${devoluciones}">0</h3>
+                            </div>
+                        </article>
 
-                        <h6 class="mt-2">
-                            Reservas
-                        </h6>
+                        <article class="col-md-4 col-lg">
+                            <div class="border rounded p-3 text-center">
+                                <i class="bi bi-boxes fs-1 text-success"></i>
+                                <h6 class="mt-2">Recursos disponibles</h6>
+                                <h3 th:text="${recursosDisponibles}">0</h3>
+                            </div>
+                        </article>
+                    </div>
+                </section>
 
-                        <h3>
-                            24
-                        </h3>
-
+                <section>
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-bar-chart-line fs-4 text-success"></i>
+                        <div>
+                            <h4 class="fw-bold mb-0">Evolución de indicadores</h4>
+                            <small class="text-muted">Comportamiento de las métricas durante los últimos meses</small>
+                        </div>
                     </div>
 
-                </article>
+                    <div class="row g-4">
+                        <article class="col-lg-6">
+                            <div class="border rounded p-4">
+                                <h5 class="fw-bold"><i class="bi bi-calendar-check text-success me-2"></i>Reservas realizadas</h5>
+                                <div style="height: 300px;"><canvas id="graficoReservas"></canvas></div>
+                            </div>
+                        </article>
 
+                        <article class="col-lg-6">
+                            <div class="border rounded p-4">
+                                <h5 class="fw-bold"><i class="bi bi-box-seam text-success me-2"></i>Préstamos registrados</h5>
+                                <div style="height: 300px;"><canvas id="graficoPrestamos"></canvas></div>
+                            </div>
+                        </article>
 
-                <!-- Préstamos -->
-                <article class="col-md-4 col-lg">
+                        <article class="col-lg-6">
+                            <div class="border rounded p-4">
+                                <h5 class="fw-bold"><i class="bi bi-check-circle text-success me-2"></i>Reservas confirmadas</h5>
+                                <div style="height: 300px;"><canvas id="graficoConfirmadas"></canvas></div>
+                            </div>
+                        </article>
 
-                    <div class="border rounded p-3 text-center">
+                        <article class="col-lg-6">
+                            <div class="border rounded p-4">
+                                <h5 class="fw-bold"><i class="bi bi-arrow-return-left text-success me-2"></i>Devoluciones realizadas</h5>
+                                <div style="height: 300px;"><canvas id="graficoDevoluciones"></canvas></div>
+                            </div>
+                        </article>
 
-                        <i class="bi bi-box-seam fs-1 text-success"></i>
-
-                        <h6 class="mt-2">
-                            Préstamos activos
-                        </h6>
-
-                        <h3>
-                            18
-                        </h3>
-
+                        <article class="col-12">
+                            <div class="border rounded p-4">
+                                <h5 class="fw-bold"><i class="bi bi-boxes text-success me-2"></i>Solicitudes de recursos</h5>
+                                <div style="height: 300px;"><canvas id="graficoRecursos"></canvas></div>
+                            </div>
+                        </article>
                     </div>
-
-                </article>
-
-
-                <!-- Vencidos -->
-                <article class="col-md-4 col-lg">
-
-                    <div class="border rounded p-3 text-center">
-
-                        <i class="bi bi-exclamation-circle fs-1 text-success"></i>
-
-                        <h6 class="mt-2">
-                            Préstamos vencidos
-                        </h6>
-
-                        <h3>
-                            3
-                        </h3>
-
-                    </div>
-
-                </article>
-
-
-                <!-- Devoluciones -->
-                <article class="col-md-4 col-lg">
-
-                    <div class="border rounded p-3 text-center">
-
-                        <i class="bi bi-arrow-return-left fs-1 text-success"></i>
-
-                        <h6 class="mt-2">
-                            Devoluciones
-                        </h6>
-
-                        <h3>
-                            15
-                        </h3>
-
-                    </div>
-
-                </article>
-
-
-                <!-- Recursos -->
-                <article class="col-md-4 col-lg">
-
-                    <div class="border rounded p-3 text-center">
-
-                        <i class="bi bi-boxes fs-1 text-success"></i>
-
-                        <h6 class="mt-2">
-                            Recursos disponibles
-                        </h6>
-
-                        <h3>
-                            32
-                        </h3>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-        <!-- Información del Dashboard -->
-        <section class="row g-4">
-
-
-            <!-- Recursos más solicitados -->
-            <article class="col-md-6">
-
-                <div class="border rounded p-4">
-
-                    <h4 class="fw-bold">
-
-                        <i class="bi bi-star text-success me-2"></i>
-
-                        Recursos más solicitados
-
-                    </h4>
-
-
-                    <!-- Espacio reservado para contenido -->
-
-                    <div class="border rounded p-4 mt-3 text-center">
-
-                        <p class="text-muted mb-0">
-                            Información de recursos más solicitados
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- Uso de espacios -->
-            <article class="col-md-6">
-
-                <div class="border rounded p-4">
-
-                    <h4 class="fw-bold">
-
-                        <i class="bi bi-building text-success me-2"></i>
-
-                        Uso de espacios
-
-                    </h4>
-
-
-                    <!-- Espacio reservado para contenido -->
-
-                    <div class="border rounded p-4 mt-3 text-center">
-
-                        <p class="text-muted mb-0">
-                            Información sobre utilización de espacios
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-            <!-- Estadísticas -->
-            <article class="col-12">
-
-                <div class="border rounded p-4">
-
-                    <h4 class="fw-bold">
-
-                        <i class="bi bi-bar-chart text-success me-2"></i>
-
-                        Estadísticas del periodo
-
-                    </h4>
-
-
-                    <!-- Espacio reservado para gráfico -->
-
-                    <div class="border rounded p-5 mt-3 text-center">
-
-                        <p class="text-muted mb-0">
-                            Área destinada para estadísticas y gráficos
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-        </section>
-
-    </main>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>    
+                </section>
+            </main>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script th:inline="javascript">
+            const meses = /*[[${meses}]]*/ [];
+            const reservas = /*[[${reservasSerie}]]*/ [];
+            const prestamos = /*[[${prestamosSerie}]]*/ [];
+            const confirmadas = /*[[${confirmadasSerie}]]*/ [];
+            const devoluciones = /*[[${devolucionesSerie}]]*/ [];
+            const recursos = /*[[${recursosSerie}]]*/ [];
+
+            function crearGrafico(id, etiqueta, datos) {
+                new Chart(document.getElementById(id), {
+                    type: 'line',
+                    data: {
+                        labels: meses,
+                        datasets: [
+                            {
+                                label: etiqueta,
+                                data: datos,
+                                borderWidth: 3,
+                                tension: 0.3,
+                                fill: false,
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }
+                        ]
+                    },
+
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {display: false}
+                        },
+
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {precision: 0}
+                            }
+                        }
+                    }
+                });
+            }
+
+            crearGrafico('graficoReservas', 'Reservas realizadas', reservas);
+            crearGrafico('graficoPrestamos', 'Préstamos registrados', prestamos);
+            crearGrafico('graficoConfirmadas', 'Reservas confirmadas', confirmadas);
+            crearGrafico('graficoDevoluciones', 'Devoluciones realizadas', devoluciones);
+            crearGrafico('graficoRecursos', 'Solicitudes de recursos', recursos);
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
