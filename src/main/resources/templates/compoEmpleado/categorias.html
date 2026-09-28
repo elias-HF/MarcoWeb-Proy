@@ -25,6 +25,14 @@
                     </button>
                 </div>
 
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="input-group" style="max-width: 400px;">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" id="buscarCategoria" class="form-control" placeholder="Buscar categoría..." onkeyup="filtrarCategorias()">
+                    </div>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarCategoria"><i class="bi bi-plus-lg me-1"></i>Registrar categoría</button>
+                </div>
+
                 <div class="card shadow-sm">
                     <div class="card-header bg-success text-white"> <i class="bi bi-list-ul me-2"></i>Categorías registradas</div>
                     <div class="table-responsive">
@@ -39,44 +47,19 @@
                             </tr>
                             </thead>
 
-                            <tbody>
-                            <tr th:each="categoria : ${categorias}">
+                            <tbody id="tablaCategorias">
+                            <tr th:each="categoria : ${categorias}" class="filaCategoria">
                                 <td>
                                     <i class="bi bi-folder text-success me-2"></i>
                                     <span th:text="${categoria.nombre}"></span>
                                 </td>
                                 <td th:text="${categoria.descripcion}"></td>
-                                <td th:text="${categoria.recurso != null ? 1 : 0}"></td>
-                                <td>
-                                    <span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}"
-                                          th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}">
-                                    </span>
-                                </td>
+                                <td><span class="badge bg-light text-dark" th:text="${categoria.recurso != null ? 1 : 0}"></span></td>
+                                <td><span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}" th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}"></span></td>
                                 <td class="text-center">
-                                    <button type="button"
-                                            class="btn btn-sm btn-outline-success me-1"
-                                            title="Consultar"
-                                            data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#modalConsultar' + ${categoria.id}">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-
                                     <th:block th:if="${categoria.estado}">
-                                        <button type="button"
-                                                class="btn btn-sm btn-outline-primary me-1"
-                                                title="Modificar"
-                                                data-bs-toggle="modal"
-                                                th:attr="data-bs-target='#modalModificar' + ${categoria.id}">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-
-                                        <button type="button"
-                                                class="btn btn-sm btn-outline-danger"
-                                                title="Desactivar"
-                                                data-bs-toggle="modal"
-                                                th:attr="data-bs-target='#modalDesactivar' + ${categoria.id}">
-                                            <i class="bi bi-x-circle"></i>
-                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Modificar" data-bs-toggle="modal" th:attr="data-bs-target='#modalModificar' + ${categoria.id}"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" title="Desactivar" data-bs-toggle="modal" th:attr="data-bs-target='#modalDesactivar' + ${categoria.id}"><i class="bi bi-x-circle"></i></button>
                                     </th:block>
                                 </td>
                             </tr>
@@ -89,6 +72,18 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function filtrarCategorias() {
+                const texto = document.getElementById("buscarCategoria").value.toLowerCase();
+                const filas = document.querySelectorAll(".filaCategoria");
+
+                filas.forEach(fila => {
+                    const nombre = fila.querySelector("td:first-child").textContent.toLowerCase();
+                    if (nombre.includes(texto)) {fila.style.display = "";}
+                    else {fila.style.display = "none";}
+                });
+            }
+        </script>
     </body>
 
     <div class="modal fade" id="modalRegistrarCategoria" tabindex="-1" aria-labelledby="modalRegistrarCategoriaLabel" aria-hidden="true">
@@ -108,12 +103,7 @@
 
                         <div class="mb-3">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea class="form-control"
-                                      id="descripcion"
-                                      name="descripcion"
-                                      rows="3"
-                                      placeholder="Ingrese una descripción"
-                                      required></textarea>
+                            <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="Ingrese una descripción" required></textarea>
                         </div>
                     </div>
 
@@ -221,8 +211,8 @@
                                 <strong th:text="${categoria.nombre}"></strong>?
                             </p>
                             <p class="text-muted mb-0">
-                                La categoría dejará de estar activa,
-                                pero permanecerá registrada en el sistema.
+                                La categoría permanecerá registrada, pero ya no podrá utilizarse
+                                para registrar nuevos recursos.
                             </p>
                         </div>
                         <div class="modal-footer">

@@ -22,7 +22,7 @@ public class prestamoController {
         return "compoEmpleado/prestamos";
     }
 
-    @GetMapping("/empleado/prestamos/guardar")
+    @PostMapping("/empleado/prestamos/guardar")
     public String guardarPrestamo(@RequestParam int idPrestamo, @RequestParam String fechaLimiteDevolucion){
         for (Prestamo prestamo : dataStore.prestamos){
             if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Pendiente")){
@@ -36,7 +36,7 @@ public class prestamoController {
         return "redirect:/empleado/prestamos";
     }
 
-    @GetMapping("/empleado/prestamos/cancelar")
+    @PostMapping("/empleado/prestamos/cancelar")
     public String cancelarPrestamo(@RequestParam int idPrestamo) {
         for (Prestamo prestamo : dataStore.prestamos) {
             if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Pendiente")) {
@@ -47,7 +47,7 @@ public class prestamoController {
         return "redirect:/empleado/prestamos";
     }
 
-    @GetMapping("/empleado/prestamos/devolver")
+    @PostMapping("/empleado/prestamos/devolver")
     public String devolverPrestamo(@RequestParam int idPrestamo, @RequestParam String condicionDevolucion, @RequestParam(required = false) String observacionDevolucion){
         for (Prestamo prestamo : dataStore.prestamos) {
             if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Activo")) {
