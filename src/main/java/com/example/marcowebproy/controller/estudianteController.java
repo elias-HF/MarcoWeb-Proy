@@ -119,6 +119,17 @@ public class estudianteController {
         return "redirect:/estudiante/prestamos";
     }
 
+    @PostMapping("/prestamos/cancelar/{id}")
+    public String cancelarPrestamo(@PathVariable("id") int id) {
+        Prestamo prestamo = dataStore.prestamos.stream().filter(p -> p.getId() == id).findFirst().orElse(null);
+
+        if (prestamo != null && "Pendiente".equalsIgnoreCase(prestamo.getEstado())) {
+            prestamo.setEstado("Cancelado");
+        }
+
+        return "redirect:/estudiante/prestamos";
+    }
+
     @PostMapping("/reservar-espacio/guardar")
     public String guardarReserva(@ModelAttribute("reserva") Reserva reserva) {
         reserva.setEstado("Pendiente");
