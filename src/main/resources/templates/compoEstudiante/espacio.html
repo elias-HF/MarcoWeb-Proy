@@ -12,7 +12,6 @@
         <form th:action="@{/estudiante/reservar-espacio/guardar}" th:object="${reserva}" method="post">
             
             <input type="hidden" th:field="*{espacioAcademico.id}" />
-
             <div class="mb-3">
                 <label for="fechaReserva">Fecha de Reserva:</label>
                 <input type="date" id="fechaReserva" th:field="*{fechaReserva}" class="form-control" required />

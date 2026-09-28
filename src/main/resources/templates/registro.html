@@ -22,9 +22,7 @@
                     <h4 class="fw-bold text-white mb-0">CREAR CUENTA</h4>
                     <small class="text-secondary">Registro de estudiante</small>
                 </div>
-                <!-- FORMULARIO DE REGISTRO -->
                 <form id="formularioRegistro">
-                    <!-- NOMBRE -->
                     <div class="mb-3">
                         <label for="regNombre" class="form-label small text-secondary">Nombre y Apellidos</label>
                         <div class="input-group">
@@ -34,7 +32,6 @@
                             <input type="text" class="form-control bg-dark text-white border-secondary" id="regNombre" placeholder="Ingrese su nombre completo">
                         </div>
                     </div>
-                    <!-- CORREO -->
                     <div class="mb-3">
                         <label for="regEmail" class="form-label small text-secondary">Correo Institucional</label>
                         <div class="input-group">
@@ -44,7 +41,6 @@
                             <input type="email" class="form-control bg-dark text-white border-secondary" id="regEmail" placeholder="estudiante@universidad.edu">
                         </div>
                     </div>
-                    <!-- CONTRASEÑA -->
                     <div class="mb-3">
                         <label for="regPassword" class="form-label small text-secondary">Contraseña</label>
                         <div class="input-group">
@@ -54,7 +50,6 @@
                             <input type="password" class="form-control bg-dark text-white border-secondary" id="regPassword" placeholder="********">
                         </div>
                     </div>
-                    <!-- CONFIRMAR CONTRASEÑA -->
                     <div class="mb-3">
                         <label for="regConfirmarPassword" class="form-label small text-secondary">Confirmar Contraseña</label>
                         <div class="input-group">
@@ -64,14 +59,11 @@
                             <input type="password" class="form-control bg-dark text-white border-secondary" id="regConfirmarPassword" placeholder="********">
                         </div>
                     </div>
-                    <!-- BOTÓN REGISTRO -->
                     <div class="d-grid mt-4">
-
                         <button type="submit" class="btn btn-success fw-bold py-2">
                             <i class="bi bi-person-check-fill me-1"></i>Crear Cuenta
                         </button>
                     </div>
-                    <!-- VOLVER AL LOGIN -->
                     <div class="text-center mt-4">
                         <span class="text-secondary">¿Ya tienes una cuenta?</span>
                         <a th:href="@{/login}" class="text-success fw-bold text-decoration-none">Inicia sesión</a>
