@@ -27,13 +27,13 @@
             <div class="container py-4">
                 <ul class="nav nav-pills mb-4" id="filtroReservas">
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${estadoSeleccionado == null} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas}">Todas</a>
+                        <a class="nav-link" th:classappend="${estadoSeleccionado == null || estadoSeleccionado == ''} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas}">Todas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${estadoSeleccionado == 'PENDIENTE'} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='PENDIENTE')}">Pendientes</a>
+                        <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'Pendiente')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='Pendiente')}">Pendientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${estadoSeleccionado == 'FINALIZADA'} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='FINALIZADA')}">Finalizadas</a>
+                        <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'Finalizada')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='Finalizada')}">Finalizadas</a>
                     </li>
                 </ul>
                 <div class="table-responsive shadow-sm rounded">
@@ -49,15 +49,17 @@
                         </thead>
                         <tbody>
                             <tr th:each="r : ${reservas}">
-                                <td><i class="bi bi-door-open text-success me-2"></i><span th:text="${r.espacioAcademico != null ? r.espacioAcademico.nombre : 'Espacio de Estudio'}"></span></td>
+                                <td><i th:class="${r.espacioAcademico != null} ? 'bi bi-door-open text-success me-2' : 'bi bi-box text-success me-2'"></i>
+                                    <span th:text="${r.espacioAcademico != null ? r.espacioAcademico.nombre : (r.recurso != null ? r.recurso.nombre : 'Espacio de Estudio')}"></span>
+                                </td>
                                 <td th:text="${#temporals.format(r.fechaReserva, 'dd/MM/yyyy')}"></td>
                                 <td th:text="${r.horaInicio + ' - ' + r.horaFin}"></td>
-                                <td class="text-center"><span class="badge" th:classappend="${r.estado == 'PENDIENTE'} ? 'bg-warning text-dark' : (${r.estado == 'FINALIZADA'} ? 'bg-secondary' : 'bg-danger')" th:text="${r.estado}"></span></td>
+                                <td class="text-center"><span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')} ? 'bg-warning text-dark' : (${#strings.equalsIgnoreCase(r.estado, 'Confirmada')} ? 'bg-success' : 'bg-secondary')" th:text="${r.estado}"></span></td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-sm btn-outline-danger" th:if="${r.estado == 'PENDIENTE'}">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" th:if="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}">
                                         <i class="bi bi-x-circle me-1"></i>Cancelar
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${r.estado == 'PENDIENTE'}">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}">
                                         <i class="bi bi-eye me-1"></i>Ver Detalle
                                     </button>
                                 </td>

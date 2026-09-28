@@ -75,7 +75,7 @@ public class DataStore {
 
         reservas.add(new Reserva(
                 3, null, LocalDate.of(2026, 8, 31),
-                "09:00", "11:00", "Rechazada",
+                "09:00", "11:00", "Cancelada",
                 LocalDateTime.of(2026, 8, 31, 9, 0), LocalDateTime.of(2026, 8, 31, 11, 0), recursos.get(0),
                 estudiantes.get(2), "El recurso ya se encuentra reservado en el horario solicitado."
         ));
