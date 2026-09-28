@@ -6,7 +6,7 @@ public class Estudiante {
     private String nombre;
     private String apellido;
     private String correo;
-    private String contraseña;
+    private String password;
     private String carrera;
     private boolean estado;
 
@@ -15,13 +15,13 @@ public class Estudiante {
 
     public Estudiante() {}
 
-    public Estudiante(int id, String codigoEstudiante, String nombre, String apellido, String correo, String contraseña, String carrera, boolean estado, int demeritos, int puntajeMerito) {
+    public Estudiante(int id, String codigoEstudiante, String nombre, String apellido, String correo, String password, String carrera, boolean estado, int demeritos, int puntajeMerito) {
         this.id = id;
         this.codigoEstudiante = codigoEstudiante;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.password = password;
         this.carrera = carrera;
         this.estado = estado;
         this.demeritos = demeritos;
@@ -43,8 +43,8 @@ public class Estudiante {
     public String getCorreo() {return correo;}
     public void setCorreo(String correo) {this.correo = correo;}
 
-    public String getContraseña() {return contraseña;}
-    public void setContraseña(String contraseña) {this.contraseña = contraseña;}
+    public String getPassword() {return password;}
+    public void setPassword(String password) {this.password = password;}
 
     public String getCarrera() {return carrera;}
     public void setCarrera(String carrera) {this.carrera = carrera;}
