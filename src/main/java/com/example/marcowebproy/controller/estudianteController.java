@@ -96,7 +96,7 @@ public class estudianteController {
         reserva.setEspacioAcademico(espacio);
         model.addAttribute("reserva", reserva);
 
-        return "compoEstudiante/reservar-espacio";
+        return "compoEstudiante/espacio";
     }
 
     @PostMapping("/prestamos/guardar")
@@ -132,11 +132,27 @@ public class estudianteController {
 
     @PostMapping("/reservar-espacio/guardar")
     public String guardarReserva(@ModelAttribute("reserva") Reserva reserva) {
-        reserva.setEstado("Pendiente");
+        if (reserva.getEspacioAcademico() != null && reserva.getEspacioAcademico().getId() != 0) {
+            int idEspacio = reserva.getEspacioAcademico().getId();
+            EspacioAcademico espacioCompleto = dataStore.espacios.stream().filter(e -> e.getId() == idEspacio).findFirst().orElse(null);
+            reserva.setEspacioAcademico(espacioCompleto);
+        }
 
         reserva.setId(dataStore.reservas.size() + 1);
+        reserva.setEstado("Pendiente");
         dataStore.reservas.add(reserva);
 
+        return "redirect:/estudiante/reservas";
+    }
+
+    @GetMapping("/reservas/cancelar/{id}")
+    public String cancelarReserva(@PathVariable("id") int id) {
+        for (Reserva r : dataStore.reservas) {
+            if (r.getId() == id) {
+                r.setEstado("Cancelada");
+                break;
+            }
+        }
         return "redirect:/estudiante/reservas";
     }
 }

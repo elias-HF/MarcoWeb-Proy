@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservar Espacio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/sidebar.css}">
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Reservar Espacio Académico</h2>
-
-        <form th:action="@{/estudiante/reservar-espacio/guardar}" th:object="${reserva}" method="post">
-            
-            <input type="hidden" th:field="*{espacioAcademico.id}" />
-            <div class="mb-3">
-                <label for="fechaReserva">Fecha de Reserva:</label>
-                <input type="date" id="fechaReserva" th:field="*{fechaReserva}" class="form-control" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="horaInicio">Hora de Inicio:</label>
-                <input type="time" id="horaInicio" th:field="*{horaInicio}" class="form-control" required />
-            </div>
-
-            <div class="mb-3">
-                <label for="horaFin">Hora de Fin:</label>
-                <input type="time" id="horaFin" th:field="*{horaFin}" class="form-control" required />
-            </div>
-
-            <button type="submit" class="btn btn-success">Confirmar Reserva</button>
-            <a th:href="@{/estudiante/reservas}" class="btn btn-secondary">Cancelar</a>
-        </form>
-    </div>
+    <div th:replace="~{fragments/fragmentEstudiante :: header}"></div>
+    <main class="container py-5">
+        <div class="container mt-4">
+            <h2>Reservar Espacio Académico</h2>
+            <form th:action="@{/estudiante/reservar-espacio/guardar}" th:object="${reserva}" method="post">
+                <input type="hidden" th:field="*{espacioAcademico.id}" />
+                <div class="mb-3">
+                    <label for="fechaReserva">Fecha de Reserva:</label>
+                    <input type="date" id="fechaReserva" th:field="*{fechaReserva}" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="horaInicio">Hora de Inicio:</label>
+                    <input type="time" id="horaInicio" th:field="*{horaInicio}" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="horaFin">Hora de Fin:</label>
+                    <input type="time" id="horaFin" th:field="*{horaFin}" class="form-control" required />
+                </div>
+                <button type="submit" class="btn btn-success">Confirmar Reserva</button>
+                <a th:href="@{/estudiante/reservas}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </main>
+    <div th:replace="~{fragments/fragmentEstudiante :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
