@@ -1,61 +1,40 @@
 package com.example.marcowebproy.model;
 
 public class EspacioAcademico {
-
     private int id;
     private String nombre;
+    private String tipo;
     private String ubicacion;
     private int capacidad;
-    private boolean disponible;
+    private boolean estado;
 
     public EspacioAcademico() {
     }
 
-    public EspacioAcademico(int id, String nombre, String ubicacion, int capacidad, boolean disponible) {
+    public EspacioAcademico(int id,  String nombre, String tipo,String ubicacion, int capacidad, boolean estado) {
         this.id = id;
-        this.nombre = nombre;
-        this.ubicacion = ubicacion;
+        this.estado = estado;
         this.capacidad = capacidad;
-        this.disponible = disponible;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
+        this.ubicacion = ubicacion;
+        this.tipo = tipo;
         this.nombre = nombre;
     }
 
-    public String getUbicacion() {
-        return ubicacion;
-    }
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
+    public boolean isEstado() {return estado;}
+    public void setEstado(boolean estado) {this.estado = estado;}
 
-    public int getCapacidad() {
-        return capacidad;
-    }
+    public int getCapacidad() {return capacidad;}
+    public void setCapacidad(int capacidad) {this.capacidad = capacidad;}
 
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
-    }
+    public String getUbicacion() {return ubicacion;}
+    public void setUbicacion(String ubicacion) {this.ubicacion = ubicacion;}
 
-    public boolean isDisponible() {
-        return disponible;
-    }
+    public String getNombre() {return nombre;}
+    public void setNombre(String nombre) {this.nombre = nombre;}
 
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
+    public String getTipo() {return tipo;}
+    public void setTipo(String tipo) {this.tipo = tipo;}
 }

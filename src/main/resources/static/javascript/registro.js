@@ -10,7 +10,6 @@ const mensaje = document.getElementById("mensajeRegistro");
 formularioRegistro.addEventListener("submit", function(event) {
 
     event.preventDefault();
-
     mensaje.textContent = "";
 
     if (nombre.value.trim() === "") {

@@ -5,6 +5,8 @@ import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.model.Recurso;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -46,5 +48,13 @@ public class recursoController {
         if (recurso != null) {recurso.setActivo(false);}
 
         return "redirect:/empleado/recursos";
+    }
+
+    @GetMapping("/empleado/recursos")
+    public String mostrarRecursos(Model model) {
+        model.addAttribute("recursos", dataStore.recursos);
+        model.addAttribute("categorias", dataStore.categorias);
+
+        return "compoEmpleado/recursos";
     }
 }
