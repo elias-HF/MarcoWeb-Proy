@@ -4,6 +4,7 @@ import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.data.DataStore;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,6 +13,13 @@ public class categoriaControlller {
     private final DataStore dataStore;
 
     public categoriaControlller(DataStore dataStore) {this.dataStore = dataStore;}
+
+    @GetMapping("/empleado/categorias")
+    public String categorias(Model model) {
+        model.addAttribute("categorias", dataStore.categorias);
+
+        return "compoEmpleado/categorias";
+    }
 
     @PostMapping("/empleado/categorias/guardar")
     public String guardarCategoria(@RequestParam String nombre, @RequestParam String descripcion){
