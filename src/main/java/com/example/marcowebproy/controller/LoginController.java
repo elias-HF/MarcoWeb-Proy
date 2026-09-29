@@ -16,25 +16,33 @@ public class LoginController {
     private final DataStore dataStore;
 
     public LoginController(DataStore dataStore){
-        this.dataStore=dataStore;
+        this.dataStore = dataStore;
     }
 
     @GetMapping("/login")
-    public String mostrarLogin() {
+    public String mostrarLogin(@RequestParam(value = "error", required = false) String error, Model model) {
+      
+        if (error != null) {
+            model.addAttribute("error", "Correo o contraseña incorrectos.");
+        }
         return "login";
     }
 
     @PostMapping("/login")
-    public String procesarLogin(@RequestParam("email") String email, @RequestParam("password") String password, Model model){
-        Optional<Estudiante> estudiante = dataStore.estudiantes.stream().filter(e -> e.getCorreo().equalsIgnoreCase(email) && e.getPassword().equals(password)).findFirst();
+    public String procesarLogin(@RequestParam("email") String email, @RequestParam("password") String password){
+        Optional<Estudiante> estudiante = dataStore.estudiantes.stream()
+                .filter(e -> e.getCorreo().equalsIgnoreCase(email) && e.getPassword().equals(password))
+                .findFirst();
+        
         if(estudiante.isPresent()){
             return "redirect:/estudiante";
         }
         if(email.endsWith("@empleado.edu.pe") || email.contains("empleado")){
             return "redirect:/empleado";
         }
-        model.addAttribute("error", "Correo o contraseña incorrectos.");
-        return "login";
+        
+     
+        return "redirect:/login?error=true";
     }
 
     @GetMapping("/registro")
