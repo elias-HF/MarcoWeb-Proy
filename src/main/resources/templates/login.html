@@ -26,16 +26,19 @@
                         <small class="text-secondary">Gestión de Reservas y Préstamos</small>
                     </div>
 
+                    <div th:if="${error}" class="alert alert-danger py-2 mb-3" role="alert">
+                        <span th:text="${error}"></span>
+                    </div>
+
                     <form th:action="@{/login}" method="post">
-                        
-                        <!-- Campo de Correo Institucional -->
+
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label small text-secondary">Correo Institucional</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-dark border-secondary text-success">
                                     <i class="bi bi-envelope"></i>
                                 </span>
-                                <input type="email" name="username" class="form-control bg-dark text-white border-secondary" id="loginEmail" placeholder="usuario@universidad.edu" required>
+                                <input type="email" name="email" class="form-control bg-dark text-white border-secondary" id="loginEmail" placeholder="usuario@universidad.edu" required>
                             </div>
                         </div>
 
@@ -74,7 +77,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script th:src="@{/javascript/login.js}"></script>
 </body>
