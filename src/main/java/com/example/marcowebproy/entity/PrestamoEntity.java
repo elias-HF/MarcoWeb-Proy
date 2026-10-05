@@ -2,9 +2,13 @@ package com.example.marcowebproy.entity;
 
 import com.example.marcowebproy.model.Estudiante;
 import com.example.marcowebproy.model.Recurso;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "prestamo")
 public class PrestamoEntity {
 
     private int id;

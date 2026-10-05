@@ -3,10 +3,14 @@ package com.example.marcowebproy.entity;
 import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.model.Estudiante;
 import com.example.marcowebproy.model.Recurso;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "reserva")
 public class ReservaEntity {
 
     private int id;

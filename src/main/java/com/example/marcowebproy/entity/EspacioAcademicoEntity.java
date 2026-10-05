@@ -1,5 +1,11 @@
 package com.example.marcowebproy.entity;
 
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "espacioAcademico")
 public class EspacioAcademicoEntity {
 
     private int id;

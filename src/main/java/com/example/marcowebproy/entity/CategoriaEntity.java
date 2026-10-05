@@ -1,7 +1,11 @@
 package com.example.marcowebproy.entity;
 
 import com.example.marcowebproy.model.Recurso;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "categoria")
 public class CategoriaEntity {
 
     private int id;
