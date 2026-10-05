@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class recursoController {
+public class RecursoController {
     private final DataStore dataStore;
 
-    public recursoController(DataStore dataStore) {this.dataStore = dataStore;}
+    public RecursoController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @PostMapping("/empleado/recursos/guardar")
     public String guardarRecurso(@RequestParam String nombre, @RequestParam int categoriaId, @RequestParam String ubicacion, @RequestParam String condicionFisica, @RequestParam String icono) {

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDate;
 
 @Controller
-public class prestamoController {
+public class PrestamoController {
     private final DataStore dataStore;
-    public prestamoController(DataStore dataStore) {this.dataStore = dataStore;}
+    public PrestamoController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/empleado/prestamos")
     public String mostrarPrestamo(Model model) {

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class espacioController {
+public class EspacioController {
     private final DataStore dataStore;
-    public espacioController(DataStore dataStore) {this.dataStore = dataStore;}
+    public EspacioController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/empleado/espacios")
     public String mostrarEspacios(Model model) {

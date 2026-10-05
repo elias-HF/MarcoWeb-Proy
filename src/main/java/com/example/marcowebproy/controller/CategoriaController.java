@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class categoriaControlller {
+public class CategoriaController {
     private final DataStore dataStore;
 
-    public categoriaControlller(DataStore dataStore) {this.dataStore = dataStore;}
+    public CategoriaController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/empleado/categorias")
     public String categorias(Model model) {

@@ -6,9 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class dashboardController {
+public class DashboardController {
     private final DataStore dataStore;
-    public dashboardController(DataStore dataStore) {this.dataStore = dataStore;}
+    public DashboardController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/empleado")
     public String redireccionarDashboard() {return "redirect:/empleado/dashboard";}

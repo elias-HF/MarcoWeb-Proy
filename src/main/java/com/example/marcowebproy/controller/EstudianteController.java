@@ -9,17 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/estudiante")
-public class estudianteController {
+public class EstudianteController {
     private final DataStore dataStore;
 
-    public estudianteController(DataStore dataStore){this.dataStore= dataStore;}
+    public EstudianteController(DataStore dataStore){this.dataStore= dataStore;}
 
     @GetMapping("")
     public String estudiante() {return "compoEstudiante/estudiante";}

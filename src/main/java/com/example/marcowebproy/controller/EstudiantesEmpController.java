@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/empleado")
-public class estudiantesEmpController {
+public class EstudiantesEmpController {
     private final DataStore dataStore;
 
-    public estudiantesEmpController(DataStore dataStore) {this.dataStore = dataStore;}
+    public EstudiantesEmpController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/estudiantes")
     public String mostrarEstudiantes(Model model) {

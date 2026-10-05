@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-public class reservaController {
+public class ReservaController {
     private final DataStore dataStore;
-    public reservaController(DataStore dataStore) {this.dataStore = dataStore;}
+    public ReservaController(DataStore dataStore) {this.dataStore = dataStore;}
 
     @GetMapping("/empleado/reservas")
     public String listarReservas(@RequestParam(required = false) String busqueda, @RequestParam(required = false) String estado, @RequestParam(required = false) String fecha, Model model) {
