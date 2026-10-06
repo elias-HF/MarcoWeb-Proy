@@ -1,16 +1,17 @@
 package com.example.marcowebproy.entity;
 
-import com.example.marcowebproy.model.Recurso;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categoria")
 public class CategoriaEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombre;
     private String descripcion;
-    private Recurso recurso;
+    @ManyToOne
+    @JoinColumn(name = "recurso_id")
+    private RecursoEntity recurso;
     private boolean estado;
 }

@@ -1,10 +1,8 @@
 package com.example.marcowebproy.entity;
 
-import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.model.Estudiante;
 import com.example.marcowebproy.model.Recurso;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,9 +10,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reserva")
 public class ReservaEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private EspacioAcademico espacioAcademico;
+    @OneToOne
+    @JoinColumn(name = "espacio_id")
+    private EspacioAcademicoEntity espacioAcademico;
     private LocalDate fechaReserva;
     private String horaInicio;
     private String horaFin;

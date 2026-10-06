@@ -1,12 +1,12 @@
 package com.example.marcowebproy.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "estudiante")
 public class EstudianteEntity {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String codigoEstudiante;
     private String nombre;
