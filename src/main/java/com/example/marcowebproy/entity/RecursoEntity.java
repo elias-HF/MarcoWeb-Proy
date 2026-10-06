@@ -1,6 +1,5 @@
 package com.example.marcowebproy.entity;
 
-import com.example.marcowebproy.model.Categoria;
 import jakarta.persistence.*;
 
 
@@ -12,7 +11,7 @@ public class RecursoEntity {
     private int id;
     private String icono;
     private String nombre;
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     private CategoriaEntity categoria;
     private String ubicacion;

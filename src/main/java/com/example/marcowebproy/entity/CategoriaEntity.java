@@ -10,8 +10,5 @@ public class CategoriaEntity {
     private int id;
     private String nombre;
     private String descripcion;
-    @ManyToOne
-    @JoinColumn(name = "recurso_id")
-    private RecursoEntity recurso;
     private boolean estado;
 }

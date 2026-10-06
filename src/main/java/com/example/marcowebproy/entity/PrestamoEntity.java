@@ -1,6 +1,5 @@
 package com.example.marcowebproy.entity;
 
-import com.example.marcowebproy.model.Estudiante;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,6 +18,8 @@ public class PrestamoEntity {
     private LocalDate fechaDevolucion;
     private String estado;
     private String observacionDevolucion;
-    private Estudiante estudiante;
+    @ManyToOne
+    @JoinColumn(name = "estudiante_id")
+    private EstudianteEntity estudiante;
     private String condicionDevolucion;
 }

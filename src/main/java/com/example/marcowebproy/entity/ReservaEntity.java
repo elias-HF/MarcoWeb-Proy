@@ -1,9 +1,6 @@
 package com.example.marcowebproy.entity;
 
-import com.example.marcowebproy.model.Estudiante;
-import com.example.marcowebproy.model.Recurso;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,7 +21,10 @@ public class ReservaEntity {
 
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
-
-    private Recurso recurso;
-    private Estudiante estudiante;
+    @ManyToOne
+    @JoinColumn(name = "recurso_id")
+    private RecursoEntity recurso;
+    @ManyToOne
+    @JoinColumn(name = "estudiante_id")
+    private EstudianteEntity estudiante;
 }
