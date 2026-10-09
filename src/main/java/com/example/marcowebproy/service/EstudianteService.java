@@ -31,16 +31,25 @@ public class EstudianteService {
     private final ReservaAdapter reservaAdapter = new ReservaAdapter();
     private final PrestamoAdapter prestamoAdapter = new PrestamoAdapter();
 
+    public EstudianteService(RecursoRepository recursoRepository, EspacioAcademicoRepository espacioRepository, CategoriaRepository categoriaRepository, ReservaRepository reservaRepository, PrestamoRepository prestamoRepository, EstudianteRepository estudianteRepository) {
+        this.recursoRepository = recursoRepository;
+        this.espacioRepository = espacioRepository;
+        this.categoriaRepository = categoriaRepository;
+        this.reservaRepository = reservaRepository;
+        this.prestamoRepository = prestamoRepository;
+        this.estudianteRepository = estudianteRepository;
+    }
+
     public List<Recurso> buscarRecurso(String query, Integer categoriaId){
         List<RecursoEntity> entidades = recursoRepository.findAll().stream().filter(RecursoEntity::isActivo).collect(Collectors.toList());
 
-        if(query != null && !query.trim().isEmpy()){
+        if(query != null && !query.trim().isEmpty()){
             String q = query.toLowerCase().trim();
             entidades = entidades.stream().filter(r -> (r.getNombre() != null && r.getNombre().toLowerCase().contains(q))
-                    || (r.getUbicacion() != null && r.getUbicacion().toLowerCase.contains(q))).collect(Collectors.toList());
+                    || (r.getUbicacion() != null && r.getUbicacion().toLowerCase().contains(q))).collect(Collectors.toList());
         }
         if(categoriaId != null && categoriaId >0){
-            entidades = entidades.stream().filter(r -> r.getCategoria() == categoriaId).collect(Collectors.toList());
+            entidades = entidades.stream().filter(r -> r.getCategoria().getId() == categoriaId).collect(Collectors.toList());
         }
 
         return entidades.stream().map(recursoAdapter::toModel).collect(Collectors.toList());
@@ -55,7 +64,7 @@ public class EstudianteService {
         if(query != null && !query.isEmpty()){
             String q = query.toLowerCase().trim();
             entidades = entidades.stream().filter(e -> (e.getNombre() != null && e.getNombre().toLowerCase().contains(q))
-                    || (e.getUbicacion() != null && e.getUbicacion().toLowerCase.contains(q))).collect(Collectors.toList());
+                    || (e.getUbicacion() != null && e.getUbicacion().toLowerCase().contains(q))).collect(Collectors.toList());
         }
         return entidades.stream().map(espacioAdapter::toModel).collect(Collectors.toList());
     }
@@ -64,12 +73,12 @@ public class EstudianteService {
         return categoriaRepository.findAll().stream().map(categoriaAdapter::toModel).collect(Collectors.toList());
     }
 
-    public List<Reservas> lisarReservas(String estado){
+    public List<Reserva> lisarReservas(String estado){
         List<ReservaEntity> reservas = reservaRepository.findAll();
-        if(estado != null && !estado.trim().isEmpy()){
+        if(estado != null && !estado.trim().isEmpty()){
             reservas = reservas.stream().filter(r -> r.getEstado() != null && r.getEstado().equalsIgnoreCase(estado)).collect(Collectors.toList());
         }
-        return reservas.stream().map(reservaAdapter::toModel).collect(Collerctors.toList());
+        return reservas.stream().map(reservaAdapter::toModel).collect(Collectors.toList());
     }
 
     public Reserva obtenerReservasPorEspacioId(int idEspacio){
@@ -105,7 +114,7 @@ public class EstudianteService {
     }
 
     public List<Prestamo> listarPrestamos(){
-        return prestamoRepository.findAll().stream().map(prestamoAdapter::toModel).collect(Colletors.toList());
+        return prestamoRepository.findAll().stream().map(prestamoAdapter::toModel).collect(Collectors.toList());
     }
 
     public Map<String, Long> obtenerEstadisticasPrestamos(){
