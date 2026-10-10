@@ -9,6 +9,7 @@ import com.example.marcowebproy.service.EstudianteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -74,7 +75,9 @@ public class EstudianteController {
 
     @GetMapping("/reservar-espacio/{id}")
     public String mostrarFormularioReserva(@PathVariable("id") int idEspacio, Model model) {
-        model.addAttribute("reserva", estudianteService.obtenerReservasPorEspacioId(idEspacio));
+        Reserva reserva = estudianteService.obtenerReservasPorEspacioId(idEspacio);
+        model.addAttribute("reserva", reserva);
+        model.addAttribute("horariosPermitidos", estudianteService.obtenerHorariosDisponibles());
         return "compoEstudiante/espacio";
     }
 
@@ -91,8 +94,15 @@ public class EstudianteController {
     }
 
     @PostMapping("/reservar-espacio/guardar")
-    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva) {
-        estudianteService.guardarReserva(reserva);
+    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes) {
+        try{
+            estudianteService.guardarReserva(reserva);
+            redirectAttributes.addFlashAttribute("mensajeExito","Reserva realizada con exito.");
+        }catch (IllegalStateException | IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+            return "redirect:/estudiante/reservar-espacio/" + reserva.getEspacioAcademico().getId();
+        }
+
         return "redirect:/estudiante/reservas";
     }
 

@@ -90,13 +90,34 @@ public class EstudianteService {
         return reserva;
     }
 
+    public List<String> obtenerHorariosDisponibles(){
+        return List.of("08:00 - 10:00","10:00 - 12:00","12:00 - 14:00","14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00");
+    }
+
     public void guardarReserva(Reserva reserva){
-        ReservaEntity entity = new ReservaEntity();
-        if(reserva.getEspacioAcademico() != null && reserva.getEspacioAcademico().getId() != 0){
-            EspacioAcademicoEntity espacioEntity = espacioRepository.findById(reserva.getEspacioAcademico().getId()).orElse(null);
-            entity.setEspacioAcademico(espacioEntity);
+
+        if(reserva.getEspacioAcademico() == null || reserva.getEspacioAcademico().getId() == 0){
+            throw new IllegalArgumentException("Debe Seleccionar un espacio academico valido.");
         }
-        entity.setFechaReserva(reserva.getFechaReserva() != null ? reserva.getFechaReserva() : LocalDate.now());
+
+        int espacioId = reserva.getEspacioAcademico().getId();
+        LocalDate fecha = reserva.getFechaReserva() != null ? reserva.getFechaReserva() : LocalDate.now();
+
+        if(fecha.isBefore((LocalDate.now()))){
+            throw new IllegalArgumentException("No se puede reservar en un fecha pasada.");
+        }
+
+        List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(espacioId,fecha,List.of("Cancelada","Rechazada"));
+        boolean ocupado = reservasExistentes.stream().anyMatch(r -> r.getHoraInicio().equals(reserva.getHoraInicio()) || r.getHoraFin().equals(reserva.getHoraFin()));
+
+        if(ocupado){
+            throw new IllegalStateException("El espacio ya se encuentra reservado en el horario seleccionado.");
+        }
+
+        ReservaEntity entity = new ReservaEntity();
+        EspacioAcademicoEntity espacioEntity = espacioRepository.findById(espacioId).orElse(null);
+        entity.setEspacioAcademico(espacioEntity);
+        entity.setFechaReserva(fecha);
         entity.setHoraInicio(reserva.getHoraInicio());
         entity.setHoraFin(reserva.getHoraFin());
         entity.setEstado("Pendiente");
@@ -154,5 +175,7 @@ public class EstudianteService {
            }
         });
     }
+
+
 
 }
