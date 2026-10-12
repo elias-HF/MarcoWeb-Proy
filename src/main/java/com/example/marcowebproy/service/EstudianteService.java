@@ -7,6 +7,7 @@ import com.example.marcowebproy.entity.RecursoEntity;
 import com.example.marcowebproy.entity.ReservaEntity;
 import com.example.marcowebproy.model.*;
 import com.example.marcowebproy.repository.*;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,6 +41,7 @@ public class EstudianteService {
         this.estudianteRepository = estudianteRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Recurso> buscarRecurso(String query, Integer categoriaId){
         List<RecursoEntity> entidades = recursoRepository.findAll().stream().filter(RecursoEntity::isActivo).collect(Collectors.toList());
 
@@ -55,6 +57,7 @@ public class EstudianteService {
         return entidades.stream().map(recursoAdapter::toModel).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<EspacioAcademico> buscarEspacio(String query, Integer categoriaId){
         if(categoriaId != null && categoriaId > 0){
             return List.of();
@@ -69,10 +72,12 @@ public class EstudianteService {
         return entidades.stream().map(espacioAdapter::toModel).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<Categoria> listarCategorias(){
         return categoriaRepository.findAll().stream().map(categoriaAdapter::toModel).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<Reserva> lisarReservas(String estado){
         List<ReservaEntity> reservas = reservaRepository.findAll();
         if(estado != null && !estado.trim().isEmpty()){
@@ -81,6 +86,7 @@ public class EstudianteService {
         return reservas.stream().map(reservaAdapter::toModel).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Reserva obtenerReservasPorEspacioId(int idEspacio){
         Reserva reserva = new Reserva();
         EspacioAcademicoEntity espacioEntity = espacioRepository.findById(idEspacio).orElse(null);
@@ -90,10 +96,12 @@ public class EstudianteService {
         return reserva;
     }
 
+    @Transactional(readOnly = true)
     public List<String> obtenerHorariosDisponibles(){
         return List.of("08:00 - 10:00","10:00 - 12:00","12:00 - 14:00","14:00 - 16:00", "16:00 - 18:00", "18:00 - 20:00");
     }
 
+    @Transactional
     public void guardarReserva(Reserva reserva){
 
         if(reserva.getEspacioAcademico() == null || reserva.getEspacioAcademico().getId() == 0){
@@ -127,6 +135,7 @@ public class EstudianteService {
         reservaRepository.save(entity);
     }
 
+    @Transactional
     public void cancelarReserva(int idReserva){
         reservaRepository.findById(idReserva).ifPresent(reserva ->{
            reserva.setEstado("Cancelada");
@@ -134,10 +143,12 @@ public class EstudianteService {
         });
     }
 
+    @Transactional(readOnly = true)
     public List<Prestamo> listarPrestamos(){
         return prestamoRepository.findAll().stream().map(prestamoAdapter::toModel).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Long> obtenerEstadisticasPrestamos(){
         List<PrestamoEntity> listaP = prestamoRepository.findAll();
         Map<String, Long> stats = new HashMap<>();
@@ -150,6 +161,7 @@ public class EstudianteService {
         return stats;
     }
 
+    @Transactional
     public void guardarPrestamo(int recursoId, String fechaDevolucionStr, String observacion){
         PrestamoEntity nuevo = new PrestamoEntity();
 
@@ -167,6 +179,7 @@ public class EstudianteService {
         prestamoRepository.save(nuevo);
     }
 
+    @Transactional
     public void cancelarPrestamo(int idPrestamo){
         prestamoRepository.findById(idPrestamo).ifPresent(prestamo -> {
            if("Pendiente".equalsIgnoreCase(prestamo.getEstado())){
