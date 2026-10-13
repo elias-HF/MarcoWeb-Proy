@@ -163,16 +163,25 @@ public class EstudianteService {
 
     @Transactional
     public void guardarPrestamo(int recursoId, String fechaDevolucionStr, String observacion){
-        PrestamoEntity nuevo = new PrestamoEntity();
+        RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra Disponible."));
 
-        RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElse(null);
-        nuevo.setRecurso(recursoEntity);
-        nuevo.setFechaPrestamo(LocalDate.now());
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaLimite = null;
 
         if(fechaDevolucionStr != null && !fechaDevolucionStr.isEmpty()){
-            nuevo.setFechaLimiteDevolucion(LocalDate.parse(fechaDevolucionStr));
+            fechaLimite = LocalDate.parse(fechaDevolucionStr);
         }
 
+        if(fechaLimite == null || fechaLimite.isBefore(fechaActual)){
+            throw new IllegalArgumentException("No se puede registrar un prestamo con una fecha anterior a la actual.");
+        }
+        recursoEntity.setDisponibilidad("No disponible");
+        recursoRepository.save(recursoEntity);
+
+        PrestamoEntity nuevo = new PrestamoEntity();
+        nuevo.setRecurso(recursoEntity);
+        nuevo.setFechaPrestamo(fechaActual);
+        nuevo.setFechaLimiteDevolucion(fechaLimite);
         nuevo.setEstado("Pendiente");
         nuevo.setObservacionDevolucion(observacion);
         estudianteRepository.findAll().stream().findFirst().ifPresent(nuevo::setEstudiante);

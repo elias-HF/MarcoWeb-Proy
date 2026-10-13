@@ -86,7 +86,7 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label fw-semibold">Fecha Límite de Devolución</label>
-                                                <input type="date" name="fechaDevolucion" class="form-control" required>
+                                                <input type="date" name="fechaLimiteDevolucion" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
                                             </div>
 
                                             <div class="mb-3">

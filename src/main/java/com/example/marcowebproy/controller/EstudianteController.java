@@ -82,8 +82,8 @@ public class EstudianteController {
     }
 
     @PostMapping("/prestamos/guardar")
-    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaDevolucion") String fechaDevolucionStr, @RequestParam(value = "observacion", required = false) String observacion) {
-        estudianteService.guardarPrestamo(recursoId, fechaDevolucionStr, observacion);
+    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion) {
+        estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion);
         return "redirect:/estudiante/prestamos";
     }
 
