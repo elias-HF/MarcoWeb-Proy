@@ -4,7 +4,7 @@ package com.example.marcowebproy.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "espacioAcademico")
+@Table(name = "espacio_academico")
 public class EspacioAcademicoEntity {
 
     @Id

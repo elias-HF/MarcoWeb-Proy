@@ -1,18 +1,46 @@
 
-INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (1, 'Tecnologia', 'Equipos de computo y multimedia', true);
-INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (2, 'Salas de Estudio', 'Espacios grupales e individuales', true);
+INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (1, 'Tecnología', 'Laptops, cámaras y proyectores multimedia', true);
+INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (2, 'Salas de Estudio', 'Cubículos y salas grupales equipadas', true);
+INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (3, 'Material Bibliográfico', 'Libros de ingeniería, bases de datos y redes', true);
+
+INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, contrasena, rol)
+VALUES (1, 'EMP001', 'Carlos', 'Mendoza', 'carlos.mendoza@utp.edu.pe', 'admin123', 'ADMINISTRADOR');
+
+INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, contrasena, rol)
+VALUES (2, 'EMP002', 'Lucía', 'Fernández', 'lucia.fernandez@utp.edu.pe', 'soporte123', 'ASISTENTE');
 
 INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (1, 'U20251234', 'Juan', 'Perez', 'juanPerez@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 20);
+VALUES (1, 'U20251234', 'Juan', 'Pérez', 'u20251234@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 100);
 
-INSERT INTO recurso (id, icono, nombre, ubicacion, disponibilidad, condicion_fisica, activo, categoria_id)
-VALUES (1, 'bi-laptop', 'Laptop Core i7', 'Biblioteca - Módulo 2', 'Disponible', 'Excelente', true, 1);
+INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
+VALUES (2, 'U20255678', 'María', 'Gómez', 'u20255678@utp.edu.pe', '123456', 'Ingeniería de Software', true, 1, 95);
 
-INSERT INTO recurso (id, icono, nombre, ubicacion, disponibilidad, condicion_fisica, activo, categoria_id)
-VALUES (2, 'bi-camera-video', 'Cámara Sony 4K', 'Multimedia - Piso 3', 'Disponible', 'Bueno', true, 1);
-
-INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
-VALUES (1, 'Laboratorio de Redes 101', 'Laboratorio', 'Pabellan A - Piso 1', 25, true);
+INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
+VALUES (3, 'U20259012', 'Alexander', 'Huamán', 'u20259012@utp.edu.pe', '123456', 'Ingeniería de Redes y Comunicaciones', true, 0, 100);
 
 INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
-VALUES (2, 'Sala de Estudio Grupal 03', 'Sala', 'Biblioteca - Piso 2', 6, true);
+VALUES (1, 'Laboratorio de Redes 101', 'Laboratorio', 'Pabellón A - Piso 1', 25, true);
+
+INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
+VALUES (2, 'Sala de Estudio Grupal 03', 'Sala', 'Biblioteca Central - Piso 2', 6, true);
+
+INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
+VALUES (3, 'Auditorio Principal', 'Auditorio', 'Pabellón B - Planta Baja', 120, true);
+
+INSERT INTO recurso (id, icono, nombre, categoria_id, ubicacion, disponibilidad, condicion_fisica, activo)
+VALUES (1, 'bi-laptop', 'Laptop Core i7 - Dell', 1, 'Biblioteca - Módulo 2', 'Disponible', 'Excelente', true);
+
+INSERT INTO recurso (id, icono, nombre, categoria_id, ubicacion, disponibilidad, condicion_fisica, activo)
+VALUES (2, 'bi-camera-video', 'Cámara Sony 4K Profesional', 1, 'Multimedia - Piso 3', 'Disponible', 'Bueno', true);
+
+INSERT INTO recurso (id, icono, nombre, categoria_id, ubicacion, disponibilidad, condicion_fisica, activo)
+VALUES (3, 'bi-projector', 'Proyector Epson PowerLite', 1, 'Almacén Central', 'En Mantenimiento', 'Regular', true);
+
+INSERT INTO reserva (espacio_id, fecha_reserva, hora_inicio, hora_fin, estado, motivo_rechazo, fecha_hora_inicio, fecha_hora_fin, recurso_id, estudiante_id)
+VALUES (1, '2026-10-15', '08:00', '10:00', 'APROBADA', NULL, '2026-10-15 08:00:00', '2026-10-15 10:00:00', 1, 1);
+
+INSERT INTO reserva (espacio_id, fecha_reserva, hora_inicio, hora_fin, estado, motivo_rechazo, fecha_hora_inicio, fecha_hora_fin, recurso_id, estudiante_id)
+VALUES (2, '2026-10-16', '14:00', '16:00', 'PENDIENTE', NULL, '2026-10-16 14:00:00', '2026-10-16 16:00:00', NULL, 2);
+
+INSERT INTO prestamo (recurso_id, fecha_prestamo, fecha_limite_devolucion, fecha_devolucion, estado, observacion_devolucion, estudiante_id, condicion_devolucion)
+VALUES (2, '2026-10-10', '2026-10-12', '2026-10-11', 'DEVUELTO', 'Entregado en perfectas condiciones y con accesorios completos.', 1, 'Excelente');

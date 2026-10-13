@@ -13,16 +13,16 @@ public class EmpleadoEntity {
     private String nombre;
     private String apellido;
     private String correo;
-    private String contraseña;
+    private String password;
     private String rol;
 
-    public EmpleadoEntity(int id, String codigoEmpleado, String nombre, String apellido, String correo, String contraseña, String rol) {
+    public EmpleadoEntity(int id, String codigoEmpleado, String nombre, String apellido, String correo, String password, String rol) {
         this.id = id;
         this.codigoEmpleado = codigoEmpleado;
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.password = password;
         this.rol = rol;
     }
 
@@ -69,12 +69,12 @@ public class EmpleadoEntity {
         this.correo = correo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRol() {

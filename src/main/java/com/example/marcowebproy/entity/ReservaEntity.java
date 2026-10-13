@@ -10,7 +10,7 @@ public class ReservaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "espacio_id")
     private EspacioAcademicoEntity espacioAcademico;
     private LocalDate fechaReserva;

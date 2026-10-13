@@ -10,7 +10,7 @@ public class PrestamoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "recurso_id")
     private RecursoEntity recurso;
     private LocalDate fechaPrestamo;
