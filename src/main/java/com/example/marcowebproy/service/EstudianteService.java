@@ -1,10 +1,7 @@
 package com.example.marcowebproy.service;
 
 import com.example.marcowebproy.adapter.*;
-import com.example.marcowebproy.entity.EspacioAcademicoEntity;
-import com.example.marcowebproy.entity.PrestamoEntity;
-import com.example.marcowebproy.entity.RecursoEntity;
-import com.example.marcowebproy.entity.ReservaEntity;
+import com.example.marcowebproy.entity.*;
 import com.example.marcowebproy.model.*;
 import com.example.marcowebproy.repository.*;
 import org.springframework.cglib.core.Local;
@@ -103,10 +100,18 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void guardarReserva(Reserva reserva){
+    public void guardarReserva(Reserva reserva, int estudianteId){
 
         if(reserva.getEspacioAcademico() == null || reserva.getEspacioAcademico().getId() == 0){
             throw new IllegalArgumentException("Debe Seleccionar un espacio academico valido.");
+        }
+
+        EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
+
+        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
+
+        if(tieneDeuda){
+            throw new IllegalStateException("No puede realizar nuevas reservas. Mantiene prestamos vencidos o atrasados en su historial");
         }
 
         int espacioId = reserva.getEspacioAcademico().getId();
@@ -136,8 +141,7 @@ public class EstudianteService {
         entity.setHoraInicio(reserva.getHoraInicio());
         entity.setHoraFin(reserva.getHoraFin());
         entity.setEstado("Pendiente");
-
-        estudianteRepository.findAll().stream().findFirst().ifPresent(entity::setEstudiante);
+        entity.setEstudiante(estudiante);
 
         reservaRepository.save(entity);
     }
@@ -169,7 +173,16 @@ public class EstudianteService {
     }
 
     @Transactional
-    public void guardarPrestamo(int recursoId, String fechaDevolucionStr, String observacion){
+    public void guardarPrestamo(int recursoId, String fechaDevolucionStr, String observacion, int estudianteId){
+
+        EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
+
+        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
+
+        if(tieneDeuda){
+            throw new IllegalStateException("Acceso Denegado: tiene prestamos vencidos pendientes de devolucion.");
+        }
+
         RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra Disponible."));
 
         LocalDate fechaActual = LocalDate.now();
@@ -191,7 +204,7 @@ public class EstudianteService {
         nuevo.setFechaLimiteDevolucion(fechaLimite);
         nuevo.setEstado("Pendiente");
         nuevo.setObservacionDevolucion(observacion);
-        estudianteRepository.findAll().stream().findFirst().ifPresent(nuevo::setEstudiante);
+        nuevo.setEstudiante(estudiante);
         prestamoRepository.save(nuevo);
     }
 

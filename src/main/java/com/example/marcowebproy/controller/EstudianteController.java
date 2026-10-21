@@ -1,11 +1,13 @@
 package com.example.marcowebproy.controller;
 
 import com.example.marcowebproy.data.DataStore;
+import com.example.marcowebproy.entity.EstudianteEntity;
 import com.example.marcowebproy.model.Prestamo;
 import com.example.marcowebproy.model.Recurso;
 import com.example.marcowebproy.model.Reserva;
 import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.service.EstudianteService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,8 +84,13 @@ public class EstudianteController {
     }
 
     @PostMapping("/prestamos/guardar")
-    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion) {
-        estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion);
+    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion, HttpSession session) {
+        EstudianteEntity estudianteLogueado = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+        if(estudianteLogueado == null){
+        return "redirect:/login";
+        }
+
+        estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteLogueado.getId());
         return "redirect:/estudiante/prestamos";
     }
 
@@ -94,9 +101,15 @@ public class EstudianteController {
     }
 
     @PostMapping("/reservar-espacio/guardar")
-    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes) {
+    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes, HttpSession session) {
+        EstudianteEntity estudianteLogueado = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+
+        if(estudianteLogueado == null){
+            return "redirect:/login";
+        }
+
         try{
-            estudianteService.guardarReserva(reserva);
+            estudianteService.guardarReserva(reserva, estudianteLogueado.getId());
             redirectAttributes.addFlashAttribute("mensajeExito","Reserva realizada con exito.");
         }catch (IllegalStateException | IllegalArgumentException e){
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
