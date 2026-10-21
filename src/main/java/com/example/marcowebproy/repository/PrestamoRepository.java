@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PrestamoRepository extends JpaRepository<PrestamoEntity, Integer> {
     boolean existsByEstudianteIdAndEstadoIn(int estudianteId, List<String> estados);
+
+    long countByEstudianteIdAndEstadoIn(int estudianteId, List<String> estados);
 }

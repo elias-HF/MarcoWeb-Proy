@@ -84,13 +84,18 @@ public class EstudianteController {
     }
 
     @PostMapping("/prestamos/guardar")
-    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion, HttpSession session) {
+    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion,RedirectAttributes redirectAttributes, HttpSession session) {
         EstudianteEntity estudianteLogueado = (EstudianteEntity) session.getAttribute("estudianteLogueado");
         if(estudianteLogueado == null){
-        return "redirect:/login";
+            return "redirect:/login";
+        }
+        try{
+            estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteLogueado.getId());
+            redirectAttributes.addFlashAttribute("mensajeExito","Prestamo Solicitado con exito.");
+        }catch(IllegalStateException | IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
         }
 
-        estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteLogueado.getId());
         return "redirect:/estudiante/prestamos";
     }
 

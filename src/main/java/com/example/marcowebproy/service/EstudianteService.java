@@ -108,6 +108,11 @@ public class EstudianteService {
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
+        long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente"));
+        if(reservasActivas >=1){
+            throw new IllegalStateException("Solo puede mantener una (1) reserva de espacio académico activa a la vez.");
+        }
+
         boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
 
         if(tieneDeuda){
@@ -177,10 +182,18 @@ public class EstudianteService {
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
+
+
         boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
 
         if(tieneDeuda){
             throw new IllegalStateException("Acceso Denegado: tiene prestamos vencidos pendientes de devolucion.");
+        }
+
+        long prestamosActivos = prestamoRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente","Activo","Atrasado"));
+
+        if(prestamosActivos >= 1){
+            throw new IllegalStateException("Limite superado: Solo puede mantener un (1) préstamo de recurso físico activo de forma simultánea.");
         }
 
         RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra Disponible."));
