@@ -7,6 +7,7 @@ import com.example.marcowebproy.entity.RecursoEntity;
 import com.example.marcowebproy.entity.ReservaEntity;
 import com.example.marcowebproy.model.*;
 import com.example.marcowebproy.repository.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -109,10 +110,16 @@ public class EstudianteService {
         }
 
         int espacioId = reserva.getEspacioAcademico().getId();
+        LocalDate fechaActual = LocalDate.now();
         LocalDate fecha = reserva.getFechaReserva() != null ? reserva.getFechaReserva() : LocalDate.now();
 
-        if(fecha.isBefore((LocalDate.now()))){
+        if(fecha.isBefore(fechaActual)){
             throw new IllegalArgumentException("No se puede reservar en un fecha pasada.");
+        }
+
+        LocalDate fechaMaxima = fechaActual.plusDays(7);
+        if(fecha.isAfter(fechaMaxima)){
+            throw new IllegalArgumentException("Solo se pude programar reservas con un maximo de 7 dias de anticipacion.");
         }
 
         List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(espacioId,fecha,List.of("Cancelada","Rechazada"));
@@ -197,7 +204,5 @@ public class EstudianteService {
            }
         });
     }
-
-
 
 }
