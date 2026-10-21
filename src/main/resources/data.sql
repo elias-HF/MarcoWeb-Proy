@@ -3,20 +3,20 @@ INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (1, 'Tecnología'
 INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (2, 'Salas de Estudio', 'Cubículos y salas grupales equipadas', true);
 INSERT INTO categoria (id, nombre, descripcion, estado) VALUES (3, 'Material Bibliográfico', 'Libros de ingeniería, bases de datos y redes', true);
 
-INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, contrasena, rol)
+INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, password, rol)
 VALUES (1, 'EMP001', 'Carlos', 'Mendoza', 'carlos.mendoza@utp.edu.pe', 'admin123', 'ADMINISTRADOR');
 
-INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, contrasena, rol)
+INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, password, rol)
 VALUES (2, 'EMP002', 'Lucía', 'Fernández', 'lucia.fernandez@utp.edu.pe', 'soporte123', 'ASISTENTE');
 
 INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (1, 'U20251234', 'Juan', 'Pérez', 'u20251234@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 100);
+VALUES (1, 'U20251234', 'Juan', 'Pérez', 'u20251234@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 20);
 
 INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (2, 'U20255678', 'María', 'Gómez', 'u20255678@utp.edu.pe', '123456', 'Ingeniería de Software', true, 1, 95);
+VALUES (2, 'U20255678', 'María', 'Gómez', 'u20255678@utp.edu.pe', '123456', 'Ingeniería de Software', true, 1, 15);
 
 INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (3, 'U20259012', 'Alexander', 'Huamán', 'u20259012@utp.edu.pe', '123456', 'Ingeniería de Redes y Comunicaciones', true, 0, 100);
+VALUES (3, 'U23273152', 'Elias', 'Huaringa', 'u23273152@utp.edu.pe', '123456', 'Ingeniería de Sistemas e Informatica', true, 0, 20);
 
 INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
 VALUES (1, 'Laboratorio de Redes 101', 'Laboratorio', 'Pabellón A - Piso 1', 25, true);

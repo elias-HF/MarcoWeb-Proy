@@ -19,7 +19,7 @@ CREATE TABLE empleado (
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     correo VARCHAR(150) NOT NULL,
-    contrasena VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     rol VARCHAR(50) NOT NULL
 );
 
