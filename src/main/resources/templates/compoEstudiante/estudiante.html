@@ -18,16 +18,16 @@
 
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                         <small class="text-muted">
-                            <i class="bi bi-calendar3 me-1"></i>Sábado, 29 de Agosto de 2026
-                            <i class="bi bi-clock ms-3 me-1"></i>10:45 am
+                            <i class="bi bi-calendar3 me-1"></i><span id="fechaActual">Cargando fecha...</span>
+                            <i class="bi bi-clock ms-3 me-1"></i><span id="horaActual">Cargando hora...</span>
                         </small>
                     </div>
 
                     <div class="text-center">
-            <span class="badge bg-success px-3 py-2 mb-2 fs-6">
-                <i class="bi bi-person-check-fill me-1"></i> Módulo Estudiante
-            </span>
-                        <h1 class="display-6 fw-bold text-dark">Bienvenido, Fiódoro Dostoyevski</h1>
+                        <span class="badge bg-success px-3 py-2 mb-2 fs-6">
+                            <i class="bi bi-person-check-fill me-1"></i> Módulo Estudiante
+                        </span>
+                        <h1 class="display-6 fw-bold text-dark" th:text="'Bienvenido, ' + ${estudiante.nombre} + ' ' + ${estudiante.apellido}">Bienvenido, Estudiante</h1>
                         <p class="col-lg-8 mx-auto text-muted">
                             Desde aquí puedes explorar los espacios y equipos disponibles, revisar tus reservas
                             y llevar el control de tus préstamos activos.
@@ -38,6 +38,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="container py-5">
                 <div class="row g-4">
                     <div class="col-md-4">
@@ -71,47 +72,61 @@
             </div>
 
             <div class="container pb-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="fw-bold text-success mb-0">
-                        <i class="bi bi-clock-history me-2"></i>Actividad Reciente
-                    </h4>
-                    <a th:href="@{/estudiante/recursos}" class="btn btn-sm btn-outline-success">Ver todo</a>
-                </div>
-                <div class="table-responsive shadow-sm rounded">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-success">
-                        <tr>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Recurso / Espacio</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col" class="text-center">Estado</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td><i class="bi bi-calendar-event text-success me-2"></i>Reserva</td>
-                            <td>Sala de Estudio Grupal A-102</td>
-                            <td>02/09/2026 - 14:00</td>
-                            <td class="text-center"><span class="badge bg-success">Confirmada</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="bi bi-laptop text-success me-2"></i>Préstamo</td>
-                            <td>Laptop Dell Core i7 16GB</td>
-                            <td>28/08/2026 - 09:00</td>
-                            <td class="text-center"><span class="badge bg-warning text-dark">En curso</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="bi bi-calendar-event text-success me-2"></i>Reserva</td>
-                            <td>Laboratorio de Redes y Servidores</td>
-                            <td>25/08/2026 - 10:00</td>
-                            <td class="text-center"><span class="badge bg-secondary">Finalizada</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="container pb-5">
+                    <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-success text-white rounded-circle d-inline-flex justify-content-center align-items-center me-3" style="width: 50px; height: 50px;">
+                                <i class="bi bi-person-badge fs-4"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold text-success mb-0">Información Básica del Estudiante</h4>
+                                <small class="text-muted">Datos académicos y estado actual en el sistema</small>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <span class="text-muted small d-block">Código de Estudiante</span>
+                                    <strong class="fs-5 text-dark" th:text="${estudiante.codigoEstudiante}">U20251234</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <span class="text-muted small d-block">Carrera Profesional</span>
+                                    <strong class="fs-6 text-dark" th:text="${estudiante.carrera}">Ingeniería de Sistemas</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 bg-light rounded-3 border">
+                                    <span class="text-muted small d-block">Correo Institucional</span>
+                                    <strong class="text-dark text-truncate d-block" th:text="${estudiante.correo}">estudiante@utp.edu.pe</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="p-3 bg-light rounded-3 border d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted small d-block">Puntaje de Mérito Académico </span>
+                                        <span class="text-muted small">Umbral operativo mínimo: 50 pts</span>
+                                    </div>
+                                    <span class="badge bg-success fs-5 px-3 py-2" th:text="${estudiante.puntajeMerito} + ' pts'">100 pts</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3">
+                                <div class="p-3 bg-light rounded-3 border d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="text-muted small d-block">Estado de Cuenta</span>
+                                    </div>
+                                    <span class="badge bg-success fs-6 px-3 py-2">Activo / Habilitado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
+    <script th:src="@{/javascript/fechaYhora.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>
 </html>

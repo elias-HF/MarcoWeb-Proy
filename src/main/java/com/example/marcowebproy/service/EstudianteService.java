@@ -40,6 +40,11 @@ public class EstudianteService {
     }
 
     @Transactional(readOnly = true)
+    public EstudianteEntity obtenerEstudiantePorId(int id){
+        return estudianteRepository.findById(id).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public List<Recurso> buscarRecurso(String query, Integer categoriaId){
         List<RecursoEntity> entidades = recursoRepository.findAll().stream().filter(RecursoEntity::isActivo).collect(Collectors.toList());
 

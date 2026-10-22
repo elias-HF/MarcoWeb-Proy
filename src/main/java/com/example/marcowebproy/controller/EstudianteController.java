@@ -28,7 +28,22 @@ public class EstudianteController {
     }
 
     @GetMapping("")
-    public String estudiante() {
+    public String estudiante(HttpSession session, Model model) {
+
+        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+
+        if (estudianteSession == null) {
+            return "redirect:/login";
+        }
+
+        EstudianteEntity estudianteActualizado = estudianteService.obtenerEstudiantePorId(estudianteSession.getId());
+
+        if(estudianteActualizado == null){
+            return "redirect:/login";
+        }
+
+        model.addAttribute("estudiante", estudianteActualizado);
+
         return "compoEstudiante/estudiante";
     }
 
