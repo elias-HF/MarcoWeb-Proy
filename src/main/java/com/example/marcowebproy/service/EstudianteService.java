@@ -108,6 +108,11 @@ public class EstudianteService {
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
+        int puntajeMinimo = 50;
+        if(estudiante.getPuntajeMerito() < puntajeMinimo){
+            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para realizar reservas.");
+        }
+
         long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente"));
         if(reservasActivas >=1){
             throw new IllegalStateException("Solo puede mantener una (1) reserva de espacio académico activa a la vez.");
@@ -182,7 +187,10 @@ public class EstudianteService {
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
-
+        int puntajeMinimo = 50;
+        if(estudiante.getPuntajeMerito() < puntajeMinimo){
+            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para solicitar préstamos.");
+        }
 
         boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
 
