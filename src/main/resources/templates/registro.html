@@ -22,41 +22,84 @@
                     <h4 class="fw-bold text-dark mb-0">CREAR CUENTA</h4>
                     <small class="text-secondary">Registro de estudiante</small>
                 </div>
-                <form id="formularioRegistro">
+
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show py-2" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <span th:text="${error}" ></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <form th:action="@{/registro}" method="post" id="formularioRegistro">
                     <div class="mb-3">
-                        <label for="regNombre" class="form-label small text-secondary">Nombre y Apellidos</label>
+                        <label for="nombres" class="form-label small text-secondary">Nombres Completos</label>
                         <div class="input-group">
                             <span class="input-group-text bg-dark border-secondary text-success">
                                 <i class="bi bi-person"></i>
                             </span>
-                            <input type="text" class="form-control bg-dark text-white border-secondary" id="regNombre" placeholder="Ingrese su nombre completo">
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="nombres" name="nombres" placeholder="Ingrese su nombre completo" required>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="regEmail" class="form-label small text-secondary">Correo Institucional</label>
+                        <label for="apellidos" class="form-label small text-secondary">Apellidos</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-success">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="apellidos" name="apellidos" placeholder="Ingrese sus apellidos" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label small text-secondary">Correo Institucional</label>
                         <div class="input-group">
                             <span class="input-group-text bg-dark border-secondary text-success">
                                 <i class="bi bi-envelope"></i>
                             </span>
-                            <input type="email" class="form-control bg-dark text-white border-secondary" id="regEmail" placeholder="estudiante@universidad.edu">
+                            <input type="email" class="form-control bg-dark text-white border-secondary" id="email" name="email" placeholder="estudiante@universidad.edu" required>
                         </div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="regPassword" class="form-label small text-secondary">Contraseña</label>
+                        <label for="carrera" class="form-label small text-secondary">Carrera Profesional</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-success">
+                                <i class="bi bi-mortarboard"></i>
+                            </span>
+                            <select class="form-select bg-dark text-white border-secondary" id="carrera" name="carrera" required>
+                                <option value="" selected disabled>Seleccione su carrera</option>
+                                <option value="Ingeniería de Sistemas">Ingeniería de Sistemas</option>
+                                <option value="Ingeniería de Software">Ingeniería de Software</option>
+                                <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                                <option value="Ingeniería de Redes y Comunicaciones">Ingeniería de Redes y Comunicaciones</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="codigoEstudiante" class="form-label small text-secondary">Código de Estudiante</label>
+                        <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-success">
+                            <i class="bi bi-card-text"></i>
+                        </span>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="codigoEstudiante" name="codigoEstudiante" placeholder="U20251234" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label small text-secondary">Contraseña</label>
                         <div class="input-group">
                             <span class="input-group-text bg-dark border-secondary text-success">
                                 <i class="bi bi-lock"></i>
                             </span>
-                            <input type="password" class="form-control bg-dark text-white border-secondary" id="regPassword" placeholder="********">
+                            <input type="password" class="form-control bg-dark text-white border-secondary" id="password" name="password" placeholder="********" required>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="regConfirmarPassword" class="form-label small text-secondary">Confirmar Contraseña</label>
+                        <label for="confirmarPassword" class="form-label small text-secondary">Confirmar Contraseña</label>
                         <div class="input-group">
                             <span class="input-group-text bg-dark border-secondary text-success">
                                 <i class="bi bi-shield-lock"></i>
                             </span>
-                            <input type="password" class="form-control bg-dark text-white border-secondary" id="regConfirmarPassword" placeholder="********">
+                            <input type="password" class="form-control bg-dark text-white border-secondary" id="confirmarPassword" name="confirmarPassword" placeholder="********" required>
                         </div>
                     </div>
                     <div class="d-grid mt-4">
@@ -74,6 +117,6 @@
         </div>
     </div>
 </div>
-<script src="../javascript/registro.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

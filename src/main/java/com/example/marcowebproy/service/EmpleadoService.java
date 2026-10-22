@@ -25,7 +25,7 @@ public class EmpleadoService {
         this.estudianteRepository = estudianteRepository;
     }
 
-    @Transactional(readOnly = true)
+    /*@Transactional(readOnly = true)
     public List<RecursoEntity> listarRecursos(){
         return recursoRepository.findAll();
     }
@@ -35,5 +35,5 @@ public class EmpleadoService {
 
 
     }
-
+    */
 }

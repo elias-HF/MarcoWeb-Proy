@@ -9,14 +9,10 @@ VALUES (1, 'EMP001', 'Carlos', 'Mendoza', 'carlos.mendoza@utp.edu.pe', 'admin123
 INSERT INTO empleado (id, codigo_empleado, nombre, apellido, correo, password, rol)
 VALUES (2, 'EMP002', 'Lucía', 'Fernández', 'lucia.fernandez@utp.edu.pe', 'soporte123', 'ASISTENTE');
 
-INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (1, 'U20251234', 'Juan', 'Pérez', 'u20251234@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 200);
-
-INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (2, 'U20255678', 'María', 'Gómez', 'u20255678@utp.edu.pe', '123456', 'Ingeniería de Software', true, 0, 100);
-
-INSERT INTO estudiante (id, codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
-VALUES (3, 'U23273152', 'Elias', 'Huaringa', 'u23273152@utp.edu.pe', '123456', 'Ingeniería de Sistemas e Informatica', true, 0, 40);
+INSERT INTO estudiante (codigo_estudiante, nombre, apellido, correo, password, carrera, estado, demeritos, puntaje_merito)
+VALUES ('U20251234', 'Juan', 'Pérez', 'u20251234@utp.edu.pe', '123456', 'Ingeniería de Sistemas', true, 0, 200),
+('U20255678', 'María', 'Gómez', 'u20255678@utp.edu.pe', '123456', 'Ingeniería de Software', true, 0, 100),
+('U23273152', 'Elias', 'Huaringa', 'u23273152@utp.edu.pe', '123456', 'Ingeniería de Sistemas e Informatica', true, 0, 40);
 
 INSERT INTO espacio_academico (id, nombre, tipo, ubicacion, capacidad, estado)
 VALUES (1, 'Laboratorio de Redes 101', 'Laboratorio', 'Pabellón A - Piso 1', 25, true);
