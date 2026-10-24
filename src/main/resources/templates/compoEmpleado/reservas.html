@@ -163,11 +163,12 @@
                                     <span th:if="${reserva.estado == 'Cancelada'}" class="badge bg-secondary">Cancelada</span>
                                 </td>
 
-                                <td class="text-center">
+                                <td class="text-center align-middle">
                                     <div th:if="${reserva.estado == 'Pendiente'}" class="d-flex justify-content-center gap-1">
-                                        <form method="post" th:action="@{/empleado/reservas/confirmar}">
+                                        <form method="post" th:action="@{/empleado/reservas/confirmar}" class="d-inline-block m-0 p-0">
                                             <input type="hidden" name="id" th:value="${reserva.id}">
-                                            <button type="submit" class="btn btn-sm btn-success" title="Confirmar"><i class="bi bi-check-lg"></i>
+                                            <button type="submit" class="btn btn-sm btn-success" title="Confirmar">
+                                                <i class="bi bi-check-lg"></i>
                                             </button>
                                         </form>
                                         <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#rechazarModal' + ${reserva.id}" title="Rechazar">
