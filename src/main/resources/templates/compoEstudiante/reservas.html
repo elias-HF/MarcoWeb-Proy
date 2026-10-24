@@ -31,10 +31,10 @@
                     <a class="nav-link" th:classappend="${estadoSeleccionado == null || estadoSeleccionado == ''} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas}">Todas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'Pendiente')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='Pendiente')}">Pendientes</a>
+                    <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'PENDIENTE')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='PENDIENTE')}">Pendientes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'Finalizada')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='Finalizada')}">Finalizadas</a>
+                    <a class="nav-link" th:classappend="${#strings.equalsIgnoreCase(estadoSeleccionado, 'FINALIZADA')} ? 'active bg-success text-white' : 'text-success'" th:href="@{/estudiante/reservas(estado='FINALIZADA')}">Finalizadas</a>
                 </li>
             </ul>
 
@@ -60,8 +60,8 @@
                         <td class="text-center">
                             <span class="badge"
                                   th:classappend="${#strings.equalsIgnoreCase(r.estado, 'PENDIENTE')} ? 'bg-warning text-dark' :
-                                                 (${#strings.equalsIgnoreCase(r.estado, 'APROBADA') || #strings.equalsIgnoreCase(r.estado, 'CONFIRMADA')} ? 'bg-success' :
-                                                 (${#strings.equalsIgnoreCase(r.estado, 'RECHAZADA')} ? 'bg-danger' : 'bg-secondary'))"
+                                  (${#strings.equalsIgnoreCase(r.estado, 'APROBADA')} ? 'bg-success' :
+                                  (${#strings.equalsIgnoreCase(r.estado, 'RECHAZADA')} ? 'bg-danger' : 'bg-secondary'))"
                                   th:text="${r.estado}">
                             </span>
                         </td>

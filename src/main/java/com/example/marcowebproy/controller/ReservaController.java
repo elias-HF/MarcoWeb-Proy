@@ -47,7 +47,7 @@ public class ReservaController {
         }
 
         long pendientes = dataStore.reservas.stream().filter(r -> "PENDIENTE".equalsIgnoreCase(r.getEstado())).count();
-        long confirmadas = dataStore.reservas.stream().filter(r -> "APROBADA".equalsIgnoreCase(r.getEstado()) || "CONFIRMADA".equalsIgnoreCase(r.getEstado())).count();
+        long confirmadas = dataStore.reservas.stream().filter(r -> "APROBADA".equalsIgnoreCase(r.getEstado())).count();
         long rechazadas = dataStore.reservas.stream().filter(r -> "RECHAZADA".equalsIgnoreCase(r.getEstado())).count();
 
         model.addAttribute("reservas", reservasFiltradas);
@@ -68,12 +68,13 @@ public class ReservaController {
     public String modificarReserva(@RequestParam int id, @RequestParam String estado) {
         Reserva reserva = buscarReserva(id);
         if (reserva != null) {
-            if (estado.equals("Pendiente") || estado.equals("Confirmada") || estado.equals("Rechazada")) {
-                reserva.setEstado(estado);
-                if (!estado.equals("Rechazada")) {reserva.setMotivoRechazo(null);}
+            if ("PENDIENTE".equalsIgnoreCase(estado) || "APROBADA".equalsIgnoreCase(estado) || "RECHAZADA".equalsIgnoreCase(estado)) {
+                reserva.setEstado(estado.toUpperCase());
+                if (!"RECHAZADA".equalsIgnoreCase(estado)) {
+                    reserva.setMotivoRechazo(null);
+                }
             }
         }
-
         return "redirect:/empleado/reservas";
     }
 
@@ -82,11 +83,10 @@ public class ReservaController {
         Reserva reserva = buscarReserva(id);
         if (reserva != null) {
             if (motivoRechazo != null && !motivoRechazo.trim().isEmpty()) {
-                reserva.setEstado("Rechazada");
+                reserva.setEstado("RECHAZADA");
                 reserva.setMotivoRechazo(motivoRechazo.trim());
             }
         }
-
         return "redirect:/empleado/reservas";
     }
 
@@ -94,13 +94,17 @@ public class ReservaController {
     public String confirmarReserva(@RequestParam int id) {
         Reserva reserva = buscarReserva(id);
         if (reserva != null) {
-            boolean ocupado = dataStore.reservas.stream().anyMatch(r -> r.getId() != reserva.getId() && "Confirmada".equals(r.getEstado()) && mismoRecursoOespacio(r, reserva) && seCruzanHorarios(r, reserva));
+            boolean ocupado = dataStore.reservas.stream().anyMatch(r ->
+                    r.getId() != reserva.getId() &&
+                            ("APROBADA".equalsIgnoreCase(r.getEstado()) || "CONFIRMADA".equalsIgnoreCase(r.getEstado())) &&
+                            mismoRecursoOespacio(r, reserva) &&
+                            seCruzanHorarios(r, reserva)
+            );
             if (!ocupado) {
-                reserva.setEstado("Confirmada");
+                reserva.setEstado("APROBADA");
                 reserva.setMotivoRechazo(null);
             }
         }
-
         return "redirect:/empleado/reservas";
     }
 
@@ -108,10 +112,9 @@ public class ReservaController {
     public String cancelarReserva(@RequestParam int id) {
         Reserva reserva = buscarReserva(id);
         if (reserva != null) {
-            reserva.setEstado("Cancelada");
+            reserva.setEstado("CANCELADA");
             reserva.setMotivoRechazo(null);
         }
-
         return "redirect:/empleado/reservas";
     }
 
