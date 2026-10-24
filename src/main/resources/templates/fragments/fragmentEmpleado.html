@@ -56,8 +56,14 @@
             <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-person-circle fs-2"></i>
                 <div class="sidebar-text">
-                    <div class="fw-bold">FRANZ KAFKA</div>
-                    <small class="fst-italic">Empleado</small>
+                    <div class="fw-bold"
+                         th:text="${session.empleadoLogueado != null ? (session.empleadoLogueado.nombre + ' ' + session.empleadoLogueado.apellido) : 'Usuario'}">
+                        FRANZ KAFKA
+                    </div>
+                    <small class="fst-italic"
+                           th:text="${session.empleadoLogueado != null ? session.empleadoLogueado.rol : 'Empleado'}">
+                        Empleado
+                    </small>
                 </div>
             </div>
             <a th:href="@{/login}" class="text-white sidebar-text" title="Cerrar sesión"><i class="bi bi-box-arrow-right fs-5"></i></a>

@@ -58,15 +58,47 @@
                         <td th:text="${#temporals.format(r.fechaReserva, 'dd/MM/yyyy')}"></td>
                         <td th:text="${r.horaInicio + ' - ' + r.horaFin}"></td>
                         <td class="text-center">
-                                    <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')} ? 'bg-warning text-dark' : (${#strings.equalsIgnoreCase(r.estado, 'Confirmada')} ? 'bg-success' : 'bg-secondary')" th:text="${r.estado}"></span>
+                            <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')} ? 'bg-warning text-dark' : (${#strings.equalsIgnoreCase(r.estado, 'Confirmada')} ? 'bg-success' : 'bg-secondary')" th:text="${r.estado}"></span>
                         </td>
                         <td class="text-center">
-                            <a th:href="@{/estudiante/reservas/cancelar/{id}(id=${r.id})}" class="btn btn-sm btn-outline-danger" th:if="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}" onclick="return confirm('¿Está seguro de que desea cancelar esta reserva?');">
+
+                            <button type="button" class="btn btn-sm btn-outline-danger me-1" th:if="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}" data-bs-toggle="modal" th:data-bs-target="'#modalCancelarReserva' + ${r.id}">
                                 <i class="bi bi-x-circle me-1"></i>Cancelar
-                            </a>
+                            </button>
+
                             <button type="button" class="btn btn-sm btn-outline-secondary" th:unless="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}" data-bs-toggle="modal" th:data-bs-target="'#modalDetalle' + ${r.id}">
                                 <i class="bi bi-eye me-1"></i>Ver Detalle
                             </button>
+
+
+                            <div class="modal fade text-start" th:id="'modalCancelarReserva' + ${r.id}" tabindex="-1" aria-hidden="true" th:if="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title fw-bold">
+                                                <i class="bi bi-exclamation-triangle me-2"></i>Cancelar Reserva
+                                            </h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="mb-2">¿Está seguro de que desea cancelar la siguiente reserva?</p>
+                                            <div class="bg-light p-3 rounded border mb-3">
+                                                <div class="fw-bold text-dark" th:text="${(r.espacioAcademico != null and r.espacioAcademico.nombre != null) ? r.espacioAcademico.nombre : ((r.recurso != null and r.recurso.nombre != null) ? r.recurso.nombre : 'Espacio/Recurso')}"></div>
+                                                <small class="text-muted d-block" th:text="'Fecha: ' + ${#temporals.format(r.fechaReserva, 'dd/MM/yyyy')} + ' | Horario: ' + ${r.horaInicio + ' - ' + r.horaFin}"></small>
+                                            </div>
+                                            <small class="text-danger"><i class="bi bi-info-circle me-1"></i>Esta acción no se puede deshacer.</small>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                                            <a th:href="@{/estudiante/reservas/cancelar/{id}(id=${r.id})}" class="btn btn-danger">
+                                                <i class="bi bi-x-circle me-1"></i>Cancelar Reserva
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="modal fade text-start" th:id="'modalDetalle' + ${r.id}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
