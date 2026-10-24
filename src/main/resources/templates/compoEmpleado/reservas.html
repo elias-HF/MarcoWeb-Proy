@@ -158,7 +158,7 @@
                                 <td><span th:text="${reserva.horaInicio + ' - ' + reserva.horaFin}">10:00 - 12:00</span></td>
                                 <td>
                                     <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'PENDIENTE')}" class="badge bg-warning text-dark">Pendiente</span>
-                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'APROBADA') || #strings.equalsIgnoreCase(reserva.estado, 'Confirmada')}" class="badge bg-success">Aprobada</span>
+                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'APROBADA')}" class="badge bg-success">Aprobada</span>
                                     <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'RECHAZADA')}" class="badge bg-danger">Rechazada</span>
                                     <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'CANCELADA')}" class="badge bg-secondary">Cancelada</span>
                                 </td>

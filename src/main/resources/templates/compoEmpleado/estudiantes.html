@@ -65,7 +65,9 @@
                                     </span>
                                     <span th:if="${estudiante.demeritos > 0}" class="badge bg-warning text-dark">
                                         <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                                        <span th:text="${estudiante.demeritos}">1</span>demérito</span>
+                                        <span th:text="${estudiante.demeritos}">1</span>
+                                        Demérito
+                                    </span>
                                     <span th:if="${estudiante.puntajeMerito < 17 and estudiante.demeritos == 0}" class="badge bg-secondary">Sin registro</span>
                                 </td>
                                 <td>

@@ -48,7 +48,9 @@
                                 <td><i class="bi bi-building text-success me-2"></i><span th:text="${espacio.nombre}"></span></td>
                                 <td th:text="${espacio.tipo}"></td>
                                 <td th:text="${espacio.ubicacion}"></td>
-                                <td><span th:text="${espacio.capacidad}"></span>personas</td>
+                                <td><span th:text="${espacio.capacidad}"></span>
+                                    personas
+                                </td>
                                 <td><span th:if="${espacio.estado}" class="badge bg-success">Activo</span><span th:unless="${espacio.estado}" class="badge bg-secondary">Inactivo</span></td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-sm btn-outline-primary me-1" title="Modificar" data-bs-toggle="modal" th:attr="data-bs-target='#modalModificar' + ${espacio.id}">
