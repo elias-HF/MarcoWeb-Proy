@@ -4,7 +4,6 @@ import com.example.marcowebproy.adapter.*;
 import com.example.marcowebproy.entity.*;
 import com.example.marcowebproy.model.*;
 import com.example.marcowebproy.repository.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,7 @@ public class EstudianteService {
             entidades = entidades.stream().filter(r -> (r.getNombre() != null && r.getNombre().toLowerCase().contains(q))
                     || (r.getUbicacion() != null && r.getUbicacion().toLowerCase().contains(q))).collect(Collectors.toList());
         }
-        if(categoriaId != null && categoriaId >0){
+        if(categoriaId != null && categoriaId > 0){
             entidades = entidades.stream().filter(r -> r.getCategoria().getId() == categoriaId).collect(Collectors.toList());
         }
 
@@ -108,25 +107,24 @@ public class EstudianteService {
     public void guardarReserva(Reserva reserva, int estudianteId){
 
         if(reserva.getEspacioAcademico() == null || reserva.getEspacioAcademico().getId() == 0){
-            throw new IllegalArgumentException("Debe Seleccionar un espacio academico valido.");
+            throw new IllegalArgumentException("Debe seleccionar un espacio académico válido.");
         }
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
         int puntajeMinimo = 50;
         if(estudiante.getPuntajeMerito() < puntajeMinimo){
-            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para realizar reservas.");
+            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido (" + puntajeMinimo + ") para realizar reservas.");
         }
 
-        long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente"));
-        if(reservasActivas >=1){
+        long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("PENDIENTE"));
+        if(reservasActivas >= 1){
             throw new IllegalStateException("Solo puede mantener una (1) reserva de espacio académico activa a la vez.");
         }
 
-        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
-
+        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("ATRASADO"));
         if(tieneDeuda){
-            throw new IllegalStateException("No puede realizar nuevas reservas. Mantiene prestamos vencidos o atrasados en su historial");
+            throw new IllegalStateException("No puede realizar nuevas reservas. Mantiene préstamos atrasados en su historial.");
         }
 
         int espacioId = reserva.getEspacioAcademico().getId();
@@ -134,15 +132,15 @@ public class EstudianteService {
         LocalDate fecha = reserva.getFechaReserva() != null ? reserva.getFechaReserva() : LocalDate.now();
 
         if(fecha.isBefore(fechaActual)){
-            throw new IllegalArgumentException("No se puede reservar en un fecha pasada.");
+            throw new IllegalArgumentException("No se puede reservar en una fecha pasada.");
         }
 
         LocalDate fechaMaxima = fechaActual.plusDays(7);
         if(fecha.isAfter(fechaMaxima)){
-            throw new IllegalArgumentException("Solo se pude programar reservas con un maximo de 7 dias de anticipacion.");
+            throw new IllegalArgumentException("Solo se puede programar reservas con un máximo de 7 días de anticipación.");
         }
 
-        List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(espacioId,fecha,List.of("Cancelada","Rechazada"));
+        List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(espacioId, fecha, List.of("CANCELADA", "RECHAZADA"));
         boolean ocupado = reservasExistentes.stream().anyMatch(r -> r.getHoraInicio().equals(reserva.getHoraInicio()) || r.getHoraFin().equals(reserva.getHoraFin()));
 
         if(ocupado){
@@ -155,7 +153,7 @@ public class EstudianteService {
         entity.setFechaReserva(fecha);
         entity.setHoraInicio(reserva.getHoraInicio());
         entity.setHoraFin(reserva.getHoraFin());
-        entity.setEstado("Pendiente");
+        entity.setEstado("PENDIENTE");
         entity.setEstudiante(estudiante);
 
         reservaRepository.save(entity);
@@ -163,9 +161,9 @@ public class EstudianteService {
 
     @Transactional
     public void cancelarReserva(int idReserva){
-        reservaRepository.findById(idReserva).ifPresent(reserva ->{
-           reserva.setEstado("Cancelada");
-           reservaRepository.save(reserva);
+        reservaRepository.findById(idReserva).ifPresent(reserva -> {
+            reserva.setEstado("CANCELADA");
+            reservaRepository.save(reserva);
         });
     }
 
@@ -179,10 +177,10 @@ public class EstudianteService {
         List<PrestamoEntity> listaP = prestamoRepository.findAll();
         Map<String, Long> stats = new HashMap<>();
 
-        stats.put("Activos", listaP.stream().filter(p -> "Activo".equalsIgnoreCase(p.getEstado())).count());
-        stats.put("pendientes", listaP.stream().filter(p -> "Pendiente".equalsIgnoreCase(p.getEstado())).count());
-        stats.put("atrasados", listaP.stream().filter(p -> "Atrasado".equalsIgnoreCase(p.getEstado())).count());
-        stats.put("devueltos", listaP.stream().filter(p -> "Devuelto".equalsIgnoreCase(p.getEstado())).count());
+        stats.put("Activos", listaP.stream().filter(p -> "ACTIVO".equalsIgnoreCase(p.getEstado())).count());
+        stats.put("Pendientes", listaP.stream().filter(p -> "PENDIENTE".equalsIgnoreCase(p.getEstado())).count());
+        stats.put("Atrasados", listaP.stream().filter(p -> "ATRASADO".equalsIgnoreCase(p.getEstado())).count());
+        stats.put("Devueltos", listaP.stream().filter(p -> "DEVUELTO".equalsIgnoreCase(p.getEstado())).count());
 
         return stats;
     }
@@ -194,22 +192,20 @@ public class EstudianteService {
 
         int puntajeMinimo = 50;
         if(estudiante.getPuntajeMerito() < puntajeMinimo){
-            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para solicitar préstamos.");
+            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido (" + puntajeMinimo + ") para solicitar préstamos.");
         }
 
-        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
-
+        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("ATRASADO"));
         if(tieneDeuda){
-            throw new IllegalStateException("Acceso Denegado: tiene prestamos vencidos pendientes de devolucion.");
+            throw new IllegalStateException("Acceso Denegado: Tiene préstamos atrasados pendientes de devolución.");
         }
 
-        long prestamosActivos = prestamoRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente","Activo","Atrasado"));
-
+        long prestamosActivos = prestamoRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("PENDIENTE", "ACTIVO", "ATRASADO"));
         if(prestamosActivos >= 1){
-            throw new IllegalStateException("Limite superado: Solo puede mantener un (1) préstamo de recurso físico activo de forma simultánea.");
+            throw new IllegalStateException("Límite superado: Solo puede mantener un (1) préstamo de recurso físico activo de forma simultánea.");
         }
 
-        RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra Disponible."));
+        RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra disponible."));
 
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaLimite = null;
@@ -219,7 +215,7 @@ public class EstudianteService {
         }
 
         if(fechaLimite == null || fechaLimite.isBefore(fechaActual)){
-            throw new IllegalArgumentException("No se puede registrar un prestamo con una fecha anterior a la actual.");
+            throw new IllegalArgumentException("No se puede registrar un préstamo con una fecha anterior a la actual.");
         }
         recursoEntity.setDisponibilidad("No disponible");
         recursoRepository.save(recursoEntity);
@@ -228,7 +224,7 @@ public class EstudianteService {
         nuevo.setRecurso(recursoEntity);
         nuevo.setFechaPrestamo(fechaActual);
         nuevo.setFechaLimiteDevolucion(fechaLimite);
-        nuevo.setEstado("Pendiente");
+        nuevo.setEstado("PENDIENTE");
         nuevo.setObservacionDevolucion(observacion);
         nuevo.setEstudiante(estudiante);
         prestamoRepository.save(nuevo);
@@ -237,11 +233,10 @@ public class EstudianteService {
     @Transactional
     public void cancelarPrestamo(int idPrestamo){
         prestamoRepository.findById(idPrestamo).ifPresent(prestamo -> {
-           if("Pendiente".equalsIgnoreCase(prestamo.getEstado())){
-                prestamo.setEstado("Cancelado");
+            if("PENDIENTE".equalsIgnoreCase(prestamo.getEstado())){
+                prestamo.setEstado("CANCELADO");
                 prestamoRepository.save(prestamo);
-           }
+            }
         });
     }
-
 }

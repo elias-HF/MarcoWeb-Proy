@@ -48,13 +48,17 @@ public class EstudianteController {
     }
 
     @GetMapping("/recursos")
-    public String recursos(@RequestParam(name = "query", required = false) String query, @RequestParam(name = "categoriaId", required = false) Integer categoriaId, Model model) {
+    public String recursos(@RequestParam(name = "query", required = false) String query,
+                           @RequestParam(name = "categoriaId", required = false) Integer categoriaId,
+                           Model model) {
 
-        model.addAttribute("recursos",estudianteService.buscarRecurso(query, categoriaId));
-        model.addAttribute("espacios",estudianteService.buscarEspacio(query, categoriaId));
+        model.addAttribute("recursos", estudianteService.buscarRecurso(query, categoriaId));
+        model.addAttribute("espacios", estudianteService.buscarEspacio(query, categoriaId));
         model.addAttribute("categorias", estudianteService.listarCategorias());
         model.addAttribute("query", query);
         model.addAttribute("categoriaSeleccionadaId", categoriaId);
+
+        model.addAttribute("horariosPermitidos", estudianteService.obtenerHorariosDisponibles());
 
         return "compoEstudiante/recursos";
     }

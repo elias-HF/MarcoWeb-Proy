@@ -16,11 +16,11 @@ public class DashboardController {
     @GetMapping("/empleado/dashboard")
     public String mostrarDashboard(Model model) {
 
-        long reservasActuales = dataStore.reservas.stream().filter(r -> !"Cancelada".equals(r.getEstado())).count();
-        long prestamosActivos = dataStore.prestamos.stream().filter(p -> "Activo".equals(p.getEstado())).count();
-        long prestamosVencidos = dataStore.prestamos.stream().filter(p -> "Activo".equals(p.getEstado()) && p.getFechaLimiteDevolucion() != null && p.getFechaLimiteDevolucion().isBefore(java.time.LocalDate.now())).count();
-        long devoluciones = dataStore.prestamos.stream().filter(p -> "Devuelto".equals(p.getEstado())).count();
-        long recursosDisponibles = dataStore.recursos.stream().filter(r -> r.isActivo() && "Disponible".equals(r.getDisponibilidad())).count();
+        long reservasActuales = dataStore.reservas.stream().filter(r -> !"CANCELADA".equalsIgnoreCase(r.getEstado())).count();
+        long prestamosActivos = dataStore.prestamos.stream().filter(p -> "ACTIVO".equalsIgnoreCase(p.getEstado())).count();
+        long prestamosVencidos = dataStore.prestamos.stream().filter(p -> "ACTIVO".equalsIgnoreCase(p.getEstado()) && p.getFechaLimiteDevolucion() != null && p.getFechaLimiteDevolucion().isBefore(java.time.LocalDate.now())).count();
+        long devoluciones = dataStore.prestamos.stream().filter(p -> "DEVUELTO".equalsIgnoreCase(p.getEstado())).count();
+        long recursosDisponibles = dataStore.recursos.stream().filter(r -> r.isActivo() && "Disponible".equalsIgnoreCase(r.getDisponibilidad())).count();
 
         String[] meses = {"Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre"};
         int[] reservasSerie = {12, 18, 15, 22, 19, 24};

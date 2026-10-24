@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -10,135 +10,200 @@
 </head>
 
 <body>
-    <div>
+<div>
 
-        <div th:replace="~{fragments/fragmentEstudiante::header('recursos')}"></div>
+    <div th:replace="~{fragments/fragmentEstudiante::header('recursos')}"></div>
 
-        <main>
-            <div class="bg-light py-4 border-bottom">
-                <div class="container">
-                    <h2 class="fw-bold text-success mb-1"><i class="bi bi-box-seam me-2"></i>Explorar Recursos</h2>
-                    <p class="text-muted mb-0">Busca espacios, equipos y laboratorios disponibles para reservar o solicitar en préstamo.</p>
-                </div>
+    <main>
+        <div class="bg-light py-4 border-bottom">
+            <div class="container">
+                <h2 class="fw-bold text-success mb-1"><i class="bi bi-box-seam me-2"></i>Explorar Recursos</h2>
+                <p class="text-muted mb-0">Busca espacios, equipos y laboratorios disponibles para reservar o solicitar en préstamo.</p>
             </div>
+        </div>
 
-            <div class="container py-4">
-                <form th:action="@{/estudiante/recursos}" method="get" class="row g-2 align-items-center mb-4">
-                    <div class="col-md-5">
-                        <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
-                            <input type="text" name="query" th:value="${query}" class="form-control" placeholder="Buscar recurso o espacio...">
-                        </div>
+        <div class="container py-4">
+            <form th:action="@{/estudiante/recursos}" method="get" class="row g-2 align-items-center mb-4">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" name="query" th:value="${query}" class="form-control" placeholder="Buscar recurso o espacio...">
                     </div>
-                    <div class="col-md-7 d-flex flex-wrap gap-2">
-                        <a th:href="@{/estudiante/recursos(query=${query})}" class="btn btn-sm" th:classappend="${categoriaSeleccionadaId == null} ? 'btn-success' : 'btn-outline-success'">Todos</a>
-                        <a th:each="cat : ${categorias}" th:href="@{/estudiante/recursos(categoriaId=${cat.id}, query=${query})}" class="btn btn-sm" th:classappend="${categoriaSeleccionadaId == cat.id} ? 'btn-success' : 'btn-outline-success'" th:text="${cat.nombre}">Categoria</a>
-                    </div>
-                </form>
+                </div>
+                <div class="col-md-7 d-flex flex-wrap gap-2">
+                    <a th:href="@{/estudiante/recursos(query=${query})}" class="btn btn-sm" th:classappend="${categoriaSeleccionadaId == null} ? 'btn-success' : 'btn-outline-success'">Todos</a>
+                    <a th:each="cat : ${categorias}" th:href="@{/estudiante/recursos(categoriaId=${cat.id}, query=${query})}" class="btn btn-sm" th:classappend="${categoriaSeleccionadaId == cat.id} ? 'btn-success' : 'btn-outline-success'" th:text="${cat.nombre}">Categoria</a>
+                </div>
+            </form>
 
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4" th:each="r : ${recursos}">
-                        <div class="card h-100 shadow-sm border-0">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <i th:class="${r.icono != null ? r.icono + ' fs-1 text-success' : 'bi bi-box fs-1 text-success'}"></i>
-                                    <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')} ? 'bg-success' : 'bg-danger'"><i th:class="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')} ? 'bi bi-check-circle me-1' : 'bi bi-clock me-1'"></i>
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-4" th:each="r : ${recursos}">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <i th:class="${r.icono != null ? r.icono + ' fs-1 text-success' : 'bi bi-box fs-1 text-success'}"></i>
+                                <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')} ? 'bg-success' : 'bg-danger'">
+                                        <i th:class="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')} ? 'bi bi-check-circle me-1' : 'bi bi-clock me-1'"></i>
                                         <span th:text="${r.disponibilidad}">Disponible</span>
                                     </span>
-                                </div>
-                                <h5 class="card-title fw-bold" th:text="${r.nombre}">Nombre Recurso</h5>
-                                <p class="card-text text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>
-                                    <span th:text="${r.ubicacion}">Ubicacion</span></p>
-                                <p class="card-text small" th:text="${'Condicion: ' + r.condicionFisica}"></p>
                             </div>
-                            <div class="card-footer bg-white border-0 pb-3">
-
-                                <button th:if="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')}" type="button" class="btn btn-success w-100" data-bs-toggle="modal" th:data-bs-target="'#modalPrestamo-' + ${r.id}">
-                                    <i class="bi bi-journal-plus me-1"></i>Solicitar Préstamo
-                                </button>
-
-                                <button th:unless="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')}" type="button" class="btn btn-outline-secondary w-100" disabled>
-                                    No disponible
-                                </button>
-                            </div>
+                            <h5 class="card-title fw-bold" th:text="${r.nombre}">Nombre Recurso</h5>
+                            <p class="card-text text-muted small mb-1"><i class="bi bi-geo-alt me-1"></i>
+                                <span th:text="${r.ubicacion}">Ubicacion</span></p>
+                            <p class="card-text small" th:text="${'Condicion: ' + r.condicionFisica}"></p>
                         </div>
+                        <div class="card-footer bg-white border-0 pb-3">
 
-                        <div class="modal fade" th:id="'modalPrestamo-' + ${r.id}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <form th:action="@{/estudiante/prestamos/guardar}" method="post">
-                                        <div class="modal-header bg-success text-white">
-                                            <h5 class="modal-title fw-bold">
-                                                <i class="bi bi-journal-plus me-2"></i>Solicitar Préstamo
-                                            </h5>
-                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <input type="hidden" name="recursoId" th:value="${r.id}">
-                                            <div class="mb-3 text-center">
-                                                <i th:class="${r.icono != null ? r.icono + ' fs-1 text-success' : 'bi bi-box fs-1 text-success'}"></i>
-                                                <h5 class="fw-bold mt-2" th:text="${r.nombre}"></h5>
-                                                <p class="text-muted small mb-0">
-                                                    <i class="bi bi-geo-alt me-1"></i>
-                                                    <span th:text="${r.ubicacion}"></span>
-                                                </p>
-                                            </div>
+                            <button th:if="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')}" type="button" class="btn btn-success w-100" data-bs-toggle="modal" th:data-bs-target="'#modalPrestamo-' + ${r.id}">
+                                <i class="bi bi-journal-plus me-1"></i>Solicitar Préstamo
+                            </button>
 
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Fecha Límite de Devolución</label>
-                                                <input type="date" name="fechaLimiteDevolucion" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label class="form-label fw-semibold">Observaciones / Motivo</label>
-                                                <textarea name="observacion" class="form-control" rows="2" placeholder="Uso académico, trabajo en laboratorio, etc."></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="bi bi-check-circle me-1"></i>Confirmar Préstamo
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            <button th:unless="${#strings.equalsIgnoreCase(r.disponibilidad, 'Disponible')}" type="button" class="btn btn-outline-secondary w-100" disabled>
+                                No disponible
+                            </button>
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-lg-4" th:each="e : ${espacios}">
-                        <div class="card h-100 shadow-sm border-0">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <i class="bi bi-door-open fs-1 text-success"></i>
-                                    <span class="badge" th:classappend="${e.estado} ? 'bg-success' : 'bg-danger'">
+                    <div class="modal fade" th:id="'modalPrestamo-' + ${r.id}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form th:action="@{/estudiante/prestamos/guardar}" method="post">
+                                    <div class="modal-header bg-success text-white">
+                                        <h5 class="modal-title fw-bold">
+                                            <i class="bi bi-journal-plus me-2"></i>Solicitar Préstamo
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="recursoId" th:value="${r.id}">
+                                        <div class="mb-3 text-center">
+                                            <i th:class="${r.icono != null ? r.icono + ' fs-1 text-success' : 'bi bi-box fs-1 text-success'}"></i>
+                                            <h5 class="fw-bold mt-2" th:text="${r.nombre}"></h5>
+                                            <p class="text-muted small mb-0">
+                                                <i class="bi bi-geo-alt me-1"></i>
+                                                <span th:text="${r.ubicacion}"></span>
+                                            </p>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Fecha Límite de Devolución</label>
+                                            <input type="date" name="fechaLimiteDevolucion" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Observaciones / Motivo</label>
+                                            <textarea name="observacion" class="form-control" rows="2" placeholder="Uso académico, trabajo en laboratorio, etc."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="bi bi-check-circle me-1"></i>Confirmar Préstamo
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4" th:each="e : ${espacios}">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <i class="bi bi-door-open fs-1 text-success"></i>
+                                <span class="badge" th:classappend="${e.estado} ? 'bg-success' : 'bg-danger'">
                                         <i th:class="${e.estado} ? 'bi bi-check-circle me-1' : 'bi bi-clock me-1'"></i>
                                         <span th:text="${e.estado ? 'Disponible' : 'No disponible'}">Disponible</span>
                                     </span>
-                                </div>
-                                <h5 class="card-title fw-bold" th:text="${e.nombre}">Nombre Espacio</h5>
-                                <p class="card-text text-muted small mb-1">
-                                    <i class="bi bi-geo-alt me-1"></i><span th:text="${e.ubicacion}">Ubicacion</span>
-                                </p>
-                                <p class="card-text small" th:text="${'Capacidad: ' + e.capacidad + ' personas'}"></p>
                             </div>
-                            <div class="card-footer bg-white border-0 pb-3">
-                                <a th:if="${e.estado}" th:href="@{/estudiante/reservar-espacio/{id}(id=${e.id})}" class="btn btn-success w-100">
-                                    <i class="bi bi-calendar-plus me-1"></i> Reservar Espacio
-                                </a>
-                                <button th:unless="${e.estado}" type="button" class="btn btn-outline-secondary w-100" disabled>No disponible</button>
-                            </div>
+                            <h5 class="card-title fw-bold" th:text="${e.nombre}">Nombre Espacio</h5>
+                            <p class="card-text text-muted small mb-1">
+                                <i class="bi bi-geo-alt me-1"></i><span th:text="${e.ubicacion}">Ubicacion</span>
+                            </p>
+                            <p class="card-text small" th:text="${'Capacidad: ' + e.capacidad + ' personas'}"></p>
+                        </div>
+                        <div class="card-footer bg-white border-0 pb-3">
+                            <button th:if="${e.estado}" type="button" class="btn btn-success w-100" data-bs-toggle="modal" th:data-bs-target="'#modalReserva-' + ${e.id}">
+                                <i class="bi bi-calendar-plus me-1"></i> Reservar Espacio
+                            </button>
+                            <button th:unless="${e.estado}" type="button" class="btn btn-outline-secondary w-100" disabled>No disponible</button>
                         </div>
                     </div>
 
-                    <div class="col-12 text-center py-5" th:if="${#lists.isEmpty(recursos) && #lists.isEmpty(espacios)}">
-                        <i class="bi bi-search text-muted display-4 d-block mb-3"></i>
-                        <h5 class="text-muted">No se encontraron elementos disponibles.</h5>
+                    <div class="modal fade" th:id="'modalReserva-' + ${e.id}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form th:action="@{/estudiante/reservar-espacio/guardar}" method="post">
+                                    <div class="modal-header bg-success text-white">
+                                        <h5 class="modal-title fw-bold">
+                                            <i class="bi bi-calendar-plus me-2"></i>Reservar Espacio Académico
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="espacioAcademico.id" th:value="${e.id}">
+
+                                        <div class="mb-3 text-center">
+                                            <i class="bi bi-door-open fs-1 text-success"></i>
+                                            <h5 class="fw-bold mt-2" th:text="${e.nombre}"></h5>
+                                            <p class="text-muted small mb-0">
+                                                <i class="bi bi-geo-alt me-1"></i><span th:text="${e.ubicacion}"></span> | Capacidad: <span th:text="${e.capacidad}"></span> personas
+                                            </p>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Fecha de Reserva:</label>
+                                            <input type="date" name="fechaReserva" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required />
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label fw-bold">Horario disponible (Máximo 2 horas):</label>
+                                            <select class="form-select" th:onchange="|separarHorarios(this.value, ${e.id})|" required>
+                                                <option value="" disabled selected>-- Seleccione un horario --</option>
+                                                <option th:each="horario : ${horariosPermitidos}" th:value="${horario}" th:text="${horario}"></option>
+                                            </select>
+                                        </div>
+
+                                        <input type="hidden" name="horaInicio" th:id="'horaInicio-' + ${e.id}" />
+                                        <input type="hidden" name="horaFin" th:id="'horaFin-' + ${e.id}" />
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="bi bi-check-circle me-1"></i>Confirmar Reserva
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-12 text-center py-5" th:if="${#lists.isEmpty(recursos) && #lists.isEmpty(espacios)}">
+                    <i class="bi bi-search text-muted display-4 d-block mb-3"></i>
+                    <h5 class="text-muted">No se encontraron elementos disponibles.</h5>
+                </div>
             </div>
-        </main>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        </div>
+    </main>
+</div>
+
+<script>
+    function separarHorarios(valor, espacioId) {
+        if (valor) {
+            const partes = valor.split(" - ");
+            const inputInicio = document.getElementById("horaInicio-" + espacioId);
+            const inputFin = document.getElementById("horaFin-" + espacioId);
+
+            if (inputInicio && inputFin) {
+                inputInicio.value = partes[0];
+                inputFin.value = partes[1];
+            }
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -18,20 +18,21 @@ public class PrestamoController {
     @GetMapping("/empleado/prestamos")
     public String mostrarPrestamo(Model model) {
         model.addAttribute("prestamos", dataStore.prestamos);
-
         return "compoEmpleado/prestamos";
     }
 
     @PostMapping("/empleado/prestamos/guardar")
     public String guardarPrestamo(@RequestParam int idPrestamo, @RequestParam String fechaLimiteDevolucion){
         for (Prestamo prestamo : dataStore.prestamos){
-            if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Pendiente")){
+            if (prestamo.getId() == idPrestamo && "PENDIENTE".equalsIgnoreCase(prestamo.getEstado())){
                 prestamo.setFechaPrestamo(LocalDate.now());
                 prestamo.setFechaLimiteDevolucion(LocalDate.parse(fechaLimiteDevolucion));
+                prestamo.setEstado("ACTIVO");
+                if (prestamo.getRecurso() != null) {
+                    prestamo.getRecurso().setDisponibilidad("Prestado");
+                }
+                break;
             }
-            prestamo.setEstado("Activo");
-            if (prestamo.getRecurso() != null) {prestamo.getRecurso().setDisponibilidad("Prestado");}
-            break;
         }
         return "redirect:/empleado/prestamos";
     }
@@ -39,8 +40,8 @@ public class PrestamoController {
     @PostMapping("/empleado/prestamos/cancelar")
     public String cancelarPrestamo(@RequestParam int idPrestamo) {
         for (Prestamo prestamo : dataStore.prestamos) {
-            if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Pendiente")) {
-                prestamo.setEstado("Cancelado");
+            if (prestamo.getId() == idPrestamo && "PENDIENTE".equalsIgnoreCase(prestamo.getEstado())) {
+                prestamo.setEstado("CANCELADO");
                 break;
             }
         }
@@ -50,16 +51,19 @@ public class PrestamoController {
     @PostMapping("/empleado/prestamos/devolver")
     public String devolverPrestamo(@RequestParam int idPrestamo, @RequestParam String condicionDevolucion, @RequestParam(required = false) String observacionDevolucion){
         for (Prestamo prestamo : dataStore.prestamos) {
-            if (prestamo.getId() == idPrestamo && prestamo.getEstado().equals("Activo")) {
+            if (prestamo.getId() == idPrestamo && "ACTIVO".equalsIgnoreCase(prestamo.getEstado())) {
                 prestamo.setFechaDevolucion(LocalDate.now());
                 prestamo.setCondicionDevolucion(condicionDevolucion);
                 prestamo.setObservacionDevolucion(observacionDevolucion);
-                prestamo.setEstado("Devuelto");
+                prestamo.setEstado("DEVUELTO");
 
                 if (prestamo.getRecurso() != null) {
                     prestamo.getRecurso().setDisponibilidad("Disponible");
-                    if (condicionDevolucion.equals("Dañado")) {prestamo.getRecurso().setCondicionFisica("Dañada");}
-                    else{prestamo.getRecurso().setCondicionFisica("Buena");}
+                    if ("Dañado".equalsIgnoreCase(condicionDevolucion)) {
+                        prestamo.getRecurso().setCondicionFisica("Dañada");
+                    } else {
+                        prestamo.getRecurso().setCondicionFisica("Buena");
+                    }
                 }
                 break;
             }

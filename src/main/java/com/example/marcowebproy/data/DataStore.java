@@ -52,30 +52,30 @@ public class DataStore {
         estudiantes.add(estudiante3);
         estudiantes.add(estudiante4);
 
-        Prestamo p1 = new Prestamo();p1.setId(1);p1.setEstudiante(estudiante1);p1.setRecurso(r1);p1.setFechaPrestamo(LocalDate.of(2026, 9, 26));p1.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 29));p1.setEstado("Activo");
-        Prestamo p2 = new Prestamo();p2.setId(2);p2.setEstudiante(estudiante2);p2.setRecurso(r2);p2.setFechaPrestamo(LocalDate.of(2026, 9, 26));p2.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 30));p2.setEstado("Activo");
-        Prestamo p3 = new Prestamo();p3.setId(3);p3.setEstudiante(estudiante3);p3.setRecurso(r3);p3.setFechaPrestamo(LocalDate.of(2026, 9, 27));p3.setEstado("Pendiente");
-        Prestamo p4 = new Prestamo();p4.setId(4);p4.setEstudiante(estudiante4);p4.setRecurso(r3);p4.setFechaPrestamo(LocalDate.of(2026, 9, 20));p4.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 23));p4.setFechaDevolucion(LocalDate.of(2026, 9, 23));p4.setCondicionDevolucion("Bueno");p4.setObservacionDevolucion("Recurso devuelto en buen estado.");p4.setEstado("Devuelto");
+        Prestamo p1 = new Prestamo();p1.setId(1);p1.setEstudiante(estudiante1);p1.setRecurso(r1);p1.setFechaPrestamo(LocalDate.of(2026, 9, 26));p1.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 29));p1.setEstado("ACTIVO");
+        Prestamo p2 = new Prestamo();p2.setId(2);p2.setEstudiante(estudiante2);p2.setRecurso(r2);p2.setFechaPrestamo(LocalDate.of(2026, 9, 26));p2.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 30));p2.setEstado("ACTIVO");
+        Prestamo p3 = new Prestamo();p3.setId(3);p3.setEstudiante(estudiante3);p3.setRecurso(r3);p3.setFechaPrestamo(LocalDate.of(2026, 9, 27));p3.setEstado("PENDIENTE");
+        Prestamo p4 = new Prestamo();p4.setId(4);p4.setEstudiante(estudiante4);p4.setRecurso(r3);p4.setFechaPrestamo(LocalDate.of(2026, 9, 20));p4.setFechaLimiteDevolucion(LocalDate.of(2026, 9, 23));p4.setFechaDevolucion(LocalDate.of(2026, 9, 23));p4.setCondicionDevolucion("Bueno");p4.setObservacionDevolucion("Recurso devuelto en buen estado.");p4.setEstado("DEVUELTO");
         prestamos.add(p1);
         prestamos.add(p2);
         prestamos.add(p3);
         prestamos.add(p4);
 
         reservas.add(new Reserva(1, espacios.get(0), LocalDate.of(2026, 8, 29), "10:00", "12:00",
-                "Pendiente", LocalDateTime.of(2026, 8, 29, 10, 0), LocalDateTime.of(2026, 8, 29, 12, 0),
+                "PENDIENTE", LocalDateTime.of(2026, 8, 29, 10, 0), LocalDateTime.of(2026, 8, 29, 12, 0),
                 null, estudiantes.get(0), null
         ));
 
         reservas.add(new Reserva(
                 2, espacios.get(1), LocalDate.of(2026, 8, 30),
-                "14:00", "16:00", "Confirmada",
+                "14:00", "16:00", "APROBADA",
                 LocalDateTime.of(2026, 8, 30, 14, 0), LocalDateTime.of(2026, 8, 30, 16, 0), null,
                 estudiantes.get(1), null
         ));
 
         reservas.add(new Reserva(
                 3, null, LocalDate.of(2026, 8, 31),
-                "09:00", "11:00", "Cancelada",
+                "09:00", "11:00", "CANCELADA",
                 LocalDateTime.of(2026, 8, 31, 9, 0), LocalDateTime.of(2026, 8, 31, 11, 0), recursos.get(0),
                 estudiantes.get(2), "El recurso ya se encuentra reservado en el horario solicitado."
         ));

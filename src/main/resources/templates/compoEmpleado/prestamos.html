@@ -69,13 +69,12 @@
                                     </thead>
 
                                     <tbody>
-                                    <tr th:each="prestamo : ${prestamos}" th:if="${prestamo.estado == 'Activo'}">
+                                    <tr th:each="prestamo : ${prestamos}" th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'ACTIVO')}">
                                         <td><strong th:text="${prestamo.estudiante.nombre + ' ' + prestamo.estudiante.apellido}">Juan Pérez</strong></td>
                                         <td>
                                             <i th:class="'bi ' + ${prestamo.recurso.icono} + ' text-success me-1'"></i>
                                             <span th:text="${prestamo.recurso.nombre}">Laptop Dell Core i7</span>
                                         </td>
-
                                         <td th:text="${prestamo.fechaPrestamo}">26/09/2026</td>
                                         <td th:text="${prestamo.fechaLimiteDevolucion}">29/09/2026</td>
                                         <td><span class="badge bg-success">Activo</span></td>
@@ -118,20 +117,18 @@
                                     </thead>
 
                                     <tbody>
-                                    <tr th:each="prestamo : ${prestamos}" th:if="${prestamo.estado == 'Pendiente'}">
+                                    <tr th:each="prestamo : ${prestamos}" th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'PENDIENTE')}">
                                         <td><strong th:text="${prestamo.estudiante.nombre + ' ' + prestamo.estudiante.apellido}">Carlos Ramírez</strong></td>
                                         <td>
                                             <i th:class="'bi ' + ${prestamo.recurso.icono} + ' text-success me-1'"></i>
                                             <span th:text="${prestamo.recurso.nombre}">Libro de Ingeniería de Software</span>
                                         </td>
-
                                         <td th:text="${prestamo.fechaPrestamo}">27/09/2026</td>
                                         <td><span class="badge bg-warning text-dark">Pendiente</span></td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-success me-1" data-bs-toggle="modal" data-bs-target="#modalPrestamo" th:attr="data-id=${prestamo.id}">
                                                 <i class="bi bi-box-arrow-right me-1"></i>Registrar préstamo
                                             </button>
-
                                             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalCancelar" th:attr="data-id=${prestamo.id}">
                                                 <i class="bi bi-x-lg"></i>
                                             </button>
@@ -170,20 +167,18 @@
                                     </thead>
 
                                     <tbody>
-                                    <tr th:each="prestamo : ${prestamos}" th:if="${prestamo.estado == 'Devuelto'}">
+                                    <tr th:each="prestamo : ${prestamos}" th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'DEVUELTO')}">
                                         <td><strong th:text="${prestamo.estudiante.nombre + ' ' + prestamo.estudiante.apellido}">Pedro Castillo</strong></td>
                                         <td>
                                             <i th:class="'bi ' + ${prestamo.recurso.icono} + ' text-success me-1'"></i>
                                             <span th:text="${prestamo.recurso.nombre}">Libro de Ingeniería de Software</span>
                                         </td>
-
                                         <td th:text="${prestamo.fechaLimiteDevolucion}">23/09/2026</td>
                                         <td th:text="${prestamo.fechaDevolucion}">23/09/2026</td>
                                         <td>
-                                            <span th:if="${prestamo.condicionDevolucion == 'Bueno'}" class="badge bg-success">Bueno</span>
-                                            <span th:if="${prestamo.condicionDevolucion == 'Dañado'}" class="badge bg-danger">Dañado</span>
+                                            <span th:if="${#strings.equalsIgnoreCase(prestamo.condicionDevolucion, 'Bueno')}" class="badge bg-success">Bueno</span>
+                                            <span th:if="${#strings.equalsIgnoreCase(prestamo.condicionDevolucion, 'Dañado')}" class="badge bg-danger">Dañado</span>
                                         </td>
-
                                         <td><span class="badge bg-success">Devuelto</span></td>
                                     </tr>
                                     </tbody>
@@ -215,14 +210,14 @@
                                     </thead>
 
                                     <tbody>
-                                    <tr th:each="prestamo : ${prestamos}" th:if="${prestamo.estado == 'Devuelto' || prestamo.estado == 'Cancelado'}">
+                                    <tr th:each="prestamo : ${prestamos}" th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'DEVUELTO') || #strings.equalsIgnoreCase(prestamo.estado, 'CANCELADO')}">
                                         <td><strong th:text="${prestamo.estudiante.nombre + ' ' + prestamo.estudiante.apellido}">Pedro Castillo</strong></td>
                                         <td th:text="${prestamo.recurso.nombre}">Libro de Ingeniería de Software</td>
                                         <td th:text="${prestamo.fechaPrestamo}">20/09/2026</td>
                                         <td th:text="${prestamo.fechaDevolucion != null ? prestamo.fechaDevolucion : '-'}">23/09/2026</td>
                                         <td>
-                                            <span th:if="${prestamo.estado == 'Devuelto'}" class="badge bg-success">Completado</span>
-                                            <span th:if="${prestamo.estado == 'Cancelado'}" class="badge bg-danger">Cancelado</span>
+                                            <span th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'DEVUELTO')}" class="badge bg-success">Completado</span>
+                                            <span th:if="${#strings.equalsIgnoreCase(prestamo.estado, 'CANCELADO')}" class="badge bg-danger">Cancelado</span>
                                         </td>
                                     </tr>
                                     </tbody>

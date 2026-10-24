@@ -58,7 +58,12 @@
                         <td th:text="${#temporals.format(r.fechaReserva, 'dd/MM/yyyy')}"></td>
                         <td th:text="${r.horaInicio + ' - ' + r.horaFin}"></td>
                         <td class="text-center">
-                            <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')} ? 'bg-warning text-dark' : (${#strings.equalsIgnoreCase(r.estado, 'Confirmada')} ? 'bg-success' : 'bg-secondary')" th:text="${r.estado}"></span>
+                            <span class="badge"
+                                  th:classappend="${#strings.equalsIgnoreCase(r.estado, 'PENDIENTE')} ? 'bg-warning text-dark' :
+                                                 (${#strings.equalsIgnoreCase(r.estado, 'APROBADA') || #strings.equalsIgnoreCase(r.estado, 'CONFIRMADA')} ? 'bg-success' :
+                                                 (${#strings.equalsIgnoreCase(r.estado, 'RECHAZADA')} ? 'bg-danger' : 'bg-secondary'))"
+                                  th:text="${r.estado}">
+                            </span>
                         </td>
                         <td class="text-center">
 
@@ -129,7 +134,7 @@
                                                 </li>
                                                 <li class="list-group-item d-flex justify-content-between">
                                                     <span class="fw-semibold">Estado Actual:</span>
-                                                    <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'Pendiente')} ? 'bg-warning text-dark' : (${#strings.equalsIgnoreCase(r.estado, 'Confirmada')} ? 'bg-success' : 'bg-secondary')" th:text="${r.estado}"></span>
+                                                    <span class="badge" th:classappend="${#strings.equalsIgnoreCase(r.estado, 'CANCELADA')} ? 'bg-secondary text-white' : (${#strings.equalsIgnoreCase(r.estado, 'CONFIRMADA')} ? 'bg-info' : 'bg-success')" th:text="${r.estado}"></span>
                                                 </li>
                                             </ul>
                                         </div>
