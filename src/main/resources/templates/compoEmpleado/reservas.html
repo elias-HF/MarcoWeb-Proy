@@ -157,14 +157,14 @@
                                 <td><span th:text="${#temporals.format(reserva.fechaReserva, 'dd/MM/yyyy')}">29/08/2026</span></td>
                                 <td><span th:text="${reserva.horaInicio + ' - ' + reserva.horaFin}">10:00 - 12:00</span></td>
                                 <td>
-                                    <span th:if="${reserva.estado == 'Pendiente'}" class="badge bg-warning text-dark">Pendiente</span>
-                                    <span th:if="${reserva.estado == 'Confirmada'}" class="badge bg-success">Confirmada</span>
-                                    <span th:if="${reserva.estado == 'Rechazada'}" class="badge bg-danger">Rechazada</span>
-                                    <span th:if="${reserva.estado == 'Cancelada'}" class="badge bg-secondary">Cancelada</span>
+                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'PENDIENTE')}" class="badge bg-warning text-dark">Pendiente</span>
+                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'APROBADA') || #strings.equalsIgnoreCase(reserva.estado, 'Confirmada')}" class="badge bg-success">Aprobada</span>
+                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'RECHAZADA')}" class="badge bg-danger">Rechazada</span>
+                                    <span th:if="${#strings.equalsIgnoreCase(reserva.estado, 'CANCELADA')}" class="badge bg-secondary">Cancelada</span>
                                 </td>
 
                                 <td class="text-center align-middle">
-                                    <div th:if="${reserva.estado == 'Pendiente'}" class="d-flex justify-content-center gap-1">
+                                    <div th:if="${#strings.equalsIgnoreCase(reserva.estado, 'PENDIENTE')}" class="d-flex justify-content-center gap-1">
                                         <form method="post" th:action="@{/empleado/reservas/confirmar}" class="d-inline-block m-0 p-0">
                                             <input type="hidden" name="id" th:value="${reserva.id}">
                                             <button type="submit" class="btn btn-sm btn-success" title="Confirmar">
@@ -174,13 +174,14 @@
                                         <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#rechazarModal' + ${reserva.id}" title="Rechazar">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
-
                                         <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" th:attr="data-bs-target='#consultarModal' + ${reserva.id}" title="Consultar">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                     </div>
-                                    <div th:unless="${reserva.estado == 'Pendiente'}">
-                                        <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" th:attr="data-bs-target='#consultarModal' + ${reserva.id}" title="Consultar"><i class="bi bi-eye"></i></button>
+                                    <div th:unless="${#strings.equalsIgnoreCase(reserva.estado, 'PENDIENTE')}">
+                                        <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" th:attr="data-bs-target='#consultarModal' + ${reserva.id}" title="Consultar">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -249,8 +250,7 @@
             </div>
         </div>
 
-        <div th:each="reserva : ${reservas}" th:if="${reserva.estado == 'Pendiente'}" th:id="'rechazarModal' + ${reserva.id}" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
+        <div th:each="reserva : ${reservas}" th:if="${#strings.equalsIgnoreCase(reserva.estado, 'PENDIENTE')}" th:id="'rechazarModal' + ${reserva.id}" class="modal fade" tabindex="-1">            <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="post" th:action="@{/empleado/reservas/rechazar}">
                         <div class="modal-header bg-danger text-white">

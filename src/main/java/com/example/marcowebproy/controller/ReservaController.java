@@ -23,27 +23,32 @@ public class ReservaController {
 
         if (busqueda != null && !busqueda.trim().isEmpty()) {
             String texto = busqueda.trim().toLowerCase();
-            reservasFiltradas = reservasFiltradas.stream().filter(r -> {String estudiante = "";String recurso = "";String espacio = "";
-                if (r.getEstudiante() != null) {estudiante = (r.getEstudiante().getNombre() + " " + r.getEstudiante().getApellido() + " " + r.getEstudiante().getCodigoEstudiante()).toLowerCase();}
-                if (r.getRecurso() != null) {recurso = r.getRecurso().getNombre().toLowerCase();}
-                if (r.getEspacioAcademico() != null) {espacio = r.getEspacioAcademico().getNombre().toLowerCase();}
+            reservasFiltradas = reservasFiltradas.stream().filter(r -> {
+                String estudiante = ""; String recurso = ""; String espacio = "";
+                if (r.getEstudiante() != null) { estudiante = (r.getEstudiante().getNombre() + " " + r.getEstudiante().getApellido() + " " + r.getEstudiante().getCodigoEstudiante()).toLowerCase(); }
+                if (r.getRecurso() != null) { recurso = r.getRecurso().getNombre().toLowerCase(); }
+                if (r.getEspacioAcademico() != null) { espacio = r.getEspacioAcademico().getNombre().toLowerCase(); }
 
-                return estudiante.contains(texto) || recurso.contains(texto) || espacio.contains(texto);}).collect(Collectors.toList());
+                return estudiante.contains(texto) || recurso.contains(texto) || espacio.contains(texto);
+            }).collect(Collectors.toList());
         }
 
-        if (estado != null && !estado.trim().isEmpty() && !estado.equals("Todos")) {
-            reservasFiltradas = reservasFiltradas.stream().filter(r -> estado.equals(r.getEstado())).collect(Collectors.toList());
+        if (estado != null && !estado.trim().isEmpty() && !estado.equalsIgnoreCase("Todos")) {
+            reservasFiltradas = reservasFiltradas.stream()
+                    .filter(r -> estado.equalsIgnoreCase(r.getEstado()))
+                    .collect(Collectors.toList());
         }
 
         if (fecha != null && !fecha.trim().isEmpty()) {
             LocalDate fechaFiltro = LocalDate.parse(fecha);
-            reservasFiltradas = reservasFiltradas.stream().filter(r -> fechaFiltro.equals(r.getFechaReserva())).collect(Collectors.toList());
+            reservasFiltradas = reservasFiltradas.stream()
+                    .filter(r -> fechaFiltro.equals(r.getFechaReserva()))
+                    .collect(Collectors.toList());
         }
 
-        long pendientes = dataStore.reservas.stream().filter(r -> "Pendiente".equals(r.getEstado())).count();
-        long confirmadas = dataStore.reservas.stream().filter(r -> "Confirmada".equals(r.getEstado())).count();
-
-        long rechazadas = dataStore.reservas.stream().filter(r -> "Rechazada".equals(r.getEstado())).count();
+        long pendientes = dataStore.reservas.stream().filter(r -> "PENDIENTE".equalsIgnoreCase(r.getEstado())).count();
+        long confirmadas = dataStore.reservas.stream().filter(r -> "APROBADA".equalsIgnoreCase(r.getEstado()) || "CONFIRMADA".equalsIgnoreCase(r.getEstado())).count();
+        long rechazadas = dataStore.reservas.stream().filter(r -> "RECHAZADA".equalsIgnoreCase(r.getEstado())).count();
 
         model.addAttribute("reservas", reservasFiltradas);
         model.addAttribute("totalReservas", dataStore.reservas.size());
