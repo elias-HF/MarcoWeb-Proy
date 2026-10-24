@@ -40,3 +40,8 @@ VALUES (2, '2026-10-16', '14:00', '16:00', 'PENDIENTE', NULL, '2026-10-16 14:00:
 
 INSERT INTO prestamo (recurso_id, fecha_prestamo, fecha_limite_devolucion, fecha_devolucion, estado, observacion_devolucion, estudiante_id, condicion_devolucion)
 VALUES (2, '2026-10-10', '2026-10-12', '2026-10-11', 'DEVUELTO', 'Entregado en perfectas condiciones y con accesorios completos.', 1, 'Excelente');
+
+ALTER TABLE categoria ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE categoria ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE recurso ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE espacio_academico ALTER COLUMN id RESTART WITH 100;

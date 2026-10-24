@@ -2,6 +2,7 @@ package com.example.marcowebproy.controller;
 
 import com.example.marcowebproy.model.Categoria;
 import com.example.marcowebproy.data.DataStore;
+import com.example.marcowebproy.service.CategoriaService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,44 +11,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class CategoriaController {
-    private final DataStore dataStore;
+    private final CategoriaService categoriaService;
 
-    public CategoriaController(DataStore dataStore) {this.dataStore = dataStore;}
+    public CategoriaController(CategoriaService categoriaService) {
+        this.categoriaService = categoriaService;
+    }
 
     @GetMapping("/empleado/categorias")
     public String categorias(Model model) {
-        model.addAttribute("categorias", dataStore.categorias);
-
+        model.addAttribute("categorias", categoriaService.listar());
         return "compoEmpleado/categorias";
     }
 
     @PostMapping("/empleado/categorias/guardar")
-    public String guardarCategoria(@RequestParam String nombre, @RequestParam String descripcion){
-        int nuevoID = dataStore.categorias.size() + 1;
-        Categoria categoria = new Categoria(nuevoID, nombre, descripcion, null, true);
-
-        dataStore.categorias.add(categoria);
-
+    public String guardarCategoria(@RequestParam String nombre, @RequestParam String descripcion) {
+        categoriaService.guardar(nombre, descripcion);
         return "redirect:/empleado/categorias";
     }
 
     @PostMapping("/empleado/categorias/modificar")
     public String modificarCategoria(@RequestParam int id, @RequestParam String nombre, @RequestParam String descripcion) {
-        Categoria categoria = dataStore.categorias.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
-
-        if (categoria != null) {
-            categoria.setNombre(nombre);
-            categoria.setDescripcion(descripcion);
-        }
-
+        categoriaService.modificar(id, nombre, descripcion);
         return "redirect:/empleado/categorias";
     }
 
     @PostMapping("/empleado/categorias/desactivar")
-    public String desactivarCategoria(@RequestParam int id){
-        Categoria categoria = dataStore.categorias.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
-        if (categoria != null) {categoria.setEstado(false);}
-
+    public String desactivarCategoria(@RequestParam int id) {
+        categoriaService.desactivar(id);
         return "redirect:/empleado/categorias";
     }
 }

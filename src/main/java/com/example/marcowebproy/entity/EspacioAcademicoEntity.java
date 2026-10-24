@@ -1,7 +1,7 @@
 package com.example.marcowebproy.entity;
 
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "espacio_academico")
@@ -10,9 +10,14 @@ public class EspacioAcademicoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+    @NotBlank(message = "El tipo es obligatorio")
     private String tipo;
+    @NotBlank(message = "La ubicación es obligatoria")
     private String ubicacion;
+    @Min(value = 1, message = "La capacidad debe ser mayor a 0")
+    @Max(value = 500, message = "La capacidad máxima es 500")
     private int capacidad;
     private boolean estado;
 
