@@ -109,14 +109,46 @@
               <span class="badge" th:classappend="${p.estado == 'Pendiente'} ? 'bg-info text-dark' : (${p.estado == 'Activo'} ? 'bg-warning text-dark' : (${p.estado == 'Atrasado' || p.estado == 'Cancelado'} ? 'bg-danger' : 'bg-secondary'))" th:text="${p.estado}"></span>
             </td>
             <td class="text-center">
-              <form th:action="@{/estudiante/prestamos/cancelar/{id}(id=${p.id})}" method="post" class="d-inline" th:if="${p.estado == 'Pendiente'}" onsubmit="return confirm('¿Estás seguro de que deseas cancelar esta solicitud?');">
-                <button type="submit" class="btn btn-sm btn-outline-danger me-1">
-                  <i class="bi bi-x-circle me-1"></i>Cancelar Solicitud
-                </button>
-              </form>
+
+              <button type="button" class="btn btn-sm btn-outline-danger me-1" th:if="${p.estado == 'Pendiente'}" data-bs-toggle="modal" th:data-bs-target="'#modalCancelarPrestamo-' + ${p.id}">
+                <i class="bi bi-x-circle me-1"></i>Cancelar Solicitud
+              </button>
+
               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" th:data-bs-target="'#modalDetalle-' + ${p.id}">
                 <i class="bi bi-eye me-1"></i>Ver Detalle
               </button>
+
+              <div class="modal fade text-start" th:id="'modalCancelarPrestamo-' + ${p.id}" tabindex="-1" aria-hidden="true" th:if="${p.estado == 'Pendiente'}">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <form th:action="@{/estudiante/prestamos/cancelar/{id}(id=${p.id})}" method="post">
+                      <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title fw-bold">
+                          <i class="bi bi-exclamation-triangle me-2"></i>Cancelar Solicitud de Préstamo
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p class="mb-2">¿Estás seguro de que deseas cancelar la solicitud para el siguiente recurso?</p>
+                        <div class="bg-light p-3 rounded border mb-3">
+                          <div class="fw-bold text-dark" th:text="${p.recurso != null ? p.recurso.nombre : 'Recurso General'}"></div>
+                          <small class="text-muted d-block" th:if="${p.recurso != null && p.recurso.ubicacion != null}">
+                            Ubicación: <span th:text="${p.recurso.ubicacion}"></span>
+                          </small>
+                        </div>
+                        <small class="text-danger"><i class="bi bi-info-circle me-1"></i>Esta solicitud quedará anulada inmediatamente.</small>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                        <button type="submit" class="btn btn-danger">
+                          <i class="bi bi-x-circle me-1"></i>Sí, Cancelar Solicitud
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
               <div class="modal fade text-start" th:id="'modalDetalle-' + ${p.id}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
