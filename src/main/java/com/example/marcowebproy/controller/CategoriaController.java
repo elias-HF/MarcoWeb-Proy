@@ -1,7 +1,5 @@
 package com.example.marcowebproy.controller;
 
-import com.example.marcowebproy.model.Categoria;
-import com.example.marcowebproy.data.DataStore;
 import com.example.marcowebproy.service.CategoriaService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;

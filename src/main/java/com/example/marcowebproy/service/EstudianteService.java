@@ -4,7 +4,6 @@ import com.example.marcowebproy.adapter.*;
 import com.example.marcowebproy.entity.*;
 import com.example.marcowebproy.model.*;
 import com.example.marcowebproy.repository.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 

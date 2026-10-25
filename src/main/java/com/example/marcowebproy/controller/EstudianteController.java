@@ -1,22 +1,14 @@
 package com.example.marcowebproy.controller;
 
-import com.example.marcowebproy.data.DataStore;
 import com.example.marcowebproy.entity.EstudianteEntity;
-import com.example.marcowebproy.model.Prestamo;
-import com.example.marcowebproy.model.Recurso;
 import com.example.marcowebproy.model.Reserva;
-import com.example.marcowebproy.model.EspacioAcademico;
 import com.example.marcowebproy.service.EstudianteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/estudiante")

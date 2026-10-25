@@ -1,73 +1,44 @@
 package com.example.marcowebproy.controller;
 
-import com.example.marcowebproy.data.DataStore;
+import com.example.marcowebproy.service.PrestamoService;
 import org.springframework.stereotype.Controller;
-import com.example.marcowebproy.model.Prestamo;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.LocalDate;
 
 @Controller
+@RequestMapping("/empleado")
 public class PrestamoController {
-    private final DataStore dataStore;
-    public PrestamoController(DataStore dataStore) {this.dataStore = dataStore;}
+    private final PrestamoService prestamoService;
 
-    @GetMapping("/empleado/prestamos")
+    public PrestamoController(PrestamoService prestamoService) {
+        this.prestamoService = prestamoService;
+    }
+
+    @GetMapping("/prestamos")
     public String mostrarPrestamo(Model model) {
-        model.addAttribute("prestamos", dataStore.prestamos);
+        model.addAttribute("prestamos", prestamoService.listarTodos());
         return "compoEmpleado/prestamos";
     }
 
-    @PostMapping("/empleado/prestamos/guardar")
+    @PostMapping("/prestamos/guardar")
     public String guardarPrestamo(@RequestParam int idPrestamo, @RequestParam String fechaLimiteDevolucion){
-        for (Prestamo prestamo : dataStore.prestamos){
-            if (prestamo.getId() == idPrestamo && "PENDIENTE".equalsIgnoreCase(prestamo.getEstado())){
-                prestamo.setFechaPrestamo(LocalDate.now());
-                prestamo.setFechaLimiteDevolucion(LocalDate.parse(fechaLimiteDevolucion));
-                prestamo.setEstado("ACTIVO");
-                if (prestamo.getRecurso() != null) {
-                    prestamo.getRecurso().setDisponibilidad("Prestado");
-                }
-                break;
-            }
-        }
+        prestamoService.marcarComoRecogido(idPrestamo, fechaLimiteDevolucion);
         return "redirect:/empleado/prestamos";
     }
 
-    @PostMapping("/empleado/prestamos/cancelar")
+    @PostMapping("/prestamos/cancelar")
     public String cancelarPrestamo(@RequestParam int idPrestamo) {
-        for (Prestamo prestamo : dataStore.prestamos) {
-            if (prestamo.getId() == idPrestamo && "PENDIENTE".equalsIgnoreCase(prestamo.getEstado())) {
-                prestamo.setEstado("CANCELADO");
-                break;
-            }
-        }
+        prestamoService.cancelarPrestamo(idPrestamo);
         return "redirect:/empleado/prestamos";
     }
 
-    @PostMapping("/empleado/prestamos/devolver")
+    @PostMapping("/prestamos/devolver")
     public String devolverPrestamo(@RequestParam int idPrestamo, @RequestParam String condicionDevolucion, @RequestParam(required = false) String observacionDevolucion){
-        for (Prestamo prestamo : dataStore.prestamos) {
-            if (prestamo.getId() == idPrestamo && "ACTIVO".equalsIgnoreCase(prestamo.getEstado())) {
-                prestamo.setFechaDevolucion(LocalDate.now());
-                prestamo.setCondicionDevolucion(condicionDevolucion);
-                prestamo.setObservacionDevolucion(observacionDevolucion);
-                prestamo.setEstado("DEVUELTO");
-
-                if (prestamo.getRecurso() != null) {
-                    prestamo.getRecurso().setDisponibilidad("Disponible");
-                    if ("Dañado".equalsIgnoreCase(condicionDevolucion)) {
-                        prestamo.getRecurso().setCondicionFisica("Dañada");
-                    } else {
-                        prestamo.getRecurso().setCondicionFisica("Buena");
-                    }
-                }
-                break;
-            }
-        }
+        prestamoService.registrarDevolucion(idPrestamo, condicionDevolucion, observacionDevolucion);
         return "redirect:/empleado/prestamos";
     }
 }

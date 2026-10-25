@@ -1,7 +1,7 @@
 package com.example.marcowebproy.controller;
 
-import com.example.marcowebproy.data.DataStore;
 import com.example.marcowebproy.model.Reserva;
+import com.example.marcowebproy.service.ReservaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,49 +13,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/empleado")
 public class ReservaController {
-    private final DataStore dataStore;
-    public ReservaController(DataStore dataStore) {this.dataStore = dataStore;}
+    private final ReservaService reservaService;
 
-    @GetMapping("/empleado/reservas")
+    public ReservaController(ReservaService reservaService) {
+        this.reservaService = reservaService;
+    }
+
+    @GetMapping("/reservas")
     public String listarReservas(@RequestParam(required = false) String busqueda, @RequestParam(required = false) String estado, @RequestParam(required = false) String fecha, Model model) {
-        List<Reserva> reservasFiltradas = new ArrayList<>(dataStore.reservas);
 
-        if (busqueda != null && !busqueda.trim().isEmpty()) {
-            String texto = busqueda.trim().toLowerCase();
-            reservasFiltradas = reservasFiltradas.stream().filter(r -> {
-                String estudiante = ""; String recurso = ""; String espacio = "";
-                if (r.getEstudiante() != null) { estudiante = (r.getEstudiante().getNombre() + " " + r.getEstudiante().getApellido() + " " + r.getEstudiante().getCodigoEstudiante()).toLowerCase(); }
-                if (r.getRecurso() != null) { recurso = r.getRecurso().getNombre().toLowerCase(); }
-                if (r.getEspacioAcademico() != null) { espacio = r.getEspacioAcademico().getNombre().toLowerCase(); }
 
-                return estudiante.contains(texto) || recurso.contains(texto) || espacio.contains(texto);
-            }).collect(Collectors.toList());
-        }
-
-        if (estado != null && !estado.trim().isEmpty() && !estado.equalsIgnoreCase("Todos")) {
-            reservasFiltradas = reservasFiltradas.stream()
-                    .filter(r -> estado.equalsIgnoreCase(r.getEstado()))
-                    .collect(Collectors.toList());
-        }
-
-        if (fecha != null && !fecha.trim().isEmpty()) {
-            LocalDate fechaFiltro = LocalDate.parse(fecha);
-            reservasFiltradas = reservasFiltradas.stream()
-                    .filter(r -> fechaFiltro.equals(r.getFechaReserva()))
-                    .collect(Collectors.toList());
-        }
-
-        long pendientes = dataStore.reservas.stream().filter(r -> "PENDIENTE".equalsIgnoreCase(r.getEstado())).count();
-        long confirmadas = dataStore.reservas.stream().filter(r -> "APROBADA".equalsIgnoreCase(r.getEstado())).count();
-        long rechazadas = dataStore.reservas.stream().filter(r -> "RECHAZADA".equalsIgnoreCase(r.getEstado())).count();
-
-        model.addAttribute("reservas", reservasFiltradas);
-        model.addAttribute("totalReservas", dataStore.reservas.size());
-
-        model.addAttribute("pendientes", pendientes);
-        model.addAttribute("confirmadas", confirmadas);
-        model.addAttribute("rechazadas", rechazadas);
+        model.addAttribute("reservas", reservaService.listarFiltradas(busqueda, estado, fecha));
+        model.addAttribute("totalReservas", reservaService.contarTotal());
+        model.addAttribute("pendientes", reservaService.contarPorEstado("PENDIENTE"));
+        model.addAttribute("confirmadas", reservaService.contarPorEstado("APROBADA"));
+        model.addAttribute("rechazadas", reservaService.contarPorEstado("NO_PRESENTADO"));
 
         model.addAttribute("busqueda", busqueda != null ? busqueda : "");
         model.addAttribute("estado", estado != null ? estado : "Todos");
@@ -64,85 +38,28 @@ public class ReservaController {
         return "compoEmpleado/reservas";
     }
 
-    @PostMapping("/empleado/reservas/modificar")
+    @PostMapping("/reservas/modificar")
     public String modificarReserva(@RequestParam int id, @RequestParam String estado) {
-        Reserva reserva = buscarReserva(id);
-        if (reserva != null) {
-            if ("PENDIENTE".equalsIgnoreCase(estado) || "APROBADA".equalsIgnoreCase(estado) || "RECHAZADA".equalsIgnoreCase(estado)) {
-                reserva.setEstado(estado.toUpperCase());
-                if (!"RECHAZADA".equalsIgnoreCase(estado)) {
-                    reserva.setMotivoRechazo(null);
-                }
-            }
-        }
+        reservaService.actualizarEstado(id, estado);
         return "redirect:/empleado/reservas";
     }
 
-    @PostMapping("/empleado/reservas/rechazar")
+    @PostMapping("/reservas/rechazar")
     public String rechazarReserva(@RequestParam int id, @RequestParam String motivoRechazo) {
-        Reserva reserva = buscarReserva(id);
-        if (reserva != null) {
-            if (motivoRechazo != null && !motivoRechazo.trim().isEmpty()) {
-                reserva.setEstado("RECHAZADA");
-                reserva.setMotivoRechazo(motivoRechazo.trim());
-            }
-        }
+        reservaService.registrarInasistencia(id, motivoRechazo);
         return "redirect:/empleado/reservas";
     }
 
-    @PostMapping("/empleado/reservas/confirmar")
+    @PostMapping("/reservas/confirmar")
     public String confirmarReserva(@RequestParam int id) {
-        Reserva reserva = buscarReserva(id);
-        if (reserva != null) {
-            boolean ocupado = dataStore.reservas.stream().anyMatch(r ->
-                    r.getId() != reserva.getId() &&
-                            ("APROBADA".equalsIgnoreCase(r.getEstado()) || "CONFIRMADA".equalsIgnoreCase(r.getEstado())) &&
-                            mismoRecursoOespacio(r, reserva) &&
-                            seCruzanHorarios(r, reserva)
-            );
-            if (!ocupado) {
-                reserva.setEstado("APROBADA");
-                reserva.setMotivoRechazo(null);
-            }
-        }
+        reservaService.confirmarUsoReserva(id);
         return "redirect:/empleado/reservas";
     }
 
-    @PostMapping("/empleado/reservas/cancelar")
+    @PostMapping("/reservas/cancelar")
     public String cancelarReserva(@RequestParam int id) {
-        Reserva reserva = buscarReserva(id);
-        if (reserva != null) {
-            reserva.setEstado("CANCELADA");
-            reserva.setMotivoRechazo(null);
-        }
+        reservaService.cancelarReserva(id);
         return "redirect:/empleado/reservas";
     }
 
-    private Reserva buscarReserva(int id) {
-        return dataStore.reservas.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
-    }
-
-    private boolean mismoRecursoOespacio(Reserva a, Reserva b) {
-        if (a.getEspacioAcademico() != null && b.getEspacioAcademico() != null) {
-            return a.getEspacioAcademico().getId() == b.getEspacioAcademico().getId();
-        }
-
-        if (a.getRecurso() != null && b.getRecurso() != null) {
-            return a.getRecurso().getId() == b.getRecurso().getId();
-        }
-
-        return false;
-    }
-
-    private boolean seCruzanHorarios(Reserva a, Reserva b) {
-        if (a.getFechaReserva() == null || b.getFechaReserva() == null) {return false;}
-        if (!a.getFechaReserva().equals(b.getFechaReserva())) {return false;}
-
-        LocalTime inicioA = LocalTime.parse(a.getHoraInicio());
-        LocalTime finA = LocalTime.parse(a.getHoraFin());
-        LocalTime inicioB = LocalTime.parse(b.getHoraInicio());
-        LocalTime finB = LocalTime.parse(b.getHoraFin());
-
-        return inicioA.isBefore(finB) && inicioB.isBefore(finA);
-    }
 }
