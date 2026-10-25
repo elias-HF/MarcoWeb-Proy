@@ -60,15 +60,21 @@
                                 </td>
                                 <td th:text="${estudiante.correo}">juan.perez@institucion.edu.pe</td>
                                 <td>
-                                    <span th:if="${estudiante.puntajeMerito >= 17}" class="badge bg-success">
-                                        <i class="bi bi-star-fill me-1"></i>Mérito
+                                    <!-- Si tiene puntaje de mérito mayor o igual a 17 (o el umbral que manejes) -->
+                                    <span th:if="${estudiante.puntajeMerito >= 50}" class="badge bg-success">
+                                        <i class="bi bi-star-fill me-1"></i>Mérito: <span th:text="${estudiante.puntajeMerito}">100</span>
                                     </span>
+
+                                    <!-- Si tiene deméritos registrados -->
                                     <span th:if="${estudiante.demeritos > 0}" class="badge bg-warning text-dark">
                                         <i class="bi bi-exclamation-triangle-fill me-1"></i>
-                                        <span th:text="${estudiante.demeritos}">1</span>
-                                        Demérito
+                                        Deméritos: <span th:text="${estudiante.demeritos}">1</span>
                                     </span>
-                                    <span th:if="${estudiante.puntajeMerito < 17 and estudiante.demeritos == 0}" class="badge bg-secondary">Sin registro</span>
+
+                                    <!-- Si no entra en ninguna de las anteriores -->
+                                    <span th:if="${estudiante.puntajeMerito < 50 and estudiante.demeritos == 0}" class="badge bg-secondary">
+                                        Puntaje: <span th:text="${estudiante.puntajeMerito}">0</span>
+                                    </span>
                                 </td>
                                 <td>
                                     <span th:if="${estudiante.estado}" class="badge bg-success">Activo</span>

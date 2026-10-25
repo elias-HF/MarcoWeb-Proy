@@ -47,7 +47,7 @@
                                     <span th:text="${categoria.nombre}"></span>
                                 </td>
                                 <td th:text="${categoria.descripcion}"></td>
-                                <td><span class="badge bg-light text-dark" th:text="${categoria.recurso != null ? 1 : 0}"></span></td>
+                                <td><span class="badge bg-light text-dark" th:text="${categoria.cantidadRecursos}">0</span></td>
                                 <td><span th:text="${categoria.estado ? 'Activa' : 'Inactiva'}" th:class="${categoria.estado ? 'badge bg-success' : 'badge bg-secondary'}"></span></td>
                                 <td class="text-center">
                                     <th:block th:if="${categoria.estado}">

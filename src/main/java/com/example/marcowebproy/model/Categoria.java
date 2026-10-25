@@ -7,15 +7,17 @@ public class Categoria {
     private String descripcion;
     private Recurso recurso;
     private boolean estado;
+    private int cantidadRecursos;
 
     public Categoria() {}
 
-    public Categoria(int id, String nombre, String descripcion, Recurso recurso, boolean estado) {
+    public Categoria(int id, String nombre, String descripcion, Recurso recurso, boolean estado, int cantidadRecursos) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.recurso = recurso;
         this.estado = estado;
+        this.cantidadRecursos = cantidadRecursos;
     }
 
     public int getId() { return id; }
@@ -32,4 +34,12 @@ public class Categoria {
 
     public boolean isEstado() { return estado; }
     public void setEstado(boolean estado) { this.estado = estado; }
+
+    public int getCantidadRecursos() {
+        return cantidadRecursos;
+    }
+
+    public void setCantidadRecursos(int cantidadRecursos) {
+        this.cantidadRecursos = cantidadRecursos;
+    }
 }
