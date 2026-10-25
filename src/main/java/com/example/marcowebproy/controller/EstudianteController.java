@@ -64,18 +64,27 @@ public class EstudianteController {
     }
 
     @GetMapping("/reservas")
-    public String reservas(@RequestParam(name = "estado", required = false) String estado, Model model) {
+    public String reservas(@RequestParam(name = "estado", required = false) String estado,HttpSession session , Model model) {
+        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+        if(estudianteSession == null){
+            return "redirect:/login";
+        }
 
-        model.addAttribute("reservas",estudianteService.lisarReservas(estado));
+        model.addAttribute("reservas",estudianteService.listarReservasPorEstudiante(estudianteSession.getId(), estado));
         model.addAttribute("estadoSeleccionado",estado);
         return "compoEstudiante/reservas";
     }
 
     @GetMapping("/prestamos")
-    public String prestamos(Model model) {
-        Map<String, Long> stats = estudianteService.obtenerEstadisticasPrestamos();
+    public String prestamos(HttpSession session, Model model) {
+        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+        if(estudianteSession == null){
+            return "redirect:/login";
+        }
 
-        model.addAttribute("prestamos",estudianteService.listarPrestamos());
+        Map<String, Long> stats = estudianteService.obtenerEstadisticasPrestamosPorEstudiante(estudianteSession.getId());
+
+        model.addAttribute("prestamos",estudianteService.listarPrestamosPorEstudiante(estudianteSession.getId()));
         model.addAttribute("cantEnCurso",stats.get("Activos"));
         model.addAttribute("cantPendientes",stats.get("Pendientes"));
         model.addAttribute("cantAtrasados",stats.get("Atrasados"));

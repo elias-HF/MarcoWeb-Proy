@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<ReservaEntity, Integer> {
-    List<ReservaEntity> findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(int espacioId, LocalDate fechaReserva, List<String> estadosExcluidos);
+    List<ReservaEntity> findByEstudianteId(int estudianteId);
     long countByEstudianteIdAndEstadoIn(int estudianteId, List<String> estados);
+    List<ReservaEntity> findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(int espacioId, LocalDate fechaReserva, List<String> estadosExcluidos);
+
 }
