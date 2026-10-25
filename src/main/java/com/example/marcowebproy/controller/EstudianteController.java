@@ -108,7 +108,7 @@ public class EstudianteController {
         Reserva reserva = estudianteService.obtenerReservasPorEspacioId(idEspacio);
         model.addAttribute("reserva", reserva);
         model.addAttribute("horariosPermitidos", estudianteService.obtenerHorariosDisponibles());
-        return "compoEstudiante/espacio";
+        return "compoEstudiante/recursos";
     }
 
     @PostMapping("/prestamos/guardar")
@@ -146,7 +146,7 @@ public class EstudianteController {
             redirectAttributes.addFlashAttribute("mensajeExito","Reserva realizada con exito.");
         }catch (IllegalStateException | IllegalArgumentException e){
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
-            return "redirect:/estudiante/reservar-espacio/" + reserva.getEspacioAcademico().getId();
+            return "redirect:/estudiante/recursos";
         }
 
         return "redirect:/estudiante/reservas";

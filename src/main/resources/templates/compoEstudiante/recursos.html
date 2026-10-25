@@ -23,6 +23,11 @@
         </div>
 
         <div class="container py-4">
+            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert" th:if="${mensajeError}">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${mensajeError}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             <form th:action="@{/estudiante/recursos}" method="get" class="row g-2 align-items-center mb-4">
                 <div class="col-md-5">
                     <div class="input-group">
@@ -87,7 +92,7 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label fw-semibold">Fecha Límite de Devolución</label>
+                                            <label class="form-label fw-semibold">Fecha de Recojo</label>
                                             <input type="date" name="fechaLimiteDevolucion" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
                                         </div>
 
