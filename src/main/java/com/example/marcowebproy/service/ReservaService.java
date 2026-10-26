@@ -76,9 +76,9 @@ public class ReservaService {
     @Transactional
     public void actualizarEstado(int id, String estado) {
         reservaRepository.findById(id).ifPresent(reserva -> {
-            if ("PENDIENTE".equalsIgnoreCase(estado) || "APROBADA".equalsIgnoreCase(estado) || "NO_PRESENTADO".equalsIgnoreCase(estado)) {
+            if ("Pendiente".equalsIgnoreCase(estado) || "Aprobada".equalsIgnoreCase(estado) || "No Presentado".equalsIgnoreCase(estado)) {
                 reserva.setEstado(estado.toUpperCase());
-                if (!"NO_PRESENTADO".equalsIgnoreCase(estado)) {
+                if (!"No Presentado".equalsIgnoreCase(estado)) {
                     reserva.setMotivoRechazo(null);
                 }
                 reservaRepository.save(reserva);
@@ -90,7 +90,7 @@ public class ReservaService {
     public void registrarInasistencia(int id, String motivo) {
         reservaRepository.findById(id).ifPresent(reserva -> {
             if (motivo != null && !motivo.trim().isEmpty()) {
-                reserva.setEstado("NO_PRESENTADO");
+                reserva.setEstado("No Presentado");
                 reserva.setMotivoRechazo(motivo.trim());
                 reservaRepository.save(reserva);
             }
@@ -103,12 +103,12 @@ public class ReservaService {
             List<ReservaEntity> todas = reservaRepository.findAll();
             boolean ocupado = todas.stream().anyMatch(r ->
                     r.getId() != reserva.getId() &&
-                            ("APROBADA".equalsIgnoreCase(r.getEstado()) || "CONFIRMADA".equalsIgnoreCase(r.getEstado()) || "USO_ACTIVO".equalsIgnoreCase(r.getEstado())) &&
+                            ("Aprobada".equalsIgnoreCase(r.getEstado()) || "Confirmada".equalsIgnoreCase(r.getEstado()) || "Uso Activo".equalsIgnoreCase(r.getEstado())) &&
                             mismoRecursoOespacio(r, reserva) &&
                             seCruzanHorarios(r, reserva)
             );
             if (!ocupado) {
-                reserva.setEstado("APROBADA"); // O "USO_ACTIVO" según prefieras manejar el estado de entrega de llaves
+                reserva.setEstado("Aprobada"); // O "USO_ACTIVO" según prefieras manejar el estado de entrega de llaves
                 reserva.setMotivoRechazo(null);
                 reservaRepository.save(reserva);
             }
@@ -118,7 +118,7 @@ public class ReservaService {
     @Transactional
     public void cancelarReserva(int id) {
         reservaRepository.findById(id).ifPresent(reserva -> {
-            reserva.setEstado("CANCELADA");
+            reserva.setEstado("Cancelada");
             reserva.setMotivoRechazo(null);
             reservaRepository.save(reserva);
         });

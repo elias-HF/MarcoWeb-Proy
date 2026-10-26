@@ -27,9 +27,9 @@ public class ReservaController {
 
         model.addAttribute("reservas", reservaService.listarFiltradas(busqueda, estado, fecha));
         model.addAttribute("totalReservas", reservaService.contarTotal());
-        model.addAttribute("pendientes", reservaService.contarPorEstado("PENDIENTE"));
-        model.addAttribute("confirmadas", reservaService.contarPorEstado("APROBADA"));
-        model.addAttribute("rechazadas", reservaService.contarPorEstado("NO_PRESENTADO"));
+        model.addAttribute("pendientes", reservaService.contarPorEstado("Pendiente"));
+        model.addAttribute("confirmadas", reservaService.contarPorEstado("Aprobada"));
+        model.addAttribute("rechazadas", reservaService.contarPorEstado("No Presentado"));
 
         model.addAttribute("busqueda", busqueda != null ? busqueda : "");
         model.addAttribute("estado", estado != null ? estado : "Todos");

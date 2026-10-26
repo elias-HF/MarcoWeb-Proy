@@ -102,15 +102,15 @@
             </td>
             <td th:text="${p.fechaPrestamo != null ? #temporals.format(p.fechaPrestamo, 'dd/MM/yyyy') : '-'}"></td>
             <td>
-              <span th:if="${#strings.equalsIgnoreCase(p.estado, 'PENDIENTE')}">Pendiente de aprobación</span>
-              <span th:if="${!#strings.equalsIgnoreCase(p.estado, 'PENDIENTE') and p.fechaLimiteDevolucion != null}" th:text="${#temporals.format(p.fechaLimiteDevolucion, 'dd/MM/yyyy')}"></span>
+              <span th:if="${#strings.equalsIgnoreCase(p.estado, 'Pendiente')}">Pendiente de aprobación</span>
+              <span th:if="${!#strings.equalsIgnoreCase(p.estado, 'Pendiente') and p.fechaLimiteDevolucion != null}" th:text="${#temporals.format(p.fechaLimiteDevolucion, 'dd/MM/yyyy')}"></span>
             </td>
             <td class="text-center">
               <span class="badge"
-                    th:classappend="${#strings.equalsIgnoreCase(p.estado, 'PENDIENTE')} ? 'bg-warning text-dark' :
-                                    (${#strings.equalsIgnoreCase(p.estado, 'ACTIVO')} ? 'bg-primary' :
-                                    (${#strings.equalsIgnoreCase(p.estado, 'DEVUELTO')} ? 'bg-success' :
-                                    (${#strings.equalsIgnoreCase(p.estado, 'ATRASADO')} ? 'bg-danger' : 'bg-secondary')))"
+                    th:classappend="${#strings.equalsIgnoreCase(p.estado, 'Pendiente')} ? 'bg-warning text-dark' :
+                                    (${#strings.equalsIgnoreCase(p.estado, 'Activo')} ? 'bg-primary' :
+                                    (${#strings.equalsIgnoreCase(p.estado, 'Devuelto')} ? 'bg-success' :
+                                    (${#strings.equalsIgnoreCase(p.estado, 'Atrasado')} ? 'bg-danger' : 'bg-secondary')))"
                     th:text="${p.estado}">
             </span>
             </td>
@@ -173,7 +173,12 @@
                       <ul class="list-group list-group-flush mb-3">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="fw-semibold"><i class="bi bi-info-square me-2"></i>Estado:</span>
-                          <span class="badge" th:classappend="${#strings.equalsIgnoreCase(p.estado, 'PENDIENTE') ? 'bg-warning text-dark' : (#strings.equalsIgnoreCase(p.estado, 'ACTIVO') ? 'bg-success text-dark' : (#strings.equalsIgnoreCase(p.estado, 'ATRASADO') ? 'bg-danger' : (#strings.equalsIgnoreCase(p.estado, 'DEVUELTO') ? 'bg-success' : 'bg-secondary')))}" th:text="${p.estado}"></span>                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          <span class="badge" th:classappend="${#strings.equalsIgnoreCase(p.estado, 'Pendiente') ? 'bg-warning text-dark' :
+                                                               (#strings.equalsIgnoreCase(p.estado, 'Activo') ? 'bg-primary' :
+                                                               (#strings.equalsIgnoreCase(p.estado, 'Atrasado') ? 'bg-danger' :
+                                                               (#strings.equalsIgnoreCase(p.estado, 'Devuelto') ? 'bg-success' : 'bg-secondary')))}"
+                                th:text="${p.estado}"></span>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
                           <span class="fw-semibold"><i class="bi bi-calendar-event me-2"></i>Fecha de Solicitud/Préstamo:</span>
                           <span th:text="${p.fechaPrestamo != null ? #temporals.format(p.fechaPrestamo, 'dd/MM/yyyy') : '-'}"></span>
                         </li>

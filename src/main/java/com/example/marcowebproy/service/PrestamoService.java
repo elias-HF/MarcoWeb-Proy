@@ -37,10 +37,10 @@ public class PrestamoService {
     @Transactional
     public void marcarComoRecogido(int idPrestamo, String fechaLimiteDevolucion) {
         prestamoRepository.findById(idPrestamo).ifPresent(prestamo -> {
-            if ("PENDIENTE".equalsIgnoreCase(prestamo.getEstado())) {
+            if ("Pendiente".equalsIgnoreCase(prestamo.getEstado())) {
                 prestamo.setFechaPrestamo(LocalDate.now());
                 prestamo.setFechaLimiteDevolucion(LocalDate.parse(fechaLimiteDevolucion));
-                prestamo.setEstado("ACTIVO");
+                prestamo.setEstado("Activo");
 
                 if (prestamo.getRecurso() != null) {
                     prestamo.getRecurso().setDisponibilidad("Prestado");
@@ -55,8 +55,8 @@ public class PrestamoService {
     @Transactional
     public void cancelarPrestamo(int idPrestamo) {
         prestamoRepository.findById(idPrestamo).ifPresent(prestamo -> {
-            if ("PENDIENTE".equalsIgnoreCase(prestamo.getEstado())) {
-                prestamo.setEstado("CANCELADO");
+            if ("Pendiente".equalsIgnoreCase(prestamo.getEstado())) {
+                prestamo.setEstado("Cancelado");
                 prestamoRepository.save(prestamo);
             }
         });
@@ -65,11 +65,11 @@ public class PrestamoService {
     @Transactional
     public void registrarDevolucion(int idPrestamo, String condicionDevolucion, String observacionDevolucion) {
         prestamoRepository.findById(idPrestamo).ifPresent(prestamo -> {
-            if ("ACTIVO".equalsIgnoreCase(prestamo.getEstado()) || "Atrasado".equalsIgnoreCase(prestamo.getEstado())) {
+            if ("Activo".equalsIgnoreCase(prestamo.getEstado()) || "Atrasado".equalsIgnoreCase(prestamo.getEstado())) {
                 prestamo.setFechaDevolucion(LocalDate.now());
                 prestamo.setCondicionDevolucion(condicionDevolucion);
                 prestamo.setObservacionDevolucion(observacionDevolucion);
-                prestamo.setEstado("DEVUELTO");
+                prestamo.setEstado("Devuelto");
 
                 if (prestamo.getRecurso() != null) {
                     prestamo.getRecurso().setDisponibilidad("Disponible");
