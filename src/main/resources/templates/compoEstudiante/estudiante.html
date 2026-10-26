@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
   </head>
 
-  <body>
+  <body th:data-estado="${estudiante.estado}">
     <div>
-
         <div th:replace="~{fragments/fragmentEstudiante::header('inicio')}"></div>
         <main>
             <div class="bg-light py-4 border-bottom">
@@ -116,8 +115,12 @@
                                 <div class="p-3 bg-light rounded-3 border d-flex justify-content-between align-items-center">
                                     <div>
                                         <span class="text-muted small d-block">Estado de Cuenta</span>
+                                        <span class="text-muted small">Control de acceso institucional</span>
                                     </div>
-                                    <span class="badge bg-success fs-6 px-3 py-2">Activo / Habilitado</span>
+                                    <div>
+                                        <span th:if="${estudiante.estado}" class="badge bg-success fs-6 px-3 py-2">Activo / Habilitado</span>
+                                        <span th:unless="${estudiante.estado}" class="badge bg-danger fs-6 px-3 py-2">Inhabilitado</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +129,33 @@
             </div>
         </main>
     </div>
+    <div class="modal fade" id="modalInhabilitado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title fw-bold">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>Cuenta Deshabilitada
+                    </h5>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <i class="bi bi-person-x-fill text-danger display-1 mb-3"></i>
+                    <h4 class="fw-bold text-dark">Acceso Restringido</h4>
+                    <p class="text-muted">
+                        Has acumulado <strong class="text-danger" th:text="${estudiante.demeritos}">0</strong> deméritos en tu historial.
+                    </p>
+                    <div class="alert alert-warning text-start mb-0" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Tu cuenta se encuentra <strong>inhabilitada</strong> debido a tus deméritos. No podrás realizar nuevas reservas ni solicitar préstamos hasta regularizar tu situación.
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/javascript/estadoEstudiante.js}"></script>
     <script th:src="@{/javascript/fechaYhora.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   </body>

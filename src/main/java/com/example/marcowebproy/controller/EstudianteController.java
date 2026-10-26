@@ -109,6 +109,13 @@ public class EstudianteController {
         if(estudianteLogueado == null){
             return "redirect:/login";
         }
+
+        EstudianteEntity estudianteActual = estudianteService.obtenerEstudiantePorId(estudianteLogueado.getId());
+        if(estudianteActual != null && !estudianteActual.isEstado()) {
+            redirectAttributes.addFlashAttribute("mensajeError", "Tu cuenta está inhabilitada por deméritos. No puedes solicitar préstamos.");
+            return "redirect:/estudiante/prestamos";
+        }
+
         try{
             estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteLogueado.getId());
             redirectAttributes.addFlashAttribute("mensajeExito","Prestamo Solicitado con exito.");
@@ -131,6 +138,12 @@ public class EstudianteController {
 
         if(estudianteLogueado == null){
             return "redirect:/login";
+        }
+
+        EstudianteEntity estudianteActual = estudianteService.obtenerEstudiantePorId(estudianteLogueado.getId());
+        if(estudianteActual != null && !estudianteActual.isEstado()) {
+            redirectAttributes.addFlashAttribute("mensajeError", "Tu cuenta está inhabilitada por deméritos. No puedes realizar reservas.");
+            return "redirect:/estudiante/recursos";
         }
 
         try{

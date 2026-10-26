@@ -1,7 +1,9 @@
 package com.example.marcowebproy.service;
 
 import com.example.marcowebproy.adapter.PrestamoAdapter;
+import com.example.marcowebproy.entity.EstudianteEntity;
 import com.example.marcowebproy.model.Prestamo;
+import com.example.marcowebproy.repository.EstudianteRepository;
 import com.example.marcowebproy.repository.PrestamoRepository;
 import com.example.marcowebproy.repository.RecursoRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,13 @@ public class PrestamoService {
 
     private final PrestamoRepository prestamoRepository;
     private final RecursoRepository recursoRepository;
+    private final EstudianteRepository estudianteRepository;
     private final PrestamoAdapter prestamoAdapter = new PrestamoAdapter();
 
-    public PrestamoService(PrestamoRepository prestamoRepository, RecursoRepository recursoRepository) {
+    public PrestamoService(PrestamoRepository prestamoRepository, RecursoRepository recursoRepository, EstudianteRepository estudianteRepository) {
         this.prestamoRepository = prestamoRepository;
         this.recursoRepository = recursoRepository;
+        this.estudianteRepository = estudianteRepository;
     }
 
     @Transactional(readOnly = true)
@@ -75,6 +79,19 @@ public class PrestamoService {
                         prestamo.getRecurso().setCondicionFisica("Buena");
                     }
                     recursoRepository.save(prestamo.getRecurso());
+                }
+
+                if ("Dañado".equalsIgnoreCase(condicionDevolucion) && prestamo.getEstudiante() != null) {
+                    EstudianteEntity estudiante = prestamo.getEstudiante();
+
+                    int nuevosDemeritos = estudiante.getDemeritos() + 1;
+                    estudiante.setDemeritos(nuevosDemeritos);
+
+                    if (nuevosDemeritos >= 3) {
+                        estudiante.setEstado(false);
+                    }
+
+                    estudianteRepository.save(estudiante);
                 }
 
                 prestamoRepository.save(prestamo);
