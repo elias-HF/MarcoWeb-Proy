@@ -5,15 +5,18 @@ import com.example.marcowebproy.entity.EstudianteEntity;
 import com.example.marcowebproy.model.Estudiante;
 import com.example.marcowebproy.repository.EstudianteRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegistroService {
     private final EstudianteRepository estudianteRepository;
+    private final PasswordEncoder passwordEncoder;
     private final EstudianteAdapter estudianteAdapter = new EstudianteAdapter();
 
-    public RegistroService(EstudianteRepository estudianteRepository) {
+    public RegistroService(EstudianteRepository estudianteRepository, PasswordEncoder passwordEncoder) {
         this.estudianteRepository = estudianteRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -35,7 +38,7 @@ public class RegistroService {
         modeloEstudiante.setNombre(nombres);
         modeloEstudiante.setApellido(apellidos);
         modeloEstudiante.setCorreo(email);
-        modeloEstudiante.setPassword(password);
+        modeloEstudiante.setPassword(passwordEncoder.encode(password));
         modeloEstudiante.setCarrera(carrera);
         modeloEstudiante.setEstado(true);
         modeloEstudiante.setPuntajeMerito(100);

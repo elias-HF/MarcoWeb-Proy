@@ -2,8 +2,10 @@ package com.example.marcowebproy.controller;
 
 import com.example.marcowebproy.entity.EstudianteEntity;
 import com.example.marcowebproy.model.Reserva;
+import com.example.marcowebproy.repository.EstudianteRepository;
 import com.example.marcowebproy.service.EstudianteService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,10 @@ import java.util.Map;
 @RequestMapping("/estudiante")
 public class EstudianteController {
     private final EstudianteService estudianteService;
-
-    public EstudianteController(EstudianteService estudianteService){
+    private final EstudianteRepository estudianteRepository;
+    public EstudianteController(EstudianteService estudianteService, EstudianteRepository estudianteRepository){
         this.estudianteService = estudianteService;
+        this.estudianteRepository = estudianteRepository;
     }
 
     @GetMapping("")
@@ -162,4 +165,14 @@ public class EstudianteController {
         estudianteService.cancelarReserva(id);
         return "redirect:/estudiante/reservas";
     }
+
+    private EstudianteEntity obtenerEstudianteAutenticado(Authentication authentication){
+        if(authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())){
+            return null;
+        }
+
+        String correo = authentication.getName();
+        return estudianteRepository.findByCorreo(correo).orElse(null);
+    }
+
 }
