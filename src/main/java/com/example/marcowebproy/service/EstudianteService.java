@@ -194,6 +194,10 @@ public class EstudianteService {
 
         EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
 
+        if (!estudiante.isEstado()) {
+            throw new IllegalStateException("Tu cuenta está inhabilitada por deméritos. No puedes solicitar préstamos.");
+        }
+
         int puntajeMinimo = 50;
         if(estudiante.getPuntajeMerito() < puntajeMinimo){
             throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para solicitar préstamos.");
@@ -212,6 +216,16 @@ public class EstudianteService {
         }
 
         RecursoEntity recursoEntity = recursoRepository.findById(recursoId).orElseThrow(() -> new IllegalArgumentException("El recurso seleccionado no se encuentra Disponible."));
+
+        String disponibilidad = recursoEntity.getDisponibilidad();
+        if (disponibilidad == null
+                || "No disponible".equalsIgnoreCase(disponibilidad.trim())
+                || "En Mantenimiento".equalsIgnoreCase(disponibilidad.trim())
+                || !"Disponible".equalsIgnoreCase(disponibilidad.trim())) {
+            throw new IllegalStateException("El recurso seleccionado no está disponible para préstamo (estado actual: "
+                    + (disponibilidad != null ? disponibilidad : "desconocido") + ").");
+        }
+
 
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaLimite = null;

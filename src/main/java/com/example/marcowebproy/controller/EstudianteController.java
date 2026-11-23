@@ -6,6 +6,7 @@ import com.example.marcowebproy.repository.EstudianteRepository;
 import com.example.marcowebproy.service.EstudianteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,28 +18,22 @@ import java.util.Map;
 public class EstudianteController {
     private final EstudianteService estudianteService;
     private final EstudianteRepository estudianteRepository;
+
     public EstudianteController(EstudianteService estudianteService, EstudianteRepository estudianteRepository){
         this.estudianteService = estudianteService;
         this.estudianteRepository = estudianteRepository;
     }
 
     @GetMapping("")
-    public String estudiante(HttpSession session, Model model) {
+    public String estudiante(Model model) {
 
-        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+        EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
 
-        if (estudianteSession == null) {
+        if (estudianteActual == null) {
             return "redirect:/login";
         }
 
-        EstudianteEntity estudianteActualizado = estudianteService.obtenerEstudiantePorId(estudianteSession.getId());
-
-        if(estudianteActualizado == null){
-            return "redirect:/login";
-        }
-
-        model.addAttribute("estudiante", estudianteActualizado);
-
+        model.addAttribute("estudiante", estudianteActual);
         return "compoEstudiante/estudiante";
     }
 
@@ -52,34 +47,33 @@ public class EstudianteController {
         model.addAttribute("categorias", estudianteService.listarCategorias());
         model.addAttribute("query", query);
         model.addAttribute("categoriaSeleccionadaId", categoriaId);
-
         model.addAttribute("horariosPermitidos", estudianteService.obtenerHorariosDisponibles());
 
         return "compoEstudiante/recursos";
     }
 
     @GetMapping("/reservas")
-    public String reservas(@RequestParam(name = "estado", required = false) String estado,HttpSession session , Model model) {
-        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
-        if(estudianteSession == null){
+    public String reservas(@RequestParam(name = "estado", required = false) String estado, Model model) {
+        EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
+        if(estudianteActual == null){
             return "redirect:/login";
         }
 
-        model.addAttribute("reservas",estudianteService.listarReservasPorEstudiante(estudianteSession.getId(), estado));
+        model.addAttribute("reservas",estudianteService.listarReservasPorEstudiante(estudianteActual.getId(), estado));
         model.addAttribute("estadoSeleccionado",estado);
         return "compoEstudiante/reservas";
     }
 
     @GetMapping("/prestamos")
-    public String prestamos(HttpSession session, Model model) {
-        EstudianteEntity estudianteSession = (EstudianteEntity) session.getAttribute("estudianteLogueado");
-        if(estudianteSession == null){
+    public String prestamos( Model model) {
+        EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
+        if(estudianteActual == null){
             return "redirect:/login";
         }
 
-        Map<String, Long> stats = estudianteService.obtenerEstadisticasPrestamosPorEstudiante(estudianteSession.getId());
+        Map<String, Long> stats = estudianteService.obtenerEstadisticasPrestamosPorEstudiante(estudianteActual.getId());
 
-        model.addAttribute("prestamos",estudianteService.listarPrestamosPorEstudiante(estudianteSession.getId()));
+        model.addAttribute("prestamos",estudianteService.listarPrestamosPorEstudiante(estudianteActual.getId()));
         model.addAttribute("cantEnCurso",stats.get("Activos"));
         model.addAttribute("cantPendientes",stats.get("Pendientes"));
         model.addAttribute("cantAtrasados",stats.get("Atrasados"));
@@ -107,20 +101,19 @@ public class EstudianteController {
     }
 
     @PostMapping("/prestamos/guardar")
-    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion,RedirectAttributes redirectAttributes, HttpSession session) {
-        EstudianteEntity estudianteLogueado = (EstudianteEntity) session.getAttribute("estudianteLogueado");
-        if(estudianteLogueado == null){
+    public String guardarPrestamo(@RequestParam("recursoId") int recursoId, @RequestParam("fechaLimiteDevolucion") String fechaLimiteDevolucion, @RequestParam(value = "observacion", required = false) String observacion,RedirectAttributes redirectAttributes) {
+        EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
+        if(estudianteActual == null){
             return "redirect:/login";
         }
 
-        EstudianteEntity estudianteActual = estudianteService.obtenerEstudiantePorId(estudianteLogueado.getId());
-        if(estudianteActual != null && !estudianteActual.isEstado()) {
+        if (!estudianteActual.isEstado()) {
             redirectAttributes.addFlashAttribute("mensajeError", "Tu cuenta está inhabilitada por deméritos. No puedes solicitar préstamos.");
             return "redirect:/estudiante/prestamos";
         }
 
         try{
-            estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteLogueado.getId());
+            estudianteService.guardarPrestamo(recursoId, fechaLimiteDevolucion, observacion, estudianteActual.getId());
             redirectAttributes.addFlashAttribute("mensajeExito","Prestamo Solicitado con exito.");
         }catch(IllegalStateException | IllegalArgumentException e){
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
@@ -136,21 +129,20 @@ public class EstudianteController {
     }
 
     @PostMapping("/reservar-espacio/guardar")
-    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes, HttpSession session) {
-        EstudianteEntity estudianteLogueado = (EstudianteEntity) session.getAttribute("estudianteLogueado");
+    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes) {
+        EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
 
-        if(estudianteLogueado == null){
+        if(estudianteActual == null){
             return "redirect:/login";
         }
 
-        EstudianteEntity estudianteActual = estudianteService.obtenerEstudiantePorId(estudianteLogueado.getId());
-        if(estudianteActual != null && !estudianteActual.isEstado()) {
+        if (!estudianteActual.isEstado()) {
             redirectAttributes.addFlashAttribute("mensajeError", "Tu cuenta está inhabilitada por deméritos. No puedes realizar reservas.");
             return "redirect:/estudiante/recursos";
         }
 
         try{
-            estudianteService.guardarReserva(reserva, estudianteLogueado.getId());
+            estudianteService.guardarReserva(reserva, estudianteActual.getId());
             redirectAttributes.addFlashAttribute("mensajeExito","Reserva realizada con exito.");
         }catch (IllegalStateException | IllegalArgumentException e){
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
@@ -166,13 +158,13 @@ public class EstudianteController {
         return "redirect:/estudiante/reservas";
     }
 
-    private EstudianteEntity obtenerEstudianteAutenticado(Authentication authentication){
-        if(authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())){
+    private EstudianteEntity obtenerEstudianteAutenticado(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())){
             return null;
         }
 
-        String correo = authentication.getName();
-        return estudianteRepository.findByCorreo(correo).orElse(null);
+        return estudianteRepository.findByCorreo(auth.getName()).orElse(null);
     }
 
 }
