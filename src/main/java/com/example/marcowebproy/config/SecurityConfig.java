@@ -2,7 +2,6 @@ package com.example.marcowebproy.config;
 
 import com.example.marcowebproy.filter.JwtAuthenticationFilter;
 import com.example.marcowebproy.service.CustomUserDetailsService;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,16 +28,19 @@ public class SecurityConfig {
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
+                .logout(logout -> logout.disable())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->auth.requestMatchers("/",
                         "/login",
+                        "/logout",
                         "/registro",
                         "/css/**",
-                        "/js/**",
-                        "/images/**",
+                        "/javascript/**",
+                        "/img/**",
                         "/h2-console/**"
                         ).permitAll()
                         .requestMatchers("/estudiante/**").hasRole("ESTUDIANTE")

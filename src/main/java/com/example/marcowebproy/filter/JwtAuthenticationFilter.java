@@ -3,6 +3,8 @@ package com.example.marcowebproy.filter;
 
 import com.example.marcowebproy.service.CustomUserDetailsService;
 import com.example.marcowebproy.service.JwtService;
+
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -10,11 +12,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 
 import java.io.IOException;
 
@@ -40,15 +44,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if(correo != null){
                     UserDetails userDetails = userDetailsService.loadUserByUsername(correo);
 
-                    if(jwtService.isTokenValid(jwt, userDetails)){
-                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
+                    if (userDetails.isEnabled() && jwtService.isTokenValid(jwt, userDetails)) {
+                        UsernamePasswordAuthenticationToken authToken =
+                                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                         SecurityContextHolder.getContext().setAuthentication(authToken);
+                    } else {
+                        SecurityContextHolder.clearContext();
                     }
                 }
-            } catch (Exception ex) {
+            } catch (JwtException | AuthenticationException ex) {
                 SecurityContextHolder.clearContext();
             }
         }
@@ -58,14 +63,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractJwtFromRequest(HttpServletRequest request){
         String authHeader = request.getHeader("Authorization");
-        if(authHeader != null && authHeader.startsWith("Bearer")){
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
             return authHeader.substring(7);
         }
 
         Cookie[] cookies = request.getCookies();
         if(cookies != null){
             for(Cookie cookie : cookies){
-                if(JWT_COOKIE_NAME.equals(cookie.getName())){
+                if(JWT_COOKIE_NAME.equals(cookie.getName()) && cookie.getValue() != null && !cookie.getValue().isBlank()){
                     return cookie.getValue();
                 }
             }
