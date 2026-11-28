@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 
 @Service
 public class EstudianteService {
@@ -64,8 +68,7 @@ public class EstudianteService {
         if(categoriaId != null && categoriaId > 0){
             return List.of();
         }
-
-        List<EspacioAcademicoEntity> entidades = espacioRepository.findAll().stream().filter(EspacioAcademicoEntity::isEstado).collect(Collectors.toList());
+        List<EspacioAcademicoEntity> entidades = espacioRepository.findAll();
         if(query != null && !query.isEmpty()){
             String q = query.toLowerCase().trim();
             entidades = entidades.stream().filter(e -> (e.getNombre() != null && e.getNombre().toLowerCase().contains(q))
@@ -109,53 +112,96 @@ public class EstudianteService {
     public void guardarReserva(Reserva reserva, int estudianteId){
 
         if(reserva.getEspacioAcademico() == null || reserva.getEspacioAcademico().getId() == 0){
-            throw new IllegalArgumentException("Debe Seleccionar un espacio academico valido.");
-        }
-
-        EstudianteEntity estudiante = estudianteRepository.findById(estudianteId).orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado"));
-
-        int puntajeMinimo = 50;
-        if(estudiante.getPuntajeMerito() < puntajeMinimo){
-            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido " + puntajeMinimo + " para realizar reservas.");
-        }
-
-        long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(estudianteId, List.of("Pendiente"));
-        if(reservasActivas >=1){
-            throw new IllegalStateException("Solo puede mantener una (1) reserva de espacio académico activa a la vez.");
-        }
-
-        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(estudianteId, List.of("Atrasado","Vencido"));
-
-        if(tieneDeuda){
-            throw new IllegalStateException("No puede realizar nuevas reservas. Mantiene prestamos vencidos o atrasados en su historial");
+            throw new IllegalArgumentException("Debe seleccionar un espacio académico válido.");
         }
 
         int espacioId = reserva.getEspacioAcademico().getId();
-        LocalDate fechaActual = LocalDate.now();
-        LocalDate fecha = reserva.getFechaReserva() != null ? reserva.getFechaReserva() : LocalDate.now();
+        ZoneId zonaHoraria = ZoneId.of("America/Lima");
+        LocalDate fechaActual = LocalDate.now(zonaHoraria);
+        LocalTime horaActual = LocalTime.now(zonaHoraria);
+        LocalDate fecha = reserva.getFechaReserva() != null ? reserva.getFechaReserva() : fechaActual;
 
         if(fecha.isBefore(fechaActual)){
-            throw new IllegalArgumentException("No se puede reservar en un fecha pasada.");
+            throw new IllegalArgumentException("No se puede reservar en una fecha pasada.");
         }
 
         LocalDate fechaMaxima = fechaActual.plusDays(7);
         if(fecha.isAfter(fechaMaxima)){
-            throw new IllegalArgumentException("Solo se pude programar reservas con un maximo de 7 dias de anticipacion.");
+            throw new IllegalArgumentException("Solo se puede programar reservas con un máximo de 7 días de anticipación.");
         }
 
-        List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(espacioId,fecha,List.of("Cancelada","Rechazada"));
-        boolean ocupado = reservasExistentes.stream().anyMatch(r -> r.getHoraInicio().equals(reserva.getHoraInicio()) || r.getHoraFin().equals(reserva.getHoraFin()));
+        if (reserva.getHoraInicio() == null || reserva.getHoraInicio().isBlank()
+                || reserva.getHoraFin() == null || reserva.getHoraFin().isBlank()) {
+            throw new IllegalArgumentException("Debe seleccionar un bloque horario fijo válido (máximo 2 horas).");
+        }
+
+        String inicioStr = reserva.getHoraInicio().trim();
+        String finStr = reserva.getHoraFin().trim();
+        String bloqueSeleccionado = inicioStr + " - " + finStr;
+
+        if (!obtenerHorariosDisponibles().contains(bloqueSeleccionado)) {
+            throw new IllegalArgumentException("El horario seleccionado no corresponde a un bloque fijo válido de 2 horas.");
+        }
+
+        EstudianteEntity estudiante = estudianteRepository.findById(estudianteId)
+                .orElseThrow(() -> new IllegalArgumentException("Estudiante no encontrado."));
+
+        int puntajeMinimo = 50;
+        if(estudiante.getPuntajeMerito() < puntajeMinimo){
+            throw new IllegalStateException("Acceso Denegado: Su puntaje de mérito " + estudiante.getPuntajeMerito() + " es inferior al mínimo requerido (" + puntajeMinimo + ") para realizar reservas.");
+        }
+
+        long reservasActivas = reservaRepository.countByEstudianteIdAndEstadoIn(
+                estudianteId, List.of("Pendiente", "PENDIENTE", "Aprobada", "APROBADA"));
+        if(reservasActivas >= 1){
+            throw new IllegalStateException("Solo puede mantener una (1) reserva de espacio académico activa o pendiente a la vez.");
+        }
+
+        boolean tieneDeuda = prestamoRepository.existsByEstudianteIdAndEstadoIn(
+                estudianteId, List.of("Atrasado", "ATRASADO", "Vencido", "VENCIDO"));
+        if(tieneDeuda){
+            throw new IllegalStateException("No puede realizar nuevas reservas. Mantiene préstamos vencidos o atrasados en su historial.");
+        }
+
+        LocalTime horaInicio;
+        LocalTime horaFin;
+        try {
+            horaInicio = LocalTime.parse(inicioStr);
+            horaFin = LocalTime.parse(finStr);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("El formato del horario seleccionado no es válido.");
+        }
+
+        if (fecha.isEqual(fechaActual) && !horaInicio.isAfter(horaActual)) {
+            throw new IllegalArgumentException("No puede realizar una reserva para un horario pasada");
+        }
+
+        EspacioAcademicoEntity espacioEntity = espacioRepository.findById(espacioId)
+                .orElseThrow(() -> new IllegalArgumentException("El espacio académico seleccionado no existe."));
+
+        if (!espacioEntity.isEstado()) {
+            throw new IllegalStateException("El espacio académico seleccionado no se encuentra disponible.");
+        }
+
+        List<ReservaEntity> reservasExistentes = reservaRepository.findByEspacioAcademicoIdAndFechaReservaAndEstadoNotIn(
+                espacioId, fecha, List.of("Cancelada", "CANCELADA", "Rechazada", "RECHAZADA", "No Presentado"));
+        boolean ocupado = reservasExistentes.stream()
+                .anyMatch(r -> inicioStr.equals(r.getHoraInicio()) || finStr.equals(r.getHoraFin()));
 
         if(ocupado){
             throw new IllegalStateException("El espacio ya se encuentra reservado en el horario seleccionado.");
         }
 
+        espacioEntity.setEstado(false);
+        espacioRepository.save(espacioEntity);
+
         ReservaEntity entity = new ReservaEntity();
-        EspacioAcademicoEntity espacioEntity = espacioRepository.findById(espacioId).orElse(null);
         entity.setEspacioAcademico(espacioEntity);
         entity.setFechaReserva(fecha);
-        entity.setHoraInicio(reserva.getHoraInicio());
-        entity.setHoraFin(reserva.getHoraFin());
+        entity.setHoraInicio(inicioStr);
+        entity.setHoraFin(finStr);
+        entity.setFechaHoraInicio(LocalDateTime.of(fecha, horaInicio));
+        entity.setFechaHoraFin(LocalDateTime.of(fecha, horaFin));
         entity.setEstado("Pendiente");
         entity.setEstudiante(estudiante);
 
@@ -164,9 +210,14 @@ public class EstudianteService {
 
     @Transactional
     public void cancelarReserva(int idReserva){
-        reservaRepository.findById(idReserva).ifPresent(reserva ->{
-           reserva.setEstado("Cancelada");
-           reservaRepository.save(reserva);
+        reservaRepository.findById(idReserva).ifPresent(reserva -> {
+            reserva.setEstado("Cancelada");
+            if (reserva.getEspacioAcademico() != null) {
+                EspacioAcademicoEntity espacio = reserva.getEspacioAcademico();
+                espacio.setEstado(true);
+                espacioRepository.save(espacio);
+            }
+            reservaRepository.save(reserva);
         });
     }
 

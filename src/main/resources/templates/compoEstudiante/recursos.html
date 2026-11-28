@@ -160,14 +160,23 @@
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Fecha de Reserva:</label>
-                                            <input type="date" name="fechaReserva" class="form-control" th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required />
+                                            <input type="date"
+                                                   name="fechaReserva"
+                                                   class="form-control"
+                                                   th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+                                                   required />
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Horario disponible (Máximo 2 horas):</label>
-                                            <select class="form-select" th:onchange="|separarHorarios(this.value, ${e.id})|" required>
+                                            <select class="form-select"
+                                                    th:onchange="|separarHorarios(this.value, ${e.id})|"
+                                                    required>
                                                 <option value="" disabled selected>-- Seleccione un horario --</option>
-                                                <option th:each="horario : ${horariosPermitidos}" th:value="${horario}" th:text="${horario}"></option>
+                                                <option th:each="horario : ${horariosPermitidos}"
+                                                        th:value="${horario}"
+                                                        th:text="${horario}">
+                                                </option>
                                             </select>
                                         </div>
 
@@ -197,15 +206,13 @@
 
 <script>
     function separarHorarios(valor, espacioId) {
-        if (valor) {
-            const partes = valor.split(" - ");
-            const inputInicio = document.getElementById("horaInicio-" + espacioId);
-            const inputFin = document.getElementById("horaFin-" + espacioId);
-
-            if (inputInicio && inputFin) {
-                inputInicio.value = partes[0];
-                inputFin.value = partes[1];
-            }
+        if (!valor) return;
+        const partes = valor.split(" - ");
+        const inputInicio = document.getElementById("horaInicio-" + espacioId);
+        const inputFin = document.getElementById("horaFin-" + espacioId);
+        if (inputInicio && inputFin && partes.length === 2) {
+            inputInicio.value = partes[0].trim();
+            inputFin.value = partes[1].trim();
         }
     }
 </script>
