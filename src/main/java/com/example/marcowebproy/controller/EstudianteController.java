@@ -48,6 +48,7 @@ public class EstudianteController {
         model.addAttribute("query", query);
         model.addAttribute("categoriaSeleccionadaId", categoriaId);
         model.addAttribute("horariosPermitidos", estudianteService.obtenerHorariosDisponibles());
+        model.addAttribute("horariosOcupados", estudianteService.obtenerHorariosOcupadosPorEspacio());
 
         return "compoEstudiante/recursos";
     }
@@ -129,10 +130,12 @@ public class EstudianteController {
     }
 
     @PostMapping("/reservar-espacio/guardar")
-    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva, RedirectAttributes redirectAttributes) {
+    public String guardarReserva(@ModelAttribute("reserva") Reserva reserva,
+                                 @RequestParam(value = "bloqueHorario", required = false) String bloqueHorario,
+                                 RedirectAttributes redirectAttributes) {
         EstudianteEntity estudianteActual = obtenerEstudianteAutenticado();
 
-        if(estudianteActual == null){
+        if (estudianteActual == null) {
             return "redirect:/login";
         }
 
@@ -141,10 +144,16 @@ public class EstudianteController {
             return "redirect:/estudiante/recursos";
         }
 
-        try{
+        if (bloqueHorario != null && bloqueHorario.contains(" - ")) {
+            String[] partes = bloqueHorario.split(" - ");
+            reserva.setHoraInicio(partes[0].trim());
+            reserva.setHoraFin(partes[1].trim());
+        }
+
+        try {
             estudianteService.guardarReserva(reserva, estudianteActual.getId());
-            redirectAttributes.addFlashAttribute("mensajeExito","Reserva realizada con exito.");
-        }catch (IllegalStateException | IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("mensajeExito", "Reserva realizada con exito.");
+        } catch (IllegalStateException | IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
             return "redirect:/estudiante/recursos";
         }

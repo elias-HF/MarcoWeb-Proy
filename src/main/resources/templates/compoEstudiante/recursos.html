@@ -162,14 +162,18 @@
                                             <label class="form-label fw-bold">Fecha de Reserva:</label>
                                             <input type="date"
                                                    name="fechaReserva"
+                                                   th:id="'fechaReserva-' + ${e.id}"
                                                    class="form-control"
                                                    th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+                                                   th:onchange="|filtrarHorariosPorFecha(${e.id})|"
                                                    required />
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label fw-bold">Horario disponible (Máximo 2 horas):</label>
-                                            <select class="form-select"
+                                            <select name="bloqueHorario"
+                                                    class="form-select"
+                                                    th:id="'selectHorario-' + ${e.id}"
                                                     th:onchange="|separarHorarios(this.value, ${e.id})|"
                                                     required>
                                                 <option value="" disabled selected>-- Seleccione un horario --</option>
@@ -203,19 +207,16 @@
         </div>
     </main>
 </div>
-
-<script>
-    function separarHorarios(valor, espacioId) {
-        if (!valor) return;
-        const partes = valor.split(" - ");
-        const inputInicio = document.getElementById("horaInicio-" + espacioId);
-        const inputFin = document.getElementById("horaFin-" + espacioId);
-        if (inputInicio && inputFin && partes.length === 2) {
-            inputInicio.value = partes[0].trim();
-            inputFin.value = partes[1].trim();
-        }
+<style>
+    select option:disabled {
+        cursor: not-allowed;
+        color: #adb5bd;
     }
+</style>
+<script th:inline="javascript">
+    const horariosOcupados = /*[[${horariosOcupados}]]*/ {};
 </script>
+<script th:src="@{/javascript/filtrado-horarios-reserva.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
